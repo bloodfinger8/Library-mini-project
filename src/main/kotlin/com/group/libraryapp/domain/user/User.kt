@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
+import com.group.libraryapp.domain.user.loanHistory.UserLoanStatus
 import javax.persistence.*
 
 @Entity
@@ -26,7 +27,7 @@ class User (
     }
 
     fun loanBook(book: Book) {
-        this.userLoanHistorys.add(UserLoanHistory(this, book.name, false))
+        this.userLoanHistorys.add(UserLoanHistory.create(this, book.name))
     }
 
     fun returnBook(bookName: String) {

@@ -4,6 +4,7 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
+import com.group.libraryapp.domain.user.loanHistory.UserLoanStatus
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
@@ -15,19 +16,18 @@ import org.springframework.transaction.annotation.Transactional
 class BookService constructor(
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
-    val userLoanHistoryRepositroy: UserLoanHistoryRepositroy
+    val userLoanHistoryRepository: UserLoanHistoryRepositroy
 ){
 
     @Transactional
     fun saveBook(req: BookRequest): Book {
-        val book = Book(req.name)
-        return bookRepository.save(book)
+        return bookRepository.save(Book.create(req.name, req.type))
     }
 
     @Transactional
     fun loanBook(req: BookLoanRequest) {
         val book = bookRepository.findByName(req.bookName) ?: fail()
-        if (userLoanHistoryRepositroy.findByBookNameAndIsReturn(req.bookName,false) != null){
+        if (userLoanHistoryRepository.findByBookNameAndStatus(req.bookName,UserLoanStatus.LOANED) != null){
             throw IllegalArgumentException("진작 대출되어 있는 책입니다")
         }
         val user = userRepository.findByName(req.userName) ?: fail()

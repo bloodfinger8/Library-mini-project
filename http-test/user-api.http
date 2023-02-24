@@ -1,0 +1,25 @@
+### 유저 생성
+POST {{host}}/user
+Content-Type: application/json
+
+{
+  "name" : "양재우",
+  "age" : "30"
+}
+
+### 유저 리스트
+GET {{host}}/user
+Content-Type: application/json
+
+### 유저 수정
+PUT {{host}}/user
+Content-Type: application/json
+
+{
+  "name" : "양재우",
+  "age" : "29"
+}
+
+### 유저 삭제
+DELETE {{host}}/user?name=양재우
+Content-Type: application/json
