@@ -3,7 +3,7 @@ POST {{host}}/user
 Content-Type: application/json
 
 {
-  "name" : "양재우",
+  "name" : "양재우2",
   "age" : "30"
 }
 
@@ -22,4 +22,8 @@ Content-Type: application/json
 
 ### 유저 삭제
 DELETE {{host}}/user?name=양재우
+Content-Type: application/json
+
+### 대출 유저 리스트
+GET {{host}}/user/loan
 Content-Type: application/json

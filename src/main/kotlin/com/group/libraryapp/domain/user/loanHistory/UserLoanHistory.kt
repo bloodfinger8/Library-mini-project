@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.user.loanHistory
 
 import com.group.libraryapp.domain.user.User
+import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import javax.persistence.*
 
 @Entity
@@ -16,7 +17,7 @@ class UserLoanHistory (
 ) {
     companion object {
         fun create(user: User,
-                   bookName: String = "book name",
+                   bookName: String = "book",
                    status: UserLoanStatus = UserLoanStatus.LOANED,
                    id: Long? = null) : UserLoanHistory{
             return UserLoanHistory(user, bookName, status, id)

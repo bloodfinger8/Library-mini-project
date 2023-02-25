@@ -1,0 +1,26 @@
+### 도서 생성
+POST {{host}}/book
+Content-Type: application/json
+
+{
+  "name" : "단위테스트1",
+  "type" : "COMPUTER"
+}
+
+### 도서 대출
+POST {{host}}/book/loan
+Content-Type: application/json
+
+{
+  "userName" : "양재우",
+  "bookName" : "단위테스트1"
+}
+
+### 도서 반납
+PUT {{host}}/book/return
+Content-Type: application/json
+
+{
+  "userName" : "양재우",
+  "bookName" : "단위테스트1"
+}

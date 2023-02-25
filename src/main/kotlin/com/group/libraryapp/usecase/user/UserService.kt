@@ -2,8 +2,11 @@ package com.group.libraryapp.usecase.user
 
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.BookLoanHistoryResponse
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.util.fail
 import org.springframework.data.repository.findByIdOrNull
@@ -36,5 +39,14 @@ class UserService constructor(
     fun deleteUser(name: String) {
         val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
+    }
+
+    @Transactional(readOnly = true)
+    fun searchUserLoanHistories(): List<UserLoanHistoryResponse> {
+        return userRepository.findAllHistories()
+            .map { user -> UserLoanHistoryResponse( user.name , user.userLoanHistories
+                .map { userLoanHistory -> BookLoanHistoryResponse(userLoanHistory.bookName,
+                    userLoanHistory.status == UserLoanStatus.RETURNED) })
+            }
     }
 }

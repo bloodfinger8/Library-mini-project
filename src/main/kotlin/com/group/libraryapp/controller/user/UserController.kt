@@ -2,6 +2,7 @@ package com.group.libraryapp.controller.user
 
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.usecase.user.UserService
 import org.springframework.web.bind.annotation.*
@@ -30,5 +31,10 @@ class UserController constructor(
     fun deleteUser(@RequestParam name: String) {
         userService.deleteUser(name)
 
+    }
+
+    @GetMapping("/user/loan")
+    fun getLoanHistories() : List<UserLoanHistoryResponse> {
+        return userService.searchUserLoanHistories()
     }
 }

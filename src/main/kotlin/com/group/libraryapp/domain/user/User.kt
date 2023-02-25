@@ -2,7 +2,6 @@ package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
-import com.group.libraryapp.domain.user.loanHistory.UserLoanStatus
 import javax.persistence.*
 
 @Entity
@@ -10,7 +9,7 @@ class User (
     var name: String,
     val age: Int?,
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL] , orphanRemoval = true)
-    var userLoanHistorys: MutableList<UserLoanHistory> = mutableListOf(),
+    var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -27,10 +26,10 @@ class User (
     }
 
     fun loanBook(book: Book) {
-        this.userLoanHistorys.add(UserLoanHistory.create(this, book.name))
+        this.userLoanHistories.add(UserLoanHistory.create(this, book.name))
     }
 
     fun returnBook(bookName: String) {
-        this.userLoanHistorys.first { userLoanHistory -> userLoanHistory.bookName == bookName }.doReturn()
+        this.userLoanHistories.first { userLoanHistory -> userLoanHistory.bookName == bookName }.doReturn()
     }
 }
