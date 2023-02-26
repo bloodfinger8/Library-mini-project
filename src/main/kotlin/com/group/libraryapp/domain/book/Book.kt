@@ -1,5 +1,6 @@
 package com.group.libraryapp.domain.book
 
+import com.group.libraryapp.domain.book.type.BookType
 import javax.persistence.*
 
 @Entity

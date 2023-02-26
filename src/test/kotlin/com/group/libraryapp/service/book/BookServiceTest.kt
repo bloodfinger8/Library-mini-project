@@ -4,13 +4,14 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.book.BookType
+import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
+import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.usecase.book.BookService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
@@ -89,6 +90,28 @@ class BookServiceTest @Autowired constructor(
         Assertions.assertThat(loanBook[0].status).isEqualTo(UserLoanStatus.RETURNED)
 
     }
+
+    @Test
+    @DisplayName("카테고리별 도서 통계")
+    fun bookStatTest() {
+        val books = bookRepository.saveAll(
+            listOf(
+                Book.create("클린 아키텍처1", BookType.COMPUTER),
+                Book.create("클린 아키텍처2", BookType.SCIENCE),
+                Book.create("클린 아키텍처3", BookType.SCIENCE)
+            )
+        )
+
+        val result = bookService.getStat()
+
+        Assertions.assertThat(result).hasSize(2)
+        assertCount(result , BookType.COMPUTER, 1)
+        assertCount(result , BookType.SCIENCE, 2)
+    }
+    private fun assertCount(result: List<BookStatResponse> , type: BookType , count: Long) {
+        Assertions.assertThat(result.first{ it -> it.type == type}.count).isEqualTo(count)
+    }
+
 
     @AfterEach
     fun clean() {

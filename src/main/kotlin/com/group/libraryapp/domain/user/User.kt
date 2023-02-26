@@ -20,6 +20,16 @@ class User (
             throw IllegalArgumentException("이름은 필수값 입니다.")
         }
     }
+    companion object {
+        fun create(
+            name: String = "book",
+            age: Int? = null,
+            userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+            id: Long? = null
+        ): User {
+            return User(name, age, userLoanHistories, id)
+        }
+    }
 
     fun updateName(name: String) {
         this.name = name
