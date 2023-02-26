@@ -94,7 +94,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     @DisplayName("카테고리별 도서 통계")
     fun bookStatTest() {
-        val books = bookRepository.saveAll(
+        bookRepository.saveAll(
             listOf(
                 Book.create("클린 아키텍처1", BookType.COMPUTER),
                 Book.create("클린 아키텍처2", BookType.SCIENCE),
