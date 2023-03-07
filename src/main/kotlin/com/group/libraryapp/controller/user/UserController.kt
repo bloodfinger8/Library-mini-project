@@ -5,8 +5,10 @@ import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.usecase.user.UserService
+import com.group.libraryapp.util.UserRole
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @Api(tags = ["회원 관련 API"])
@@ -15,6 +17,7 @@ class UserController constructor(
     val userService: UserService
 ){
 
+    @Secured(UserRole.ROLE_USER)
     @ApiOperation(value = "사용자 등록")
     @PostMapping("/user")
     fun saveUser(@RequestBody request: UserCreateRequest) {

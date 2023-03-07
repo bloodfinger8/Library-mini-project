@@ -27,6 +27,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
 
+    //yml
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    //QueryDSL
     implementation("com.querydsl:querydsl-jpa:5.0.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
@@ -35,9 +39,12 @@ dependencies {
     implementation("io.springfox:springfox-boot-starter:3.0.0")
 
     implementation("org.springframework.boot:spring-boot-starter-security")
+
+    //jjwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
 
 }
 
