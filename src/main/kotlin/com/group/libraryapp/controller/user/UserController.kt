@@ -17,11 +17,16 @@ class UserController constructor(
     val userService: UserService
 ){
 
-    @Secured(UserRole.ROLE_USER)
-    @ApiOperation(value = "사용자 등록")
-    @PostMapping("/user")
-    fun saveUser(@RequestBody request: UserCreateRequest) {
-        userService.saveUser(request)
+    @ApiOperation(value = "사용자 회원가입")
+    @PostMapping("/user/sign-up")
+    fun signUpUser(@RequestBody request: UserCreateRequest) {
+        userService.signUp(request)
+    }
+
+    @ApiOperation(value = "사용자 로그인")
+    @PostMapping("/user/sign-in")
+    fun signInUser(@RequestBody request: UserCreateRequest) {
+//        userService.saveUser(request)
     }
 
     @ApiOperation(value = "사용자 검색")

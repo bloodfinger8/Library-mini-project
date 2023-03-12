@@ -6,8 +6,10 @@ import javax.persistence.*
 
 @Entity
 class User (
-    var name: String,
-    val age: Int?,
+
+    var email: Email,
+    var password: String,
+    var name: String?,
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL] , orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
     @Id
@@ -15,19 +17,15 @@ class User (
     var id: Long? = null
 ) {
 
-    init {
-        if(this.name.isBlank()){
-            throw IllegalArgumentException("이름은 필수값 입니다.")
-        }
-    }
     companion object {
         fun create(
-            name: String = "book",
-            age: Int? = null,
+            email: Email = Email("example@example.com"),
+            password: String = "12345",
+            name: String? = null,
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
             id: Long? = null
         ): User {
-            return User(name, age, userLoanHistories, id)
+            return User(email, password, name, userLoanHistories ,id)
         }
     }
 

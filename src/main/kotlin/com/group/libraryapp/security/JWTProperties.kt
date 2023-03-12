@@ -1,4 +1,4 @@
-package com.group.libraryapp.usecase.jwt
+package com.group.libraryapp.security
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component

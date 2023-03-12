@@ -21,8 +21,9 @@ class UserService constructor(
 ) {
 
     @Transactional
-    fun saveUser(req: UserCreateRequest): User {
-        val user = User(req.name, req.age)
+    fun signUp(req: UserCreateRequest): User {
+        val user = User.create(req.email, req.password, req.name)
+
         return userRepository.save(user)
     }
 

@@ -1,5 +1,6 @@
 package com.group.libraryapp.service.user
 
+import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
@@ -21,24 +22,29 @@ class UserServiceTest @Autowired constructor(
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepositroy,
 ) {
+    companion object {
+        val EMAIL = Email("didwodn82@naver.com")
+        const val PASSWORD = "123456"
+        const val NAME = "재우"
+    }
 
     @Test
     @DisplayName("유저 생성 테스트")
     fun saveUserTest() {
-        val userCreateRequest = UserCreateRequest("양재우", null)
+        val userCreateRequest = UserCreateRequest(EMAIL, PASSWORD,NAME)
 
-        val user = userService.saveUser(userCreateRequest)
+        val user = userService.signUp(userCreateRequest)
 
-        Assertions.assertThat(user.name).isEqualTo("양재우")
-        Assertions.assertThat(user.age).isEqualTo(null)
+        Assertions.assertThat(user.name).isEqualTo("재우")
+        Assertions.assertThat(user.email).isEqualTo("didwodn82@naver.com")
     }
 
     @Test
     @DisplayName("유저 검색")
     fun getUser() {
         val users = listOf(
-            User("양재우", 12),
-            User("마틴파울러", 15)
+            User(EMAIL, PASSWORD, "재우"),
+            User(Email("didwodn@naver.com"), PASSWORD , "재우2")
         )
         userRepository.saveAll(users)
 
@@ -51,22 +57,22 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 업데이트")
     fun updateUser() {
-        val saveUser = userRepository.save(User("양재우", 30))
+        val saveUser = userRepository.save(User(EMAIL, PASSWORD,"재우"))
         val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "마틴파울러")
 
         userService.updateUserName(userUpdateRequest)
 
         val user = userRepository.findAll()
-        Assertions.assertThat(user[0].name).isEqualTo("마틴파울러")
+        Assertions.assertThat(user[0].name).isEqualTo("재우")
     }
 
 
     @Test
     @DisplayName("유저 삭제")
     fun deleteUser() {
-        userRepository.save(User("양재우", 12))
+        userRepository.save(User(EMAIL, PASSWORD, "재우"))
 
-        userService.deleteUser("양재우")
+        userService.deleteUser("재우")
 
         Assertions.assertThat(userRepository.findByName("양재우")).isNull()
     }
@@ -75,7 +81,7 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 대출 히스토리 조회")
     fun getLoanHistories() {
-        val user = userRepository.save(User("양재우", null))
+        val user = userRepository.save(User(EMAIL, PASSWORD, "재우"))
         userLoanHistoryRepository.saveAll(listOf(
             UserLoanHistory.create(user,"book-1", UserLoanStatus.LOANED),
             UserLoanHistory.create(user,"book-2", UserLoanStatus.LOANED),

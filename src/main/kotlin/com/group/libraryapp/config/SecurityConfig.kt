@@ -1,7 +1,7 @@
 package com.group.libraryapp.config
 
-import com.group.libraryapp.filter.AccessTokenAuthenticationFilter
-import com.group.libraryapp.usecase.jwt.JWTTokenService
+import com.group.libraryapp.security.AccessTokenAuthenticationFilter
+import com.group.libraryapp.security.JWTTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -19,9 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-class SecurityConfig(private val jwtTokenService: JWTTokenService) {
+class SecurityConfig(private val jwtTokenProvider: JWTTokenProvider) {
 
-    private val accessTokenAuthenticationFilter = AccessTokenAuthenticationFilter(jwtTokenService)
+    private val accessTokenAuthenticationFilter = AccessTokenAuthenticationFilter(jwtTokenProvider)
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {

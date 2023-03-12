@@ -1,13 +1,12 @@
-package com.group.libraryapp.filter
+package com.group.libraryapp.security
 
-import com.group.libraryapp.usecase.jwt.JWTTokenService
 import org.springframework.http.HttpHeaders
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class AccessTokenAuthenticationFilter(jwtTokenService: JWTTokenService) : OncePerRequestFilter() {
+class AccessTokenAuthenticationFilter(jwtTokenProvider: JWTTokenProvider) : OncePerRequestFilter() {
 
     companion object {
         const val TOKEN_TYPE = "Bearer"
