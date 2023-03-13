@@ -26,7 +26,7 @@ class UserController constructor(
     @ApiOperation(value = "사용자 로그인")
     @PostMapping("/user/sign-in")
     fun signInUser(@RequestBody request: UserCreateRequest) {
-//        userService.saveUser(request)
+        userService.signIn(request)
     }
 
     @ApiOperation(value = "사용자 검색")

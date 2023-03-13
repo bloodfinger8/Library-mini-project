@@ -9,7 +9,7 @@ class User (
 
     var email: Email,
     var password: String,
-    var name: String?,
+    var name: String,
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL] , orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
     @Id
@@ -21,7 +21,7 @@ class User (
         fun create(
             email: Email = Email("example@example.com"),
             password: String = "12345",
-            name: String? = null,
+            name: String = "양재우",
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
             id: Long? = null
         ): User {

@@ -1,16 +1,17 @@
 package com.group.libraryapp.dto.user.response
 
+import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 
 data class UserLoanHistoryResponse(
-    val name: String,
+    val email: Email,
     val books: List<BookLoanHistoryResponse>
 ){
     companion object {
         fun of(user: User): UserLoanHistoryResponse {
-            return UserLoanHistoryResponse(user.name,
+            return UserLoanHistoryResponse(user.email,
                 user.userLoanHistories.map (BookLoanHistoryResponse::of)
             )
         }

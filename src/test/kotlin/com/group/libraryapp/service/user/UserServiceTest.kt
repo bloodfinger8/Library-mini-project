@@ -35,8 +35,8 @@ class UserServiceTest @Autowired constructor(
 
         val user = userService.signUp(userCreateRequest)
 
-        Assertions.assertThat(user.name).isEqualTo("재우")
-        Assertions.assertThat(user.email).isEqualTo("didwodn82@naver.com")
+        Assertions.assertThat(user.name).isEqualTo(NAME)
+        Assertions.assertThat(user.email.email).isEqualTo(EMAIL.email)
     }
 
     @Test
@@ -51,37 +51,37 @@ class UserServiceTest @Autowired constructor(
         val searchUsers = userService.searchUsers()
 
         Assertions.assertThat(searchUsers).hasSize(2)
-        Assertions.assertThat(searchUsers).extracting("name").containsExactlyInAnyOrder("양재우","마틴파울러")
+        Assertions.assertThat(searchUsers).extracting("name").containsExactlyInAnyOrder("재우","재우2")
     }
 
     @Test
     @DisplayName("유저 업데이트")
     fun updateUser() {
-        val saveUser = userRepository.save(User(EMAIL, PASSWORD,"재우"))
-        val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "마틴파울러")
+        val saveUser = userRepository.save(User(EMAIL, PASSWORD,NAME))
+        val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "재우2")
 
         userService.updateUserName(userUpdateRequest)
 
         val user = userRepository.findAll()
-        Assertions.assertThat(user[0].name).isEqualTo("재우")
+        Assertions.assertThat(user[0].name).isEqualTo("재우2")
     }
 
 
     @Test
     @DisplayName("유저 삭제")
     fun deleteUser() {
-        userRepository.save(User(EMAIL, PASSWORD, "재우"))
+        userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        userService.deleteUser("재우")
+        userService.deleteUser(NAME)
 
-        Assertions.assertThat(userRepository.findByName("양재우")).isNull()
+        Assertions.assertThat(userRepository.findByName(NAME)).isNull()
     }
 
 
     @Test
     @DisplayName("유저 대출 히스토리 조회")
     fun getLoanHistories() {
-        val user = userRepository.save(User(EMAIL, PASSWORD, "재우"))
+        val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
         userLoanHistoryRepository.saveAll(listOf(
             UserLoanHistory.create(user,"book-1", UserLoanStatus.LOANED),
             UserLoanHistory.create(user,"book-2", UserLoanStatus.LOANED),
@@ -91,7 +91,7 @@ class UserServiceTest @Autowired constructor(
         val results = userService.searchUserLoanHistories()
 
         Assertions.assertThat(results).hasSize(1)
-        Assertions.assertThat(results[0].name).isEqualTo("양재우")
+        Assertions.assertThat(results[0].email.email).isEqualTo(EMAIL.email)
         Assertions.assertThat(results[0].books).hasSize(3)
         Assertions.assertThat(results[0].books).extracting("name")
             .containsExactlyInAnyOrder("book-1","book-2","book-3")

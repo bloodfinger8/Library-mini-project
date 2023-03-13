@@ -5,6 +5,7 @@ import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.type.BookType
+import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
@@ -28,8 +29,12 @@ class BookServiceTest @Autowired constructor(
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepositroy
-
 ){
+    companion object {
+        val EMAIL = Email("didwodn82@naver.com")
+        const val PASSWORD = "123456"
+        const val NAME = "재우"
+    }
 
     @Test
     @DisplayName("책 저장")
@@ -45,7 +50,7 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책 렌탈")
     fun loanBook() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
-        val user = userRepository.save(User("양재우", 30))
+        val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         val bookLoanRequest = BookLoanRequest(user.name, book.name)
 
@@ -62,7 +67,7 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책이 이미 렌탈시 예외처리")
     fun loanBookException() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
-        val user = userRepository.save(User("양재우", 30))
+        val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book.name))
         val bookLoanRequest = BookLoanRequest(user.name, book.name)
 
@@ -78,7 +83,7 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책 반납")
     fun loanBookReturnTest() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
-        val user = userRepository.save(User("양재우", 30))
+        val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book.name))
 
         val bookReturnRequest = BookReturnRequest(user.name, book.name)
@@ -109,7 +114,7 @@ class BookServiceTest @Autowired constructor(
         assertCount(result , BookType.SCIENCE, 2)
     }
     private fun assertCount(result: List<BookStatResponse> , type: BookType , count: Long) {
-        Assertions.assertThat(result.first{ it -> it.type == type}.count).isEqualTo(count)
+        Assertions.assertThat(result.first{ it.type == type}.count).isEqualTo(count)
     }
 
 

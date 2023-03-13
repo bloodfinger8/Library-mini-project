@@ -23,8 +23,12 @@ class UserService constructor(
     @Transactional
     fun signUp(req: UserCreateRequest): User {
         val user = User.create(req.email, req.password, req.name)
-
         return userRepository.save(user)
+    }
+
+    @Transactional
+    fun signIn(request: UserCreateRequest) {
+        TODO("Not yet implemented")
     }
 
     @Transactional(readOnly= true)
