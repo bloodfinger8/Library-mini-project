@@ -9,11 +9,12 @@ import javax.persistence.Embeddable
 @Embeddable
 class Email (
     @Column(length = 80)
-    var email: String
+    var email: String?
 ){
     init {
 
     }
+    constructor(): this(null)
 
     companion object{
         private val EMAIL_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)

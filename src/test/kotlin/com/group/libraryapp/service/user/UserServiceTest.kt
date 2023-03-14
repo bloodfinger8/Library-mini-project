@@ -23,7 +23,7 @@ class UserServiceTest @Autowired constructor(
     private val userLoanHistoryRepository: UserLoanHistoryRepositroy,
 ) {
     companion object {
-        val EMAIL = Email("didwodn82@naver.com")
+        const val EMAIL = "didwodn82@naver.com"
         const val PASSWORD = "123456"
         const val NAME = "재우"
     }
@@ -36,15 +36,15 @@ class UserServiceTest @Autowired constructor(
         val user = userService.signUp(userCreateRequest)
 
         Assertions.assertThat(user.name).isEqualTo(NAME)
-        Assertions.assertThat(user.email.email).isEqualTo(EMAIL.email)
+        Assertions.assertThat(user.email.email).isEqualTo(EMAIL)
     }
 
     @Test
     @DisplayName("유저 검색")
     fun getUser() {
         val users = listOf(
-            User(EMAIL, PASSWORD, "재우"),
-            User(Email("didwodn@naver.com"), PASSWORD , "재우2")
+            User(Email(EMAIL), PASSWORD, "재우"),
+            User(Email("didwodn8822@gmail.com"), PASSWORD , "재우2")
         )
         userRepository.saveAll(users)
 
@@ -57,7 +57,7 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 업데이트")
     fun updateUser() {
-        val saveUser = userRepository.save(User(EMAIL, PASSWORD,NAME))
+        val saveUser = userRepository.save(User(Email(EMAIL), PASSWORD,NAME))
         val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "재우2")
 
         userService.updateUserName(userUpdateRequest)
@@ -70,7 +70,7 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 삭제")
     fun deleteUser() {
-        userRepository.save(User(EMAIL, PASSWORD, NAME))
+        userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
 
         userService.deleteUser(NAME)
 
@@ -81,7 +81,7 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 대출 히스토리 조회")
     fun getLoanHistories() {
-        val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
+        val user = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
         userLoanHistoryRepository.saveAll(listOf(
             UserLoanHistory.create(user,"book-1", UserLoanStatus.LOANED),
             UserLoanHistory.create(user,"book-2", UserLoanStatus.LOANED),
@@ -91,7 +91,7 @@ class UserServiceTest @Autowired constructor(
         val results = userService.searchUserLoanHistories()
 
         Assertions.assertThat(results).hasSize(1)
-        Assertions.assertThat(results[0].email.email).isEqualTo(EMAIL.email)
+        Assertions.assertThat(results[0].email.email).isEqualTo(EMAIL)
         Assertions.assertThat(results[0].books).hasSize(3)
         Assertions.assertThat(results[0].books).extracting("name")
             .containsExactlyInAnyOrder("book-1","book-2","book-3")

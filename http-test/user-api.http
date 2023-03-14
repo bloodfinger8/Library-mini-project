@@ -1,10 +1,11 @@
 ### 유저 생성
-POST {{host}}/user
+POST {{host}}/user/sign-up
 Content-Type: application/json
 
 {
-  "name" : "양재우2",
-  "age" : "30"
+  "email" : "didasjdk@naver.com",
+  "password" : "123",
+  "name" : "양재우"
 }
 
 ### 유저 리스트

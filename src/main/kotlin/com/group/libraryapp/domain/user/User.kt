@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
+import org.springframework.security.crypto.password.PasswordEncoder
 import javax.persistence.*
 
 @Entity
@@ -22,10 +23,11 @@ class User (
             email: Email = Email("example@example.com"),
             password: String = "12345",
             name: String = "양재우",
+            passwordEncoder: PasswordEncoder,
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
-            id: Long? = null
+            id: Long? = null,
         ): User {
-            return User(email, password, name, userLoanHistories ,id)
+            return User(email, passwordEncoder.encode(password), name, userLoanHistories ,id)
         }
     }
 

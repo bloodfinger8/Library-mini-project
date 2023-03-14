@@ -1,9 +1,13 @@
 package com.group.libraryapp.dto.user.request
 
-import com.group.libraryapp.domain.user.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
 data class UserCreateRequest(
-    val email: Email,
+    @field:NotBlank
+    val email: String,
+    @field:Size(min = 6, message = "6자 이상 입력하세요")
     val password: String,
     val name: String,
 )
