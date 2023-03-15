@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email" : "didasjdk@naver.com",
-  "password" : "123",
+  "password" : "123123",
   "name" : "양재우"
 }
 

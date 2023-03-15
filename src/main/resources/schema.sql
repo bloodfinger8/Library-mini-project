@@ -8,6 +8,7 @@ create table book (
     name        varchar(255),
     type        varchar(255),
     publisher   varchar(255),
+    quantity    int,
     created_at  datetime null,
     updated_at  datetime null,
     primary key (id)

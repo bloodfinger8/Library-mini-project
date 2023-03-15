@@ -4,6 +4,8 @@ Content-Type: application/json
 
 {
   "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "quantity" : 1,
   "type" : "COMPUTER"
 }
 

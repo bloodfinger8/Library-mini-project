@@ -25,11 +25,12 @@ class BookService constructor(
 
     @Transactional
     fun saveBook(req: BookRequest): Book {
-        return bookRepository.save(Book.create(req.name, req.type))
+        return bookRepository.save(Book.create(req.name, req.type, req.publisher, req.quantity))
     }
 
     @Transactional
     fun loanBook(req: BookLoanRequest) {
+        //todo -> 책 권수에 따른 대출처리 도매인 로직
         val book = bookRepository.findByName(req.bookName) ?: fail()
         if (userLoanHistoryRepository.findByBookNameAndStatus(req.bookName, UserLoanStatus.LOANED) != null){
             throw IllegalArgumentException("진작 대출되어 있는 책입니다")

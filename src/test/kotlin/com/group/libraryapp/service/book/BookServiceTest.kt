@@ -39,7 +39,7 @@ class BookServiceTest @Autowired constructor(
     @Test
     @DisplayName("책 저장")
     fun saveBook() {
-        val bookRequest = BookRequest("클린 아키텍처", BookType.COMPUTER)
+        val bookRequest = BookRequest("클린 아키텍처", "출판사" , 1 , BookType.COMPUTER)
 
         val book = bookService.saveBook(bookRequest)
 
