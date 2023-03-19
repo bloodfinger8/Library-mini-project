@@ -3,10 +3,12 @@ package com.group.libraryapp.controller.user
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.dto.user.request.UserCreateRequest
+import com.group.libraryapp.dto.user.request.UserSignInRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.usecase.user.UserService
+import com.group.libraryapp.usecase.user.UserSignInUseCase
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.ResponseEntity
@@ -16,7 +18,8 @@ import javax.validation.Valid
 @Api(tags = ["회원 관련 API"])
 @RestController
 class UserController constructor(
-    val userService: UserService
+    val userService: UserService,
+    val signInUseCase: UserSignInUseCase,
 ){
 
     @ApiOperation(value = "사용자 회원가입")
@@ -28,7 +31,8 @@ class UserController constructor(
 
     @ApiOperation(value = "사용자 로그인")
     @PostMapping("/user/sign-in")
-    fun signInUser() {
+    fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<BaseResponse> {
+        return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(request)))
     }
 
     @ApiOperation(value = "사용자 검색")

@@ -13,12 +13,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../githubWorkspace/ocs/ocs-creator-server/ocs-api-server/src/main/java/me/ogq/creators/usecase/UserPrincipalDetailsService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../githubWorkspace/ocs/ocs-creator-server/ocs-api-server/src/main/java/me/ogq/creators/usecase/creator/UserAgreementService.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/.gitignore">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/http-test/user-api.http">
           <value>
             <set />
           </value>
@@ -38,6 +48,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/domain/user/UserRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/dto/user/request/UserSignInRequest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/dto/user/response/UserLoanHistoryResponse.kt">
           <value>
             <set />
@@ -48,12 +68,47 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/dto/user/response/UserSignInResponse.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/security/CustomLoggingFilter.kt">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/security/JWTAccessToken.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/security/JWTTokenProvider.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/usecase/UserPrincipalDetails.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/usecase/UserPrincipalDetailsService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/usecase/user/UserService.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/kotlin/com/group/libraryapp/usecase/user/UserSignInUseCase.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/application.yml">
           <value>
             <set />
           </value>
@@ -64,6 +119,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/kotlin/com/group/libraryapp/service/user/UserServiceTest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="/fragment.kt">
           <value>
             <set />
           </value>

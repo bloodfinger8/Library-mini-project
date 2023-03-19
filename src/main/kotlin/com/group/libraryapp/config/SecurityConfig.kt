@@ -57,6 +57,7 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
         return source;
     }
 
+    @Bean
     override fun authenticationManagerBean(): AuthenticationManager {
         return super.authenticationManagerBean()
     }

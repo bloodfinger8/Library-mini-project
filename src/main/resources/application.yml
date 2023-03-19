@@ -22,4 +22,4 @@ spring:
 
 
 jwt:
-  secret: bXlsaWJyYXJ5cHJvamVjdDEyMwo=
+  secret: LWQgdGhpc2lzbXlsaWJyYXJ5cHJvamVjdHNlY3JldGtleTEyMzQ1Ngo=

@@ -8,6 +8,15 @@ Content-Type: application/json
   "name" : "양재우"
 }
 
+### 유저 로그인
+POST {{host}}/user/sign-in
+Content-Type: application/json
+
+{
+  "email" : "didasjdk@naver.com",
+  "password" : "123123"
+}
+
 ### 유저 리스트
 GET {{host}}/user
 Content-Type: application/json
