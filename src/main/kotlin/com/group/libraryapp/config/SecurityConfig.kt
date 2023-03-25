@@ -2,6 +2,7 @@ package com.group.libraryapp.config
 
 import com.group.libraryapp.security.AccessTokenAuthenticationFilter
 import com.group.libraryapp.security.CustomLoggingFilter
+import com.group.libraryapp.security.ExceptionHandlerFilter
 import com.group.libraryapp.security.JWTTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -33,6 +34,7 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(logFilter(), UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterBefore(ExceptionHandlerFilter(), UsernamePasswordAuthenticationFilter::class.java)
                 .addFilterAt(accessTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
                 .headers().frameOptions().sameOrigin()
     }

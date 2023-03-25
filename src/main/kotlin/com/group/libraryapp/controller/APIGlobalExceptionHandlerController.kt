@@ -3,6 +3,8 @@ package com.group.libraryapp.controller
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.FailureRes
 import com.group.libraryapp.exception.CustomException
+import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.JwtException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,10 +21,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 class APIGlobalExceptionHandlerController {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [CustomException::class])
     fun handleCustomException(ex: CustomException): ResponseEntity<BaseResponse> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(50000, ex.message))
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FailureRes(50000, ex.message))
     }
 
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
@@ -38,17 +39,17 @@ class APIGlobalExceptionHandlerController {
             builder.append(fieldError.rejectedValue)
             builder.append("].")
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(400000, builder.toString()))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(40000, builder.toString()))
     }
 
     @ExceptionHandler(value = [MethodArgumentTypeMismatchException::class])
     fun handleMethodArgumentTypeMismatchException(e: MethodArgumentTypeMismatchException): ResponseEntity<BaseResponse> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(400000, "${e.name} is wrong value. ${e.value}"))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(40000, "${e.name} is wrong value. ${e.value}"))
     }
 
     @ExceptionHandler(value = [HttpMessageNotReadableException::class, IllegalArgumentException::class])
     fun handleHttpMessageNotReadableException(e: RuntimeException): ResponseEntity<BaseResponse> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(400000, e.message!!))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(40000, e.message!!))
     }
 
 //    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
