@@ -2,47 +2,45 @@ package com.group.libraryapp.usecase.book
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
+import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.repository.BookQuerydslRepository
+import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.util.fail
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class BookService constructor(
+class BookService (
     val bookRepository: BookRepository,
     val bookQuerydslRepository: BookQuerydslRepository,
     val userRepository: UserRepository,
-    val userLoanHistoryRepository: UserLoanHistoryRepositroy
+    val userLoanHistoryRepository: UserLoanHistoryRepository
 ){
-
     @Transactional
     fun saveBook(req: BookRequest): Book {
         return bookRepository.save(Book.create(req.name, req.type, req.publisher, req.quantity))
     }
 
     @Transactional
-    fun loanBook(req: BookLoanRequest) {
-        //todo -> 책 권수에 따른 대출처리 도매인 로직
-        val book = bookRepository.findByName(req.bookName) ?: fail()
-        if (userLoanHistoryRepository.findByBookNameAndStatus(req.bookName, UserLoanStatus.LOANED) != null){
-            throw IllegalArgumentException("진작 대출되어 있는 책입니다")
-        }
-        val user = userRepository.findByName(req.userName) ?: fail()
+    fun loan(req: BookLoanRequest, authenticationDTO: AuthenticationDTO) {
+        val book = bookRepository.findByIdOrNull(req.bookId) ?: fail()
+        val user = userRepository.findByName(authenticationDTO.name) ?: fail()
         user.loanBook(book)
     }
 
     @Transactional
-    fun returnBook(req: BookReturnRequest) {
-        val user = userRepository.findByName(req.userName) ?: fail()
-        user.returnBook(req.bookName)
+    fun returnBook(req: BookReturnRequest, authenticationDTO: AuthenticationDTO) {
+        val user = userRepository.findByName(authenticationDTO.name) ?: fail()
+        val book = bookRepository.findByIdOrNull(req.bookId) ?: fail()
+        //todo -> 내가 빌린 책을 반납?
+        user.returnBook(book)
     }
 
     @Transactional(readOnly = true)

@@ -7,12 +7,13 @@ import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
+import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
@@ -28,7 +29,7 @@ class BookServiceTest @Autowired constructor(
     private val bookService: BookService,
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepositroy
+    private val userLoanHistoryRepository: UserLoanHistoryRepository
 ){
     companion object {
         val EMAIL = Email("didwodn82@naver.com")
@@ -52,12 +53,13 @@ class BookServiceTest @Autowired constructor(
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        val bookLoanRequest = BookLoanRequest(user.name, book.name)
+        val bookLoanRequest = BookLoanRequest(book.id!!)
+        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
 
-        bookService.loanBook(bookLoanRequest)
+        bookService.loan(bookLoanRequest, auth)
 
         val loanHistory = userLoanHistoryRepository.findAll()
-        Assertions.assertThat(loanHistory[0].bookName).isEqualTo("클린 아키텍처")
+        Assertions.assertThat(loanHistory[0].book.name).isEqualTo("클린 아키텍처")
         Assertions.assertThat(loanHistory[0].user.id).isEqualTo(user.id)
         Assertions.assertThat(loanHistory[0].status).isEqualTo(UserLoanStatus.LOANED)
     }
@@ -68,12 +70,13 @@ class BookServiceTest @Autowired constructor(
     fun loanBookException() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
-        userLoanHistoryRepository.save(UserLoanHistory.create(user, book.name))
-        val bookLoanRequest = BookLoanRequest(user.name, book.name)
+        userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
+        val bookLoanRequest = BookLoanRequest(book.id!!)
+        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
 
 
         val message = assertThrows<IllegalArgumentException> {
-            bookService.loanBook(bookLoanRequest)
+            bookService.loan(bookLoanRequest, auth)
         }.message
 
         Assertions.assertThat(message).isEqualTo("진작 대출되어 있는 책입니다")
@@ -84,11 +87,12 @@ class BookServiceTest @Autowired constructor(
     fun loanBookReturnTest() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
-        userLoanHistoryRepository.save(UserLoanHistory.create(user, book.name))
+        userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
-        val bookReturnRequest = BookReturnRequest(user.name, book.name)
+        val bookReturnRequest = BookReturnRequest(book.id!!)
+        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
 
-        bookService.returnBook(bookReturnRequest)
+        bookService.returnBook(bookReturnRequest,auth)
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)

@@ -15,7 +15,10 @@ class Book (
 
     val publisher: String? = null,
 
-    val quantity: Int,
+    var stock: Int,
+
+    @Version
+    var version: Long,
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +39,21 @@ class Book (
         fun create(name: String = "book name",
                    type: BookType = BookType.COMPUTER,
                    publisher: String? = null,
-                   quantity: Int = 1,
+                   stock: Int = 1,
+                   version: Long = 1,
                    id: Long? = null
         ): Book {
-            return Book(name, type, publisher, quantity, id)
+            return Book(name, type, publisher, stock, version, id)
         }
     }
 
+    fun canLoanBook(): Boolean =
+        when {
+            this.stock > 0 -> true
+            else -> throw IllegalArgumentException("수량 부족")
+        }
+
+    fun changeStock(count: Int) {
+        this.stock += count
+    }
 }

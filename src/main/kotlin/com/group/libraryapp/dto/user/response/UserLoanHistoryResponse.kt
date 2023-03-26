@@ -25,7 +25,7 @@ data class BookLoanHistoryResponse(
 ){
     companion object {
         fun of(userLoanHistory: UserLoanHistory): BookLoanHistoryResponse {
-            return BookLoanHistoryResponse(userLoanHistory.bookName,
+            return BookLoanHistoryResponse(userLoanHistory.book.name,
                 userLoanHistory.status == UserLoanStatus.RETURNED)
         }
     }

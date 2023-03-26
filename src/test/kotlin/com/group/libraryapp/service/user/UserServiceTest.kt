@@ -1,10 +1,11 @@
 package com.group.libraryapp.service.user
 
+import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
-import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepositroy
+import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
@@ -20,7 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class UserServiceTest @Autowired constructor(
     private val userService: UserService,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepositroy,
+    private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
     companion object {
         const val EMAIL = "didwodn82@naver.com"
@@ -83,9 +84,9 @@ class UserServiceTest @Autowired constructor(
     fun getLoanHistories() {
         val user = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
         userLoanHistoryRepository.saveAll(listOf(
-            UserLoanHistory.create(user,"book-1", UserLoanStatus.LOANED),
-            UserLoanHistory.create(user,"book-2", UserLoanStatus.LOANED),
-            UserLoanHistory.create(user,"book-3", UserLoanStatus.RETURNED)
+            UserLoanHistory.create(user, Book.create("book-1"), UserLoanStatus.LOANED),
+            UserLoanHistory.create(user, Book.create("book-2"), UserLoanStatus.LOANED),
+            UserLoanHistory.create(user, Book.create("book-3"), UserLoanStatus.RETURNED)
         ))
 
         val results = userService.searchUserLoanHistories()

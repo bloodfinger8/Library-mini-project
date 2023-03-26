@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
+import com.group.libraryapp.util.fail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -42,10 +43,14 @@ class User (
     }
 
     fun loanBook(book: Book) {
-        this.userLoanHistories.add(UserLoanHistory.create(this, book.name))
+        if(book.canLoanBook()) {
+            book.changeStock(-1)
+            this.userLoanHistories.add(UserLoanHistory.create(this, book))
+        }
     }
 
-    fun returnBook(bookName: String) {
-        this.userLoanHistories.first { userLoanHistory -> userLoanHistory.bookName == bookName }.doReturn()
+    fun returnBook(book: Book) {
+        val userLoanHistory = this.userLoanHistories.firstOrNull { userLoanHistory -> userLoanHistory.book == book } ?: fail()
+        userLoanHistory.doReturn(book)
     }
 }
