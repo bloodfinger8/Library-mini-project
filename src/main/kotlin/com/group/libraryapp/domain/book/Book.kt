@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.domain.book.type.BookType
+import com.group.libraryapp.util.fail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
@@ -31,7 +32,7 @@ class Book (
 
     init {
         if(name.isBlank()) {
-            throw IllegalArgumentException("이름은 필수값 입니다.")
+            fail("Name is required")
         }
     }
 
@@ -50,7 +51,7 @@ class Book (
     fun canLoanBook(): Boolean =
         when {
             this.stock > 0 -> true
-            else -> throw IllegalArgumentException("수량 부족")
+            else -> fail("book stock sold out!")
         }
 
     fun changeStock(count: Int) {

@@ -38,9 +38,11 @@ class BookService (
     @Transactional
     fun returnBook(req: BookReturnRequest, authenticationDTO: AuthenticationDTO) {
         val user = userRepository.findByName(authenticationDTO.name) ?: fail()
-        val book = bookRepository.findByIdOrNull(req.bookId) ?: fail()
-        //todo -> 내가 빌린 책을 반납?
-        user.returnBook(book)
+        val isExistLoanBook = userLoanHistoryRepository.existsByBookIdAndStatus(req.bookId, UserLoanStatus.LOANED)
+        when {
+            isExistLoanBook -> user.returnBook(bookRepository.findByIdOrNull(req.bookId) ?: fail())
+            else -> fail("not existed loan book")
+        }
     }
 
     @Transactional(readOnly = true)
