@@ -9,7 +9,7 @@ data class BookRequest(
     val name: String,
     var publisher: String? = null,
     @field:NotNull
-    var quantity: Int = 1,
+    var stock: Int = 1,
     @field:NotNull
     val type: BookType,
 )

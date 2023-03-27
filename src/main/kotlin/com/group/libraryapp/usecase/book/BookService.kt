@@ -25,7 +25,7 @@ class BookService (
 ){
     @Transactional
     fun saveBook(req: BookRequest): Book {
-        return bookRepository.save(Book.create(req.name, req.type, req.publisher, req.quantity))
+        return bookRepository.save(Book.create(req.name, req.type, req.publisher, req.stock))
     }
 
     @Transactional
