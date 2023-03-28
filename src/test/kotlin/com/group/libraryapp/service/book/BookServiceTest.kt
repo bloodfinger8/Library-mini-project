@@ -13,6 +13,7 @@ import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.exception.NotExistStock
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.assertj.core.api.Assertions
@@ -48,7 +49,7 @@ class BookServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("책 렌탈")
+    @DisplayName("책 대여")
     fun loanBook() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
@@ -59,34 +60,32 @@ class BookServiceTest @Autowired constructor(
         bookService.loan(bookLoanRequest, auth)
 
         val loanHistory = userLoanHistoryRepository.findAll()
-        Assertions.assertThat(loanHistory[0].book.name).isEqualTo("클린 아키텍처")
-        Assertions.assertThat(loanHistory[0].user.id).isEqualTo(user.id)
-        Assertions.assertThat(loanHistory[0].status).isEqualTo(UserLoanStatus.LOANED)
+        Assertions.assertThat(loanHistory.first().book.name).isEqualTo("클린 아키텍처")
+        Assertions.assertThat(loanHistory.first().user.id).isEqualTo(user.id)
+        Assertions.assertThat(loanHistory.first().status).isEqualTo(UserLoanStatus.LOANED)
     }
 
 
     @Test
-    @DisplayName("책이 이미 렌탈시 예외처리")
+    @DisplayName("책의 재고(0개) 부족시 예외발생 체크")
     fun loanBookException() {
-        val book = bookRepository.save(Book.create("클린 아키텍처"))
+        val book = bookRepository.save(Book.create("클린 아키텍처",BookType.COMPUTER,null,0,1))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
-        userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
+
         val bookLoanRequest = BookLoanRequest(book.id!!)
         val auth = AuthenticationDTO.of(user.email.email!!, user.name)
 
-
-        val message = assertThrows<IllegalArgumentException> {
+        assertThrows<NotExistStock> {
             bookService.loan(bookLoanRequest, auth)
-        }.message
-
-        Assertions.assertThat(message).isEqualTo("진작 대출되어 있는 책입니다")
+        }
     }
 
     @Test
-    @DisplayName("책 반납")
+    @DisplayName("사용자의 책 대출 이후 반납처리")
     fun loanBookReturnTest() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
+        user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
         val bookReturnRequest = BookReturnRequest(book.id!!)
@@ -96,8 +95,9 @@ class BookServiceTest @Autowired constructor(
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)
-        Assertions.assertThat(loanBook[0].status).isEqualTo(UserLoanStatus.RETURNED)
-
+        Assertions.assertThat(loanBook.first().status).isEqualTo(UserLoanStatus.RETURNED)
+        Assertions.assertThat(loanBook.first().user.id).isEqualTo(user.id)
+        Assertions.assertThat(loanBook.first().book.id).isEqualTo(book.id)
     }
 
     @Test
@@ -124,8 +124,9 @@ class BookServiceTest @Autowired constructor(
 
     @AfterEach
     fun clean() {
-        bookRepository.deleteAll()
         userRepository.deleteAll()
+        bookRepository.deleteAll()
+        userLoanHistoryRepository.deleteAll()
     }
 
 }

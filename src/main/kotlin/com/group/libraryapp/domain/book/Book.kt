@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.util.fail
+import com.group.libraryapp.util.loanFail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
@@ -51,7 +52,7 @@ class Book (
     fun canLoanBook(): Boolean =
         when {
             this.stock > 0 -> true
-            else -> fail("book stock sold out!")
+            else -> loanFail(this.id)
         }
 
     fun changeStock(count: Int) {

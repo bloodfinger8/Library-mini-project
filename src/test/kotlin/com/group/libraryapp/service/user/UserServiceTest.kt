@@ -1,6 +1,8 @@
 package com.group.libraryapp.service.user
 
 import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
@@ -22,6 +24,7 @@ class UserServiceTest @Autowired constructor(
     private val userService: UserService,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val bookRepository: BookRepository,
 ) {
     companion object {
         const val EMAIL = "didwodn82@naver.com"
@@ -83,10 +86,15 @@ class UserServiceTest @Autowired constructor(
     @DisplayName("유저 대출 히스토리 조회")
     fun getLoanHistories() {
         val user = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
+        val book1 = Book.create("book-1")
+        val book2 = Book.create("book-2")
+        val book3 = Book.create("book-3")
+
+        bookRepository.saveAll(listOf(book1, book2, book3))
         userLoanHistoryRepository.saveAll(listOf(
-            UserLoanHistory.create(user, Book.create("book-1"), UserLoanStatus.LOANED),
-            UserLoanHistory.create(user, Book.create("book-2"), UserLoanStatus.LOANED),
-            UserLoanHistory.create(user, Book.create("book-3"), UserLoanStatus.RETURNED)
+            UserLoanHistory.create(user, book1, UserLoanStatus.LOANED),
+            UserLoanHistory.create(user, book2, UserLoanStatus.LOANED),
+            UserLoanHistory.create(user, book3, UserLoanStatus.RETURNED)
         ))
 
         val results = userService.searchUserLoanHistories()
