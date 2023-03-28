@@ -30,7 +30,7 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
     override fun configure(http: HttpSecurity) {
         http.httpBasic().disable()
                 .csrf().disable()
-                .cors(Customizer.withDefaults())
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(logFilter(), UsernamePasswordAuthenticationFilter::class.java)
@@ -40,40 +40,30 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return Argon2PasswordEncoder()
-    }
-
+    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder()
 
     @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        //todo -> 환경변수파일로 cors 값 처리
-        configuration.allowedOrigins = mutableListOf("http://localhost:8080")
-        configuration.allowedMethods = Collections.singletonList("*")
-        configuration.allowedHeaders = Collections.singletonList("*")
-        configuration.allowCredentials = true
-
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source;
-    }
+    fun corsConfigurationSource(): CorsConfigurationSource =
+        UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**",
+                CorsConfiguration().apply {
+                    allowedOrigins = listOf("*")
+                    allowedHeaders = listOf("*")
+                    allowedMethods = listOf("*")
+                    allowCredentials = true
+                }
+            )
+        }
 
     @Bean
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
-    }
+    override fun authenticationManagerBean(): AuthenticationManager =
+        super.authenticationManagerBean()
 
-    fun logFilter(): CustomLoggingFilter {
-        val ignores: MutableSet<String> = HashSet()
-        ignores.add("/ping")
-        val sensitive: MutableSet<String> = HashSet()
-        sensitive.add("/sign-up")
-        val filter = CustomLoggingFilter(ignores, sensitive)
-        filter.setIncludeQueryString(true)
-        filter.setIncludePayload(true)
-        filter.setMaxPayloadLength(10240)
-        filter.setIncludeHeaders(true)
-        return filter
-    }
+    fun logFilter(): CustomLoggingFilter =
+         CustomLoggingFilter(hashSetOf("/ping"), hashSetOf("/sign-up")).apply {
+            setIncludeQueryString(true)
+            setIncludePayload(true)
+            setMaxPayloadLength(10240)
+            setIncludeHeaders(true)
+        }
 }
