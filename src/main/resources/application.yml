@@ -23,6 +23,3 @@ spring:
 
 jwt:
   secret: LWQgdGhpc2lzbXlsaWJyYXJ5cHJvamVjdHNlY3JldGtleTEyMzQ1Ngo=
-
-kotlin-coroutines:
-  version: '1.6.0'
