@@ -38,7 +38,8 @@ dependencies {
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
 
 	//swagger
-	implementation("io.springfox:springfox-boot-starter:3.0.0")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.14")
+
 
 	//jjwt
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")

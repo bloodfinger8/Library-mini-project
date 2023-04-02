@@ -12,6 +12,7 @@ import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.repository.BookQuerydslRepository
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.util.fail
+import com.group.libraryapp.util.returnFail
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -41,7 +42,7 @@ class BookService (
         val isExistLoanBook = userLoanHistoryRepository.existsByBookIdAndStatus(req.bookId, UserLoanStatus.LOANED)
         when {
             isExistLoanBook -> user.returnBook(bookRepository.findByIdOrNull(req.bookId) ?: fail())
-            else -> fail("not existed loan book")
+            else -> returnFail(req.bookId)
         }
     }
 

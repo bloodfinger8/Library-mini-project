@@ -7,6 +7,7 @@ import com.group.libraryapp.dto.user.request.UserSignInRequest
 import com.group.libraryapp.dto.user.response.UserSignInResponse
 import com.group.libraryapp.security.JWTAccessToken
 import com.group.libraryapp.security.JWTTokenProvider
+import com.group.libraryapp.util.loginFail
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -28,8 +29,7 @@ class UserSignInUseCase(
     }
 
     private fun findUser(request: UserSignInRequest) =
-        userRepository.findByEmail(Email(request.email))
-            ?: throw UsernameNotFoundException("creator not found exception")
+        userRepository.findByEmail(Email(request.email)) ?: loginFail()
 
     private fun emailPasswordAuthenticate(request: UserSignInRequest) {
         SecurityContextHolder.getContext().authentication =
@@ -37,5 +37,5 @@ class UserSignInUseCase(
     }
 
     private fun accessToken(user: User) =
-        tokenProvider.signAcToken(JWTAccessToken.of(user.email, user.name))
+        tokenProvider.signAcToken(JWTAccessToken.of(user.id!!, user.email, user.name))
 }

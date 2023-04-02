@@ -12,6 +12,7 @@ class JWTTokenProvider (val jwtProperties: JWTProperties) {
     fun signAcToken(token: JWTAccessToken): String =
          Jwts.builder()
             .setSubject("library-app")
+            .claim("id", token.id)
             .claim("email", token.email.email)
             .claim("name", token.name)
             .claim("userType", token.userType)

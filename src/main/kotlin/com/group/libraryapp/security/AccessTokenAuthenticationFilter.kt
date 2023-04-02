@@ -32,7 +32,7 @@ class AccessTokenAuthenticationFilter(
             val jwtAcToken = jwtTokenProvider.accessTokenFromSigned(token)
             SecurityContextHolder.getContext().authentication =
                 UsernamePasswordAuthenticationToken(
-                    AuthenticationDTO(jwtAcToken.get("email") as String, jwtAcToken.get("name") as String, UserType.valueOf(jwtAcToken.get("userType") as String)),
+                    AuthenticationDTO(jwtAcToken.get("id") as Int, jwtAcToken.get("email") as String, jwtAcToken.get("name") as String, UserType.valueOf(jwtAcToken.get("userType") as String)),
                     token,
                     AuthorityUtils.createAuthorityList(UserRole.ROLE_USER)
                 )

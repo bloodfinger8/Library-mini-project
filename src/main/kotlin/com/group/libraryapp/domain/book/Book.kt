@@ -33,7 +33,7 @@ class Book (
 
     init {
         if(name.isBlank()) {
-            fail("Name is required")
+            fail()
         }
     }
 

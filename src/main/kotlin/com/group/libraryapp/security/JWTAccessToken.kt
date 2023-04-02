@@ -4,7 +4,8 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserType
 
 
-class JWTAccessToken constructor(
+class JWTAccessToken(
+    val id: Long,
     val email: Email,
     val name: String,
     val userType: UserType
@@ -12,10 +13,11 @@ class JWTAccessToken constructor(
     companion object {
         const val TTL: Int = 1000 * 60 * 60
 
-        fun of(email: Email,
+        fun of(id: Long,
+               email: Email,
                name: String,
                userType: UserType = UserType.USER): JWTAccessToken {
-            return JWTAccessToken(email,name,userType)
+            return JWTAccessToken(id,email,name,userType)
         }
     }
 }

@@ -1,13 +1,12 @@
 package com.group.libraryapp.exception
 
-import org.springframework.http.HttpStatus
 
-class CustomException(
-    val httpStatus: HttpStatus,
-    override val message: String
+class NotExistStockException(
+    override val message: String,
+    val code: Int = 40401
 ): RuntimeException()
 
-class NotExistStock(
+class NotExistLoanBookException(
     override val message: String,
-    val httpStatus: HttpStatus = HttpStatus.NOT_FOUND
+    val code: Int = 40402
 ): RuntimeException()
