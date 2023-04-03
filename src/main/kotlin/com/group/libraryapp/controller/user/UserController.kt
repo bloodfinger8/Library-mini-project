@@ -1,6 +1,5 @@
 package com.group.libraryapp.controller.user
 
-import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserSignInRequest
@@ -11,9 +10,6 @@ import com.group.libraryapp.dto.user.response.UserSignInResponse
 import com.group.libraryapp.usecase.user.UserService
 import com.group.libraryapp.usecase.user.UserSignInUseCase
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.media.ArraySchema
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag

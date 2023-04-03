@@ -13,7 +13,7 @@ import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
-import com.group.libraryapp.exception.NotExistStock
+import com.group.libraryapp.exception.NotExistStockException
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.assertj.core.api.Assertions
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.lang.IllegalArgumentException
 
 @SpringBootTest
 class BookServiceTest @Autowired constructor(
@@ -55,7 +54,7 @@ class BookServiceTest @Autowired constructor(
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!.toInt(),user.email.email!!, user.name)
 
         bookService.loan(bookLoanRequest, auth)
 
@@ -73,9 +72,9 @@ class BookServiceTest @Autowired constructor(
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!.toInt(),user.email.email!!, user.name)
 
-        assertThrows<NotExistStock> {
+        assertThrows<NotExistStockException> {
             bookService.loan(bookLoanRequest, auth)
         }
     }
@@ -89,7 +88,7 @@ class BookServiceTest @Autowired constructor(
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
         val bookReturnRequest = BookReturnRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!.toInt(), user.email.email!!, user.name)
 
         bookService.returnBook(bookReturnRequest,auth)
 

@@ -2,16 +2,13 @@ package com.group.libraryapp.service.book
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.book.request.BookLoanRequest
-import com.group.libraryapp.exception.NotExistStock
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.OptimisticLockingFailureException
@@ -32,7 +29,7 @@ class BookConcurrencyTest @Autowired constructor(
         val executorService = Executors.newFixedThreadPool(3);
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!.toInt(), user.email.email!!, user.name)
 
         val future  = executorService.submit { bookService.loan(bookLoanRequest, auth) }
         val future2 = executorService.submit { bookService.loan(bookLoanRequest, auth) }
