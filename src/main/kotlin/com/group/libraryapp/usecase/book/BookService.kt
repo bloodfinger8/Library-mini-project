@@ -30,19 +30,19 @@ class BookService (
     }
 
     @Transactional
-    fun loan(req: BookLoanRequest, authenticationDTO: AuthenticationDTO) {
-        val book = bookRepository.findByIdOrNull(req.bookId) ?: fail()
+    fun loan(bookId: Long, authenticationDTO: AuthenticationDTO) {
+        val book = bookRepository.findByIdOrNull(bookId) ?: fail()
         val user = userRepository.findByName(authenticationDTO.name) ?: fail()
         user.loanBook(book)
     }
 
     @Transactional
-    fun returnBook(req: BookReturnRequest, authenticationDTO: AuthenticationDTO) {
+    fun returnBook(bookId: Long, authenticationDTO: AuthenticationDTO) {
         val user = userRepository.findByName(authenticationDTO.name) ?: fail()
-        val isExistLoanBook = userLoanHistoryRepository.existsByBookIdAndStatus(req.bookId, UserLoanStatus.LOANED)
+        val isExistLoanBook = userLoanHistoryRepository.existsByBookIdAndStatus(bookId, UserLoanStatus.LOANED)
         when {
-            isExistLoanBook -> user.returnBook(bookRepository.findByIdOrNull(req.bookId) ?: fail())
-            else -> returnFail(req.bookId)
+            isExistLoanBook -> user.returnBook(bookRepository.findByIdOrNull(bookId) ?: fail())
+            else -> returnFail(bookId)
         }
     }
 

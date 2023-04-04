@@ -54,7 +54,7 @@ class BookServiceTest @Autowired constructor(
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.id!!.toInt(),user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
 
         bookService.loan(bookLoanRequest, auth)
 
@@ -72,7 +72,7 @@ class BookServiceTest @Autowired constructor(
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.id!!.toInt(),user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
 
         assertThrows<NotExistStockException> {
             bookService.loan(bookLoanRequest, auth)
@@ -88,7 +88,7 @@ class BookServiceTest @Autowired constructor(
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
         val bookReturnRequest = BookReturnRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.id!!.toInt(), user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
 
         bookService.returnBook(bookReturnRequest,auth)
 

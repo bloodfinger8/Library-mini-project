@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.user.loanHistory
 
 import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import org.springframework.data.jpa.repository.JpaRepository
 

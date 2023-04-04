@@ -18,4 +18,12 @@ class UserQuerydslRepository (
             .fetchJoin()
             .fetch()
     }
+
+    fun getMyHistories(): List<User> {
+        return queryFactory.select(user).distinct()
+            .from(user)
+            .leftJoin(userLoanHistory).on(userLoanHistory.user.id.eq(user.id))
+            .fetchJoin()
+            .fetch()
+    }
 }

@@ -29,7 +29,7 @@ class BookConcurrencyTest @Autowired constructor(
         val executorService = Executors.newFixedThreadPool(3);
 
         val bookLoanRequest = BookLoanRequest(book.id!!)
-        val auth = AuthenticationDTO.of(user.id!!.toInt(), user.email.email!!, user.name)
+        val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
 
         val future  = executorService.submit { bookService.loan(bookLoanRequest, auth) }
         val future2 = executorService.submit { bookService.loan(bookLoanRequest, auth) }
