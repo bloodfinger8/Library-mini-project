@@ -5,13 +5,11 @@ import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO
-import com.group.libraryapp.usecase.book.BookListUseCase
+import com.group.libraryapp.usecase.book.BookInventoryUseCase
 import com.group.libraryapp.usecase.book.BookService
 import com.group.libraryapp.util.UserRole
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -26,7 +24,7 @@ import javax.validation.Valid
 @RestController
 class BookController (
     val bookService: BookService,
-    val bookListUseCase: BookListUseCase,
+    val bookInventoryUseCase: BookInventoryUseCase,
 ){
     @Operation(summary = "도서 등록", security = [SecurityRequirement(name = "Bearer Token")])
     @ApiResponses(
@@ -67,7 +65,7 @@ class BookController (
 
     @GetMapping("/book")
     fun book(@Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO): ResponseEntity<BaseResponse> {
-        return ResponseEntity.ok(SuccessRes(bookListUseCase.list(authenticationDTO)))
+        return ResponseEntity.ok(SuccessRes(bookInventoryUseCase.inventory(authenticationDTO)))
     }
 
     @GetMapping("/book/loan")
