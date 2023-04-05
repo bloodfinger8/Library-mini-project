@@ -1,8 +1,6 @@
 package com.group.libraryapp.controller.book
 
-import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
-import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
@@ -39,7 +37,7 @@ class BookController (
     fun saveBook(@Valid @RequestBody request: BookRequest,
                  @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO): ResponseEntity<BaseResponse> {
         bookService.saveBook(request)
-        return ResponseEntity.ok(SuccessRes<Any>());
+        return ResponseEntity.ok(SuccessRes<Any>())
     }
 
     @Operation(summary = "도서 대출", security = [SecurityRequirement(name = "Bearer Token")])
@@ -52,7 +50,7 @@ class BookController (
     fun loanBook(@PathVariable(name = "bookId") bookId: Long,
                  @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO): ResponseEntity<BaseResponse> {
         bookService.loan(bookId,authenticationDTO)
-        return ResponseEntity.ok(SuccessRes<Any>());
+        return ResponseEntity.ok(SuccessRes<Any>())
     }
 
     @Operation(summary = "도서 반납" , security = [SecurityRequirement(name = "Bearer Token")])
@@ -64,7 +62,7 @@ class BookController (
     fun returnBook(@PathVariable(name = "bookId") bookId: Long,
                    @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO): ResponseEntity<BaseResponse> {
         bookService.returnBook(bookId,authenticationDTO)
-        return ResponseEntity.ok(SuccessRes<Any>());
+        return ResponseEntity.ok(SuccessRes<Any>())
     }
 
     @GetMapping("/book")

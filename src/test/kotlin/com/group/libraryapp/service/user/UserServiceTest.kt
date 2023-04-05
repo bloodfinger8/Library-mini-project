@@ -2,7 +2,6 @@ package com.group.libraryapp.service.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
@@ -33,8 +32,7 @@ class UserServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("유저 생성 테스트")
-    fun saveUserTest() {
+    fun `유저 생성`() {
         val userCreateRequest = UserCreateRequest(EMAIL, PASSWORD,NAME)
 
         val user = userService.signUp(userCreateRequest)
@@ -83,8 +81,7 @@ class UserServiceTest @Autowired constructor(
 
 
     @Test
-    @DisplayName("유저 대출 히스토리 조회")
-    fun getLoanHistories() {
+    fun `유저 대출 히스토리 조회`() {
         val user = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
         val book1 = Book.create("book-1")
         val book2 = Book.create("book-2")

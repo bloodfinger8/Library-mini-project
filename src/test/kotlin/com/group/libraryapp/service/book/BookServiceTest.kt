@@ -9,7 +9,6 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
 import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
@@ -18,7 +17,6 @@ import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,8 +36,7 @@ class BookServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("책 저장")
-    fun saveBook() {
+    fun `책 저장`() {
         val bookRequest = BookRequest("클린 아키텍처", "출판사" , 1 , BookType.COMPUTER)
 
         val book = bookService.saveBook(bookRequest)
@@ -48,15 +45,13 @@ class BookServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("책 대여")
-    fun loanBook() {
+    fun `책 대여`() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        val bookLoanRequest = BookLoanRequest(book.id!!)
         val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
 
-        bookService.loan(bookLoanRequest, auth)
+        bookService.loan(book.id!!, auth)
 
         val loanHistory = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanHistory.first().book.name).isEqualTo("클린 아키텍처")
@@ -66,31 +61,27 @@ class BookServiceTest @Autowired constructor(
 
 
     @Test
-    @DisplayName("책의 재고(0개) 부족시 예외발생 체크")
-    fun loanBookException() {
+    fun `책의 재고(0개) 부족시 예외발생 체크`() {
         val book = bookRepository.save(Book.create("클린 아키텍처",BookType.COMPUTER,null,0,1))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        val bookLoanRequest = BookLoanRequest(book.id!!)
         val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
 
         assertThrows<NotExistStockException> {
-            bookService.loan(bookLoanRequest, auth)
+            bookService.loan(book.id!!, auth)
         }
     }
 
     @Test
-    @DisplayName("사용자의 책 대출 이후 반납처리")
-    fun loanBookReturnTest() {
+    fun `사용자의 책 대출 이후 반납처리`() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
         user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
-        val bookReturnRequest = BookReturnRequest(book.id!!)
         val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
 
-        bookService.returnBook(bookReturnRequest,auth)
+        bookService.returnBook(book.id!!,auth)
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)
@@ -100,8 +91,7 @@ class BookServiceTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("카테고리별 도서 통계")
-    fun bookStatTest() {
+    fun `카테고리별 도서 통계`() {
         bookRepository.saveAll(
             listOf(
                 Book.create("클린 아키텍처1", BookType.COMPUTER),

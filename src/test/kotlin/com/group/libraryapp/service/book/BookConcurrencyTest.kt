@@ -4,7 +4,6 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.BookService
 import org.junit.jupiter.api.Assertions
@@ -26,14 +25,13 @@ class BookConcurrencyTest @Autowired constructor(
     fun `도서 선점 대출시 예외 발생 테스트`() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(BookServiceTest.EMAIL, BookServiceTest.PASSWORD, BookServiceTest.NAME))
-        val executorService = Executors.newFixedThreadPool(3);
+        val executorService = Executors.newFixedThreadPool(3)
 
-        val bookLoanRequest = BookLoanRequest(book.id!!)
         val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
 
-        val future  = executorService.submit { bookService.loan(bookLoanRequest, auth) }
-        val future2 = executorService.submit { bookService.loan(bookLoanRequest, auth) }
-        val future3 = executorService.submit { bookService.loan(bookLoanRequest, auth) }
+        val future  = executorService.submit { bookService.loan(book.id!!, auth) }
+        val future2 = executorService.submit { bookService.loan(book.id!!, auth) }
+        val future3 = executorService.submit { bookService.loan(book.id!!, auth) }
 
         var result = Exception()
         try {
@@ -44,6 +42,6 @@ class BookConcurrencyTest @Autowired constructor(
             result = e.cause as Exception
         }
 
-        Assertions.assertTrue(result is OptimisticLockingFailureException);
+        Assertions.assertTrue(result is OptimisticLockingFailureException)
     }
 }
