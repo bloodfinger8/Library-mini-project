@@ -26,7 +26,8 @@ class UserController(
 
     @Operation(summary = "사용자 회원가입")
     @ApiResponses(
-        ApiResponse(responseCode = "40000", description = ""),
+        ApiResponse(responseCode = "40403", description = "already email exists"),
+        ApiResponse(responseCode = "50000", description = "server error"),
     )
     @PostMapping("/user/sign-up")
     fun signUpUser(@Valid @RequestBody request: UserCreateRequest): ResponseEntity<SuccessRes<Any>> {
@@ -37,6 +38,7 @@ class UserController(
     @Operation(summary = "사용자 로그인")
     @ApiResponses(
         ApiResponse(responseCode = "40200", description = "id/pw not matched"),
+        ApiResponse(responseCode = "50000", description = "server error"),
     )
     @PostMapping("/user/sign-in")
     fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInResponse>> {

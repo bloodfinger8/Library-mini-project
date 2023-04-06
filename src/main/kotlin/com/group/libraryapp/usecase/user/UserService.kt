@@ -9,6 +9,7 @@ import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.repository.UserQuerydslRepository
 import com.group.libraryapp.util.fail
+import com.group.libraryapp.util.signUpFail
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -23,8 +24,12 @@ class UserService constructor(
 
     @Transactional
     fun signUp(req: UserCreateRequest): User {
-        val user = User.create(Email(req.email), req.password, req.name, passwordEncoder)
-        return userRepository.save(user)
+        emailDuplicateCheck(req)
+        return userRepository.save(User.create(Email(req.email), req.password, req.name, passwordEncoder))
+    }
+
+    private fun emailDuplicateCheck(req: UserCreateRequest) {
+        if(userRepository.existsByEmail(Email(req.email))) signUpFail(req.email);
     }
 
     @Transactional(readOnly= true)
