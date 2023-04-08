@@ -3,7 +3,7 @@ package com.group.libraryapp.domain.user.loanHistory
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.util.fail
+import com.group.libraryapp.exception.fail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime

@@ -3,14 +3,12 @@ package com.group.libraryapp.controller
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.FailureRes
 import com.group.libraryapp.exception.*
-import com.group.libraryapp.util.badCredentialMessage
-import org.apache.tomcat.util.ExceptionUtils
+import com.group.libraryapp.exception.badCredentialMessage
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.security.authentication.BadCredentialsException
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice

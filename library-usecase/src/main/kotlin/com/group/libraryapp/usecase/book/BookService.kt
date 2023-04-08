@@ -10,8 +10,8 @@ import com.group.libraryapp.dto.book.request.BookReturnRequest
 import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.repository.BookQuerydslRepository
 import com.group.libraryapp.security.AuthenticationDTO
-import com.group.libraryapp.util.fail
-import com.group.libraryapp.util.returnFail
+import com.group.libraryapp.exception.fail
+import com.group.libraryapp.exception.returnFail
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

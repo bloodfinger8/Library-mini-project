@@ -1,8 +1,8 @@
 package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.domain.book.type.BookType
-import com.group.libraryapp.util.fail
-import com.group.libraryapp.util.loanFail
+import com.group.libraryapp.exception.fail
+import com.group.libraryapp.exception.loanFail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime

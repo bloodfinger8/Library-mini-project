@@ -8,8 +8,8 @@ import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.repository.UserQuerydslRepository
-import com.group.libraryapp.util.fail
-import com.group.libraryapp.util.signUpFail
+import com.group.libraryapp.exception.fail
+import com.group.libraryapp.exception.signUpFail
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service

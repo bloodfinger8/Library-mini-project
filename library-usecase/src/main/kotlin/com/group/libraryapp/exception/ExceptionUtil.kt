@@ -1,8 +1,5 @@
-package com.group.libraryapp.util
+package com.group.libraryapp.exception
 
-import com.group.libraryapp.exception.EmailAlreadyExistsException
-import com.group.libraryapp.exception.NotExistLoanBookException
-import com.group.libraryapp.exception.NotExistStockException
 import org.springframework.security.authentication.BadCredentialsException
 
 fun fail(message: String = "request value error"): Nothing = throw IllegalArgumentException(message)
