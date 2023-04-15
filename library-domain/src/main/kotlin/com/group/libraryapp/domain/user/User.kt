@@ -13,7 +13,7 @@ class User (
     var email: Email,
     var password: String,
     var name: String,
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL] , orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL] , orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

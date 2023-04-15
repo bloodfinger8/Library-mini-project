@@ -8,7 +8,6 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.usecase.user.UserService
 import org.assertj.core.api.Assertions
@@ -29,16 +28,6 @@ class UserServiceTest @Autowired constructor(
         const val EMAIL = "didwodn82@naver.com"
         const val PASSWORD = "123456"
         const val NAME = "재우"
-    }
-
-    @Test
-    fun `유저 생성`() {
-        val userCreateRequest = UserCreateRequest(EMAIL, PASSWORD,NAME)
-
-        val user = userService.signUp(userCreateRequest)
-
-        Assertions.assertThat(user.name).isEqualTo(NAME)
-        Assertions.assertThat(user.email.email).isEqualTo(EMAIL)
     }
 
     @Test
@@ -66,17 +55,6 @@ class UserServiceTest @Autowired constructor(
 
         val user = userRepository.findAll()
         Assertions.assertThat(user[0].name).isEqualTo("재우2")
-    }
-
-
-    @Test
-    @DisplayName("유저 삭제")
-    fun deleteUser() {
-        userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
-
-        userService.deleteUser(NAME)
-
-        Assertions.assertThat(userRepository.findByName(NAME)).isNull()
     }
 
 

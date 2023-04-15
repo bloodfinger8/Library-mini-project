@@ -49,5 +49,6 @@ subprojects{
 		testImplementation("io.kotest:kotest-runner-junit5:5.5.5")
 		testImplementation("io.kotest:kotest-assertions-core:5.5.5")
 		testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+		testImplementation("io.mockk:mockk:1.13.5")
 	}
 }
