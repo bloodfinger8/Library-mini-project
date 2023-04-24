@@ -18,8 +18,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	//암호화
-	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 
 	//swagger
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")

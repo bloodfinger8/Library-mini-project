@@ -4,8 +4,8 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.security.AuthenticationDTO
-import com.group.libraryapp.usecase.book.BookService
+import com.group.libraryapp.dto.book.command.LoanBookCommand
+import com.group.libraryapp.usecase.book.LoanBookUseCase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors
 
 @SpringBootTest
 class BookConcurrencyTest @Autowired constructor(
-    val bookService: BookService,
+    val loanBookUseCase: LoanBookUseCase,
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
 ) {
@@ -25,14 +25,12 @@ class BookConcurrencyTest @Autowired constructor(
     @Test
     fun `도서 선점 대출시 예외 발생 테스트`() {
         val book = bookRepository.save(Book.create("클린 아키텍처"))
-        val user = userRepository.save(User(BookServiceTest.EMAIL, BookServiceTest.PASSWORD, BookServiceTest.NAME))
+        val user = userRepository.save(User(RegisterBookUseCaseTest.EMAIL, RegisterBookUseCaseTest.PASSWORD, RegisterBookUseCaseTest.NAME))
         val executorService = Executors.newFixedThreadPool(3)
 
-        val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
-
-        val future  = executorService.submit { bookService.loan(book.id!!, auth) }
-        val future2 = executorService.submit { bookService.loan(book.id!!, auth) }
-        val future3 = executorService.submit { bookService.loan(book.id!!, auth) }
+        val future  = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
+        val future2 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
+        val future3 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
 
         var result = Exception()
         try {

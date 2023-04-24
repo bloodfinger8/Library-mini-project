@@ -9,11 +9,14 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.book.request.BookRequest
+import com.group.libraryapp.dto.book.command.LoanBookCommand
+import com.group.libraryapp.dto.book.command.RegisterBookCommand
+import com.group.libraryapp.dto.book.command.ReturnBookCommand
 import com.group.libraryapp.dto.book.response.BookStatResponse
 import com.group.libraryapp.exception.NotExistStockException
-import com.group.libraryapp.security.AuthenticationDTO
-import com.group.libraryapp.usecase.book.BookService
+import com.group.libraryapp.usecase.book.LoanBookUseCase
+import com.group.libraryapp.usecase.book.RegisterBookUseCase
+import com.group.libraryapp.usecase.book.ReturnBookUseCase
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -22,8 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class BookServiceTest @Autowired constructor(
-    private val bookService: BookService,
+class RegisterBookUseCaseTest @Autowired constructor(
+    private val registerBookUseCase: RegisterBookUseCase,
+    private val loanBookUseCase: LoanBookUseCase,
+    private val returnBookUseCase: ReturnBookUseCase,
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository
@@ -36,9 +41,9 @@ class BookServiceTest @Autowired constructor(
 
     @Test
     fun `책 저장`() {
-        val bookRequest = BookRequest("클린 아키텍처", "출판사" , 1 , BookType.COMPUTER)
+        val bookRequest = RegisterBookCommand("클린 아키텍처", "출판사" , 1 , BookType.COMPUTER)
 
-        val book = bookService.saveBook(bookRequest)
+        val book = registerBookUseCase.register(bookRequest)
 
         Assertions.assertThat(book.name).isEqualTo("클린 아키텍처")
     }
@@ -48,9 +53,7 @@ class BookServiceTest @Autowired constructor(
         val book = bookRepository.save(Book.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
-
-        bookService.loan(book.id!!, auth)
+        loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name))
 
         val loanHistory = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanHistory.first().book.name).isEqualTo("클린 아키텍처")
@@ -64,10 +67,8 @@ class BookServiceTest @Autowired constructor(
         val book = bookRepository.save(Book.create("클린 아키텍처",BookType.COMPUTER,null,0,1))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        val auth = AuthenticationDTO.of(user.id!!,user.email.email!!, user.name)
-
         assertThrows<NotExistStockException> {
-            bookService.loan(book.id!!, auth)
+            loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name))
         }
     }
 
@@ -78,9 +79,7 @@ class BookServiceTest @Autowired constructor(
         user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
-        val auth = AuthenticationDTO.of(user.id!!, user.email.email!!, user.name)
-
-        bookService.returnBook(book.id!!,auth)
+        returnBookUseCase.returnBook(ReturnBookCommand(book.id!!,user.name))
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)
@@ -99,7 +98,7 @@ class BookServiceTest @Autowired constructor(
             )
         )
 
-        val result = bookService.getStat()
+        val result = registerBookUseCase.getStat()
 
         Assertions.assertThat(result).hasSize(2)
         assertCount(result , BookType.COMPUTER, 1)
