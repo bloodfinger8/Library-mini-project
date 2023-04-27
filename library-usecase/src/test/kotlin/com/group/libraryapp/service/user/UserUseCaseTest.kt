@@ -5,8 +5,10 @@ import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.dto.user.command.SignUpCommand
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.exception.EmailAlreadyExistsException
+import com.group.libraryapp.usecase.user.SignUpUseCase
 import com.group.libraryapp.usecase.user.UserService
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
@@ -19,10 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class UserUseCaseTest @Autowired constructor(
     private val userService: UserService,
+    private val signUpUseCase: SignUpUseCase,
     private val userRepository: UserRepository,
 ): DescribeSpec({
     describe("사용자의 회원가입시") {
-        val (request, user) = signUp(userService)
+        val (request, user) = signUp(signUpUseCase)
         context("유저 생성 완료"){
             it("요청한 값과 생성된 값을 비교한다.") {
                 user.email.email shouldBe EMAIL
@@ -31,10 +34,10 @@ class UserUseCaseTest @Autowired constructor(
         }
 
         context("이미 사용중인 이메일이 있다면") {
-            signUp(userService)
+            signUp(signUpUseCase)
             it("EmailAlreadyExistsException 예외가 발생한다.") {
                 shouldThrow<EmailAlreadyExistsException> {
-                    userService.signUp(request)
+                    signUpUseCase.signUp(request)
                 }
             }
         }
@@ -45,9 +48,9 @@ class UserUseCaseTest @Autowired constructor(
     }
 }
 
-private fun signUp(userService: UserService): Pair<UserCreateRequest, User> {
-    val request = UserCreateRequest(EMAIL, PASSWORD, NAME)
-    val user = userService.signUp(request)
-    return Pair(request, user)
+private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, User> {
+    val command = SignUpCommand(EMAIL, PASSWORD, NAME)
+    val user = useCase.signUp(command)
+    return Pair(command, user)
 }
 

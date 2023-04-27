@@ -42,14 +42,15 @@ internal class InventoryBookUseCaseTest @Autowired constructor (
         bookRepository.saveAll(listOf(book1, book2, book3, book4))
         loanBookUseCase.loan(LoanBookCommand(book3.id!!, user.name))
 
-        val results = inventoryBookUseCase.inventory(user.id!!)
+        val results = inventoryBookUseCase.inventory(user.id!!,0,40)
 
-        Assertions.assertThat(results.bookInfos).hasSize(4)
-        Assertions.assertThat(results.bookInfos).extracting("name").containsExactlyInAnyOrder("book-1","book-2","book-3","book-4")
+        Assertions.assertThat(results.books).hasSize(4)
+        Assertions.assertThat(results.books).extracting("name").containsExactlyInAnyOrder("book-1","book-2","book-3","book-4")
         Assertions.assertThat(getLoanedBook(results, book3).loaned).isEqualTo(true)
     }
 
-    private fun getLoanedBook(results: BookInventoryResponse, book3: Book) = results.bookInfos.first { a -> a.id == book3.id }
+    private fun getLoanedBook(results: BookInventoryResponse, book3: Book) =
+        results.books.first { book -> book.id == book3.id }
 
 
     @AfterEach

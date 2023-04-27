@@ -4,11 +4,14 @@ import com.group.libraryapp.EMAIL
 import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.dto.user.command.SignInCommand
+import com.group.libraryapp.dto.user.command.SignUpCommand
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserSignInRequest
 import com.group.libraryapp.dto.user.response.UserSignInResponse
 import com.group.libraryapp.usecase.user.UserService
-import com.group.libraryapp.usecase.user.UserSignInUseCase
+import com.group.libraryapp.usecase.user.SignInUseCase
+import com.group.libraryapp.usecase.user.SignUpUseCase
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCase
@@ -19,13 +22,13 @@ import org.springframework.security.authentication.BadCredentialsException
 
 @SpringBootTest
 class SignInUseCaseTest(
-    private val userService: UserService,
-    private val userSignInUseCase: UserSignInUseCase,
+    private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: SignInUseCase,
     private val userRepository: UserRepository,
 ): DescribeSpec({
     describe("사용자 로그인 시도") {
-        signUp(userService)
-        val result = signIn(userSignInUseCase)
+        signUp(signUpUseCase)
+        val result = signIn(signInUseCase)
         context("로그인 성공시") {
             it("잘 맞는다.") {
                 result.name shouldBe NAME
@@ -33,10 +36,10 @@ class SignInUseCaseTest(
         }
 
         context("이메일 또는 패스워드가 틀렸을 경우"){
-            signUp(userService)
+            signUp(signUpUseCase)
             it("BadCredentialsException 예외가 발생한다.") {
                 shouldThrow<BadCredentialsException> {
-                    userSignInUseCase.signIn(UserSignInRequest("didwodn82@naver.com","123456"))
+                    signInUseCase.signIn(SignInCommand("didwodn82@naver.com","123456"))
                 }
             }
         }
@@ -47,8 +50,8 @@ class SignInUseCaseTest(
     }
 }
 
-private fun signUp(userService: UserService) =
-    userService.signUp(UserCreateRequest(EMAIL, PASSWORD, NAME))
+private fun signUp(useCase: SignUpUseCase) =
+    useCase.signUp(SignUpCommand(EMAIL, PASSWORD, NAME))
 
-private fun signIn(userSignInUseCase: UserSignInUseCase): UserSignInResponse =
-    userSignInUseCase.signIn(UserSignInRequest(EMAIL, PASSWORD))
+private fun signIn(useCase: SignInUseCase): UserSignInResponse =
+    useCase.signIn(SignInCommand(EMAIL, PASSWORD))

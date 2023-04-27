@@ -1,60 +1,22 @@
 package com.group.libraryapp.controller.user
 
-import com.group.libraryapp.dto.response.SuccessRes
-import com.group.libraryapp.dto.user.request.UserCreateRequest
-import com.group.libraryapp.dto.user.request.UserSignInRequest
+import com.group.libraryapp.dto.user.command.UpdateUserCommand
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
-import com.group.libraryapp.dto.user.response.UserResponse
-import com.group.libraryapp.dto.user.response.UserSignInResponse
 import com.group.libraryapp.usecase.user.UserService
-import com.group.libraryapp.usecase.user.UserSignInUseCase
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.validation.Valid
 
 @Tag(name = "회원 관련 API")
 @RestController
 class UserController(
     val userService: UserService,
-    val signInUseCase: UserSignInUseCase,
 ){
-
-    @Operation(summary = "사용자 회원가입")
-    @ApiResponses(
-        ApiResponse(responseCode = "40403", description = "already email exists"),
-        ApiResponse(responseCode = "50000", description = "server error"),
-    )
-    @PostMapping("/user/sign-up")
-    fun signUpUser(@Valid @RequestBody request: UserCreateRequest): ResponseEntity<SuccessRes<Any>> {
-        userService.signUp(request)
-        return ResponseEntity.ok(SuccessRes<Any>());
-    }
-
-    @Operation(summary = "사용자 로그인")
-    @ApiResponses(
-        ApiResponse(responseCode = "40200", description = "id/pw not matched"),
-        ApiResponse(responseCode = "50000", description = "server error"),
-    )
-    @PostMapping("/user/sign-in")
-    fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInResponse>> {
-        return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(request)))
-    }
-
-    @Operation(summary = "사용자 검색")
-    @GetMapping("/user")
-    fun getUsers(): List<UserResponse> {
-        return userService.searchUsers()
-    }
-
-    @Operation(summary = "사용자 수정")
+    @Operation(summary = "로그인회원 정보 수정")
     @PutMapping("/user")
     fun updateUserName(@RequestBody request: UserUpdateRequest) {
-        userService.updateUserName(request)
+        userService.updateUserName(UpdateUserCommand(request.id, request.name))
     }
 
     @Operation(summary = "사용자 삭제")

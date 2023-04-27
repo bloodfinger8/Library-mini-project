@@ -8,7 +8,9 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
+import com.group.libraryapp.dto.user.command.UpdateUserCommand
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.usecase.user.SearchUserUseCase
 import com.group.libraryapp.usecase.user.UserService
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
@@ -20,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class UserServiceTest @Autowired constructor(
     private val userService: UserService,
+    private val searchUserUseCase: SearchUserUseCase,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
     private val bookRepository: BookRepository,
@@ -39,19 +42,18 @@ class UserServiceTest @Autowired constructor(
         )
         userRepository.saveAll(users)
 
-        val searchUsers = userService.searchUsers()
+        val searchUsers = searchUserUseCase.searchUsers(0,40)
 
-        Assertions.assertThat(searchUsers).hasSize(2)
-        Assertions.assertThat(searchUsers).extracting("name").containsExactlyInAnyOrder("재우","재우2")
+        Assertions.assertThat(searchUsers.users).hasSize(2)
+        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder("재우","재우2")
     }
 
     @Test
     @DisplayName("유저 업데이트")
     fun updateUser() {
         val saveUser = userRepository.save(User(Email(EMAIL), PASSWORD,NAME))
-        val userUpdateRequest = UserUpdateRequest(saveUser.id!!, "재우2")
 
-        userService.updateUserName(userUpdateRequest)
+        userService.updateUserName(UpdateUserCommand(saveUser.id!!, "재우2"))
 
         val user = userRepository.findAll()
         Assertions.assertThat(user[0].name).isEqualTo("재우2")

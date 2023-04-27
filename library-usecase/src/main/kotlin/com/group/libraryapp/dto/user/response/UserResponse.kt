@@ -1,21 +1,29 @@
 package com.group.libraryapp.dto.user.response
 
-import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
+import org.springframework.data.domain.Page
 
 data class UserResponse(
-    val id: Long,
-    val email: Email,
-    val name: String?
+    val users: List<UserInfo>,
+    val hasNext: Boolean,
 ) {
 
     companion object {
-        fun of(user: User) : UserResponse {
+        fun of(user: Page<User>) : UserResponse {
             return UserResponse(
-                id = user.id!!,
-                email = user.email,
-                name = user.name
+                users = user.content.map { userInfo -> UserInfo(
+                    id = userInfo.id!!,
+                    email = userInfo.email.email!!,
+                    name = userInfo.name
+                ) }.toList(),
+                hasNext = user.hasNext()
             )
         }
     }
 }
+
+data class UserInfo(
+    val id: Long,
+    val email: String,
+    val name: String,
+)

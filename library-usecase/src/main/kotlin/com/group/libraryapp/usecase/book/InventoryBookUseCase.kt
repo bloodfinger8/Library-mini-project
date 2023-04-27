@@ -4,6 +4,7 @@ import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.book.response.BookInventoryResponse
 import com.group.libraryapp.exception.fail
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,10 +15,9 @@ class InventoryBookUseCase (
     val userRepository: UserRepository,
 ){
     @Transactional(readOnly = true)
-    fun inventory(id: Long): BookInventoryResponse {
-        val books = bookRepository.findAll()
+    fun inventory(id: Long, page: Int, pageSize: Int ): BookInventoryResponse {
+        val books = bookRepository.findAll(PageRequest.of(page, pageSize))
         val user = userRepository.findByIdOrNull(id)?: fail()
-
         return BookInventoryResponse.of(user,books)
     }
 }
