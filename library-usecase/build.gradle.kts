@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
 	kotlin("jvm")
@@ -6,7 +6,7 @@ plugins {
 }
 
 val jar: Jar by tasks
-val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
+val bootJar: BootJar by tasks
 bootJar.enabled = false
 jar.enabled = true
 jar.archiveClassifier.convention("")
@@ -14,6 +14,7 @@ jar.archiveClassifier.convention("")
 dependencies {
 	implementation(project(":library-config"))
 	implementation(project(":library-domain"))
+	implementation(project(":library-infrastructure"))
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -25,12 +26,4 @@ dependencies {
 	implementation("com.querydsl:querydsl-jpa:5.0.0")
 	kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 	kapt("org.springframework.boot:spring-boot-configuration-processor")
-
-	//swagger
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
-
-	//jjwt
-	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }

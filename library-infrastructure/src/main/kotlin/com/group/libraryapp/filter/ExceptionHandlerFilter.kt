@@ -1,8 +1,6 @@
-package com.group.libraryapp.security
+package com.group.libraryapp.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.group.libraryapp.dto.response.FailureRes
-import com.group.libraryapp.exception.UNAUTHORIZED
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.JwtException
 import org.springframework.http.HttpStatus
@@ -35,10 +33,13 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
         response.status = HttpStatus.INTERNAL_SERVER_ERROR.value()
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         try {
-            response.writer.write(ObjectMapper().writeValueAsString(FailureRes(UNAUTHORIZED,message)));
+            response.writer.write(ObjectMapper().writeValueAsString(FailureRes(40100,message)));
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
 
 }
+
+class FailureRes (code: Int, val message: String): BaseResponse(code)
+open class BaseResponse(open val code: Int)

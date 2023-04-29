@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
 	kotlin("jvm")
@@ -7,7 +7,7 @@ plugins {
 }
 
 val jar: Jar by tasks
-val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
+val bootJar: BootJar by tasks
 bootJar.enabled = false
 jar.enabled = true
 jar.archiveClassifier.convention("")

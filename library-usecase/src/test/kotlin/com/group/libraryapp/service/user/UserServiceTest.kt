@@ -9,7 +9,6 @@ import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.user.command.UpdateUserCommand
-import com.group.libraryapp.dto.user.request.UserUpdateRequest
 import com.group.libraryapp.usecase.user.SearchUserUseCase
 import com.group.libraryapp.usecase.user.UserService
 import org.assertj.core.api.Assertions

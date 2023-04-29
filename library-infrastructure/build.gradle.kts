@@ -11,14 +11,13 @@ jar.enabled = true
 jar.archiveClassifier.convention("")
 
 dependencies {
-	implementation(project(":library-config"))
-	implementation(project(":library-usecase"))
-	implementation(project(":library-infrastructure"))
+	implementation(project(":library-domain"))
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 
-	//swagger
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+	//jjwt
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }

@@ -1,4 +1,4 @@
-package com.group.libraryapp.security
+package com.group.libraryapp.filter
 
 import org.springframework.web.filter.AbstractRequestLoggingFilter
 import javax.servlet.FilterChain

@@ -6,7 +6,6 @@ import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.usecase.user.SignUpUseCase
 import com.group.libraryapp.usecase.user.UserService

@@ -4,7 +4,6 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignInCommand
-import com.group.libraryapp.dto.user.request.UserSignInRequest
 import com.group.libraryapp.dto.user.response.UserSignInResponse
 import com.group.libraryapp.security.JWTAccessToken
 import com.group.libraryapp.security.JWTTokenProvider
