@@ -17,7 +17,7 @@ class UserPrincipalDetails(val user: User): UserDetails{
     }
 
     override fun getUsername(): String {
-        return user.email.email!!
+        return user.email.name()
     }
 
     override fun isAccountNonExpired(): Boolean {

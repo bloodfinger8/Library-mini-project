@@ -2,6 +2,7 @@ package com.group.libraryapp.usecase.book
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
@@ -19,8 +20,8 @@ class RegisterBookUseCase (
     val userLoanHistoryRepository: UserLoanHistoryRepository
 ){
     @Transactional
-    fun register(req: RegisterBookCommand): Book {
-        return bookRepository.save(Book.create(req.name, req.type, req.publisher, req.stock))
+    fun register(req: RegisterBookCommand) {
+        bookRepository.save(Book.create(req.name, BookType.COMPUTER, req.publisher, req.stock))
     }
 
     @Transactional(readOnly = true)

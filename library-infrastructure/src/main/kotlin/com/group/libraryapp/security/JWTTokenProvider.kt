@@ -13,7 +13,7 @@ class JWTTokenProvider (val jwtProperties: JWTProperties) {
          Jwts.builder()
             .setSubject("library-app")
             .claim("id", token.id)
-            .claim("email", token.email.email)
+            .claim("email", token.email.name())
             .claim("name", token.name)
             .claim("userType", token.userType)
             .setExpiration(expiredAt(JWTAccessToken.TTL))

@@ -1,6 +1,5 @@
 package com.group.libraryapp.dto.book.request
 
-import com.group.libraryapp.domain.book.type.BookType
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -13,3 +12,11 @@ data class BookRequest(
     @field:NotNull
     val type: BookType,
 )
+
+enum class BookType {
+    COMPUTER,
+    ECONOMY,
+    SOCIETY,
+    LANGUAGE,
+    SCIENCE,
+}

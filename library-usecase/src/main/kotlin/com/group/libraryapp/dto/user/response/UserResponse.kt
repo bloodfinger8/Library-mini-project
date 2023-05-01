@@ -13,7 +13,7 @@ data class UserResponse(
             return UserResponse(
                 users = user.content.map { userInfo -> UserInfo(
                     id = userInfo.id!!,
-                    email = userInfo.email.email!!,
+                    email = userInfo.email.name(),
                     name = userInfo.name
                 ) }.toList(),
                 hasNext = user.hasNext()

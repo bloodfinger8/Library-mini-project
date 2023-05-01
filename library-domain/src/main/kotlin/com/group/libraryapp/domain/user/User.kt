@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.exception.fail
 import org.hibernate.annotations.CreationTimestamp
@@ -15,6 +16,9 @@ class User (
     var name: String,
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL] , orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+    @OneToOne
+    @JoinColumn(name = "company_id")
+    var company: Company? = null,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -26,13 +30,16 @@ class User (
 
     companion object {
         fun create(
-            email: Email = Email("example@example.com"),
+            email: Email = Email("example", "example.com"),
             password: String = "12345",
             name: String = "양재우",
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+            company: Company = Company.create(),
             id: Long? = null,
         ): User {
-            return User(email, password, name, userLoanHistories ,id)
+            val user = User(email, password, name, userLoanHistories, company, id)
+            company.join(user)
+            return user
         }
     }
 

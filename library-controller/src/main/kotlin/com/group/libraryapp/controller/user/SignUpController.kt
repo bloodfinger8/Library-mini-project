@@ -22,11 +22,12 @@ class SignUpController (
     @Operation(summary = "사용자 회원가입")
     @ApiResponses(
         ApiResponse(responseCode = "40403", description = "already email exists"),
+        ApiResponse(responseCode = "40404", description = "not Existed company"),
         ApiResponse(responseCode = "50000", description = "server error"),
     )
     @PostMapping("/user/sign-up")
     fun signUpUser(@Valid @RequestBody request: UserCreateRequest): ResponseEntity<SuccessRes<Any>> {
-        useCase.signUp(SignUpCommand(request.email, request.password, request.name))
-        return ResponseEntity.ok(SuccessRes<Any>());
+        useCase.signUp(SignUpCommand(request.email,request.domain, request.password, request.name, request.companyId))
+        return ResponseEntity.ok(SuccessRes())
     }
 }

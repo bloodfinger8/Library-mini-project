@@ -33,7 +33,7 @@ class RegisterBookController (
     @PostMapping("/book")
     fun saveBook(@Valid @RequestBody request: BookRequest,
                  @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO): ResponseEntity<BaseResponse> {
-        registerBookUseCase.register(RegisterBookCommand(request.name,request.publisher,request.stock,request.type))
+        registerBookUseCase.register(RegisterBookCommand(request.name, request.publisher, request.stock, request.type.name))
         return ResponseEntity.ok(SuccessRes<Any>())
     }
 

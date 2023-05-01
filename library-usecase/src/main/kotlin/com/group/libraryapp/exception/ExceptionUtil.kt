@@ -8,6 +8,7 @@ fun loanFail(id: Long?): Nothing = throw NotExistStockException("not exist stock
 fun returnFail(id: Long?): Nothing = throw NotExistLoanBookException("not existed loan bookId :$id")
 
 fun signUpFail(email: String): Nothing = throw EmailAlreadyExistsException("email already exist :$email");
+fun companyNotFoundFail(companyId: Long): Nothing = throw NotExistCompanyException("not existed companyId :$companyId");
 
 fun loginFail(): Nothing = throw BadCredentialsException(badCredentialMessage)
 const val badCredentialMessage = "id/pw not matched"
