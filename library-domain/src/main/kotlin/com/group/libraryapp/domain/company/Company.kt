@@ -9,8 +9,12 @@ import javax.persistence.*
 
 @Entity
 class Company(
+    val name: String,
+
     val domain: String,
+
     var numberOfEmployee: Int,
+
     @Enumerated(EnumType.STRING)
     val status: CompanyStatus,
 
@@ -27,13 +31,14 @@ class Company(
     lateinit var updatedAt: ZonedDateTime
 
     companion object {
-        fun create(domainName: String= "example.com",
+        fun create(name: String= "example",
+                   domain: String= "example.com",
                    numberOfEmployee: Int = 0,
                    status: CompanyStatus = CompanyStatus.OPEN,
                    employees: MutableList<Employee> = mutableListOf(),
                    id: Long? = null
         ): Company {
-            return Company(domainName, numberOfEmployee, status, employees, id)
+            return Company(name, domain, numberOfEmployee, status, employees, id)
         }
     }
 
