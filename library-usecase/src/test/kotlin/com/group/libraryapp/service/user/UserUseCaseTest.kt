@@ -1,11 +1,12 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.EMAIL
-import com.group.libraryapp.NAME
-import com.group.libraryapp.PASSWORD
+import com.group.libraryapp.*
+import com.group.libraryapp.domain.company.Company
+import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignUpCommand
+import com.group.libraryapp.dto.user.response.SignUpResponse
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.usecase.user.SignUpUseCase
 import com.group.libraryapp.usecase.user.UserService
@@ -19,16 +20,16 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class UserUseCaseTest @Autowired constructor(
-    private val userService: UserService,
     private val signUpUseCase: SignUpUseCase,
     private val userRepository: UserRepository,
+    private val companyRepository: CompanyRepository,
 ): DescribeSpec({
     describe("사용자의 회원가입시") {
-        val (request, user) = signUp(signUpUseCase)
+        val (request, response) = signUp(signUpUseCase)
         context("유저 생성 완료"){
             it("요청한 값과 생성된 값을 비교한다.") {
-                user.email.email shouldBe EMAIL
-                user.name shouldBe NAME
+                response.email shouldBe FULL_EMAIL
+                response.name shouldBe NAME
             }
         }
 
@@ -42,13 +43,17 @@ class UserUseCaseTest @Autowired constructor(
         }
     }
 }) {
+    override suspend fun beforeEach(testCase: TestCase) {
+        companyRepository.save(Company.create("구글", DOMAIN))
+    }
+
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {
         userRepository.deleteAll()
     }
 }
 
-private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, User> {
-    val command = SignUpCommand(EMAIL, PASSWORD, NAME)
+private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, SignUpResponse> {
+    val command = SignUpCommand(EMAIL, DOMAIN, PASSWORD, NAME, COMPANY_ID)
     val user = useCase.signUp(command)
     return Pair(command, user)
 }

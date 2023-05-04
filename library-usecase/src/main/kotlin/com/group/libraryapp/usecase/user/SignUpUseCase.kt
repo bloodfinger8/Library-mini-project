@@ -6,6 +6,7 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignUpCommand
+import com.group.libraryapp.dto.user.response.SignUpResponse
 import com.group.libraryapp.exception.companyNotFoundFail
 import com.group.libraryapp.exception.signUpFail
 import org.springframework.data.repository.findByIdOrNull
@@ -20,9 +21,10 @@ class SignUpUseCase (
     val companyRepository: CompanyRepository,
 ){
     @Transactional
-    fun signUp(command: SignUpCommand) {
+    fun signUp(command: SignUpCommand): SignUpResponse {
         emailDuplicateCheck(command)
-        saveUser(command, findCompany(command))
+        val user = saveUser(command, findCompany(command))
+        return SignUpResponse.of(user)
     }
 
 

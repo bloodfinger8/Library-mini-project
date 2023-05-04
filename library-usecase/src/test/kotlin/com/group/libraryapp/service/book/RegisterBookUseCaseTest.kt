@@ -1,12 +1,12 @@
 package com.group.libraryapp.service.book
 
 import com.group.libraryapp.domain.book.Book
-import com.group.libraryapp.domain.user.User
-import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.Email
+import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.command.LoanBookCommand
@@ -32,7 +32,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository
-){
+) {
     companion object {
         val EMAIL = Email("didwodn82@naver.com")
         const val PASSWORD = "123456"
@@ -41,7 +41,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책 저장`() {
-        val bookRequest = RegisterBookCommand("클린 아키텍처", "출판사" , 1 , BookType.COMPUTER)
+        val bookRequest = RegisterBookCommand("클린 아키텍처", "출판사", 1, "COMPUTER")
 
         val book = registerBookUseCase.register(bookRequest)
 
@@ -61,10 +61,9 @@ class RegisterBookUseCaseTest @Autowired constructor(
         Assertions.assertThat(loanHistory.first().status).isEqualTo(UserLoanStatus.LOANED)
     }
 
-
     @Test
     fun `책의 재고(0개) 부족시 예외발생 체크`() {
-        val book = bookRepository.save(Book.create("클린 아키텍처",BookType.COMPUTER,null,0,1))
+        val book = bookRepository.save(Book.create("클린 아키텍처", BookType.COMPUTER, null, 0, 1))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         assertThrows<NotExistStockException> {
@@ -79,7 +78,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
-        returnBookUseCase.returnBook(ReturnBookCommand(book.id!!,user.name))
+        returnBookUseCase.returnBook(ReturnBookCommand(book.id!!, user.name))
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)
@@ -101,13 +100,12 @@ class RegisterBookUseCaseTest @Autowired constructor(
         val result = registerBookUseCase.getStat()
 
         Assertions.assertThat(result).hasSize(2)
-        assertCount(result , BookType.COMPUTER, 1)
-        assertCount(result , BookType.SCIENCE, 2)
+        assertCount(result, BookType.COMPUTER, 1)
+        assertCount(result, BookType.SCIENCE, 2)
     }
-    private fun assertCount(result: List<BookStatResponse> , type: BookType , count: Long) {
-        Assertions.assertThat(result.first{ it.type == type}.count).isEqualTo(count)
+    private fun assertCount(result: List<BookStatResponse>, type: BookType, count: Long) {
+        Assertions.assertThat(result.first { it.type == type }.count).isEqualTo(count)
     }
-
 
     @AfterEach
     fun clean() {
@@ -115,5 +113,4 @@ class RegisterBookUseCaseTest @Autowired constructor(
         bookRepository.deleteAll()
         userLoanHistoryRepository.deleteAll()
     }
-
 }

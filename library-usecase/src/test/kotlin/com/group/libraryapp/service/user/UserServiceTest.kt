@@ -24,10 +24,10 @@ class UserServiceTest @Autowired constructor(
     private val searchUserUseCase: SearchUserUseCase,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
-    private val bookRepository: BookRepository,
+    private val bookRepository: BookRepository
 ) {
     companion object {
-        const val EMAIL = "didwodn82@naver.com"
+        const val EMAIL = "didwodn82@gmail.com"
         const val PASSWORD = "123456"
         const val NAME = "재우"
     }
@@ -37,27 +37,26 @@ class UserServiceTest @Autowired constructor(
     fun getUser() {
         val users = listOf(
             User(Email(EMAIL), PASSWORD, "재우"),
-            User(Email("didwodn8822@gmail.com"), PASSWORD , "재우2")
+            User(Email("didwodn8822@gmail.com"), PASSWORD, "재우2")
         )
         userRepository.saveAll(users)
 
-        val searchUsers = searchUserUseCase.searchUsers(0,40)
+        val searchUsers = searchUserUseCase.searchUsers(0, 40)
 
         Assertions.assertThat(searchUsers.users).hasSize(2)
-        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder("재우","재우2")
+        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder("재우", "재우2")
     }
 
     @Test
     @DisplayName("유저 업데이트")
     fun updateUser() {
-        val saveUser = userRepository.save(User(Email(EMAIL), PASSWORD,NAME))
+        val saveUser = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
 
         userService.updateUserName(UpdateUserCommand(saveUser.id!!, "재우2"))
 
         val user = userRepository.findAll()
         Assertions.assertThat(user[0].name).isEqualTo("재우2")
     }
-
 
     @Test
     fun `유저 대출 히스토리 조회`() {
@@ -67,19 +66,21 @@ class UserServiceTest @Autowired constructor(
         val book3 = Book.create("book-3")
 
         bookRepository.saveAll(listOf(book1, book2, book3))
-        userLoanHistoryRepository.saveAll(listOf(
-            UserLoanHistory.create(user, book1, UserLoanStatus.LOANED),
-            UserLoanHistory.create(user, book2, UserLoanStatus.LOANED),
-            UserLoanHistory.create(user, book3, UserLoanStatus.RETURNED)
-        ))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.create(user, book1, UserLoanStatus.LOANED),
+                UserLoanHistory.create(user, book2, UserLoanStatus.LOANED),
+                UserLoanHistory.create(user, book3, UserLoanStatus.RETURNED)
+            )
+        )
 
         val results = userService.searchUserLoanHistories()
 
         Assertions.assertThat(results).hasSize(1)
-        Assertions.assertThat(results[0].email.email).isEqualTo(EMAIL)
+        Assertions.assertThat(results[0].email.name()).isEqualTo(EMAIL)
         Assertions.assertThat(results[0].books).hasSize(3)
         Assertions.assertThat(results[0].books).extracting("name")
-            .containsExactlyInAnyOrder("book-1","book-2","book-3")
+            .containsExactlyInAnyOrder("book-1", "book-2", "book-3")
     }
 
     @AfterEach

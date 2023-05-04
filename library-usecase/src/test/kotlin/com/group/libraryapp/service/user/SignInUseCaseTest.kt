@@ -1,8 +1,8 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.EMAIL
-import com.group.libraryapp.NAME
-import com.group.libraryapp.PASSWORD
+import com.group.libraryapp.*
+import com.group.libraryapp.domain.company.Company
+import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignInCommand
 import com.group.libraryapp.dto.user.command.SignUpCommand
@@ -22,6 +22,7 @@ class SignInUseCaseTest(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val userRepository: UserRepository,
+    private val companyRepository: CompanyRepository,
 ): DescribeSpec({
     describe("사용자 로그인 시도") {
         signUp(signUpUseCase)
@@ -42,13 +43,17 @@ class SignInUseCaseTest(
         }
     }
 }){
+    override suspend fun beforeEach(testCase: TestCase) {
+        companyRepository.save(Company.create("구글", DOMAIN))
+    }
+
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {
         userRepository.deleteAll()
     }
 }
 
 private fun signUp(useCase: SignUpUseCase) =
-    useCase.signUp(SignUpCommand(EMAIL, PASSWORD, NAME))
+    useCase.signUp(SignUpCommand(EMAIL, DOMAIN, PASSWORD, NAME, COMPANY_ID))
 
 private fun signIn(useCase: SignInUseCase): UserSignInResponse =
     useCase.signIn(SignInCommand(EMAIL, PASSWORD))
