@@ -33,7 +33,7 @@ class ExceptionHandlerFilter: OncePerRequestFilter() {
         response.status = HttpStatus.INTERNAL_SERVER_ERROR.value()
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         try {
-            response.writer.write(ObjectMapper().writeValueAsString(FailureRes(40100,message)));
+            response.writer.write(ObjectMapper().writeValueAsString(FailureRes(40100,message)))
         } catch (e: IOException) {
             e.printStackTrace()
         }

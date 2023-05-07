@@ -52,6 +52,16 @@ class APIGlobalExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))
     }
 
+    @ExceptionHandler(value = [NotExistCompanyException::class])
+    fun notExistCompanyHandlerException(e: NotExistCompanyException): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))
+    }
+
+    @ExceptionHandler(value = [InvalidEmailDomainException::class])
+    fun invalidEmailDomainHandlerException(e: InvalidEmailDomainException): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))
+    }
+
     @ExceptionHandler(value = [Exception::class])
     fun handleException(e: Exception): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FailureRes(SERVER_ERROR,e.message!!))

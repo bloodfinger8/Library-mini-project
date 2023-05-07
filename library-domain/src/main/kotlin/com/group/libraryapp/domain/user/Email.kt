@@ -11,7 +11,7 @@ class Email (
     @Column(length = 80)
     val domain: String
 ){
-    constructor(username: String?) : this(username!!.split('@')[0], username.split('@')[1])
+    constructor(username: String) : this(username.split('@')[0], username.split('@')[1])
 
     init {
         if(!isValidEmail()) throw Exception("이메일 형식이 올바르지 않습니다.")

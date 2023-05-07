@@ -3,9 +3,10 @@ POST {{host}}/user/sign-up
 Content-Type: application/json
 
 {
-  "email" : "didasjdk@naver.com",
+  "email" : "didasjdk@gmail.com",
   "password" : "123123",
-  "name" : "양재우"
+  "name" : "양재우",
+  "companyId" : 10
 }
 
 ### 유저 로그인
@@ -13,7 +14,7 @@ POST {{host}}/user/sign-in
 Content-Type: application/json
 
 {
-  "email" : "didasjdk@naver.com",
+  "email" : "didasjdk@gmail.com",
   "password" : "123123"
 }
 

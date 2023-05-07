@@ -13,7 +13,7 @@ class UserPrincipalDetailsService(
 ): UserDetailsService {
 
     override fun loadUserByUsername(username: String?): UserDetails {
-        val user = userRepository.findByEmail(Email(username)) ?: throw UsernameNotFoundException("creator not found exception")
+        val user = userRepository.findByEmail(Email(username!!)) ?: throw UsernameNotFoundException("creator not found exception")
         return UserPrincipalDetails(user)
     }
 }

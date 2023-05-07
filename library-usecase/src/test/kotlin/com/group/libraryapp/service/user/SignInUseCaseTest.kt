@@ -43,8 +43,8 @@ class SignInUseCaseTest(
         }
     }
 }){
-    override suspend fun beforeEach(testCase: TestCase) {
-        companyRepository.save(Company.create("구글", DOMAIN))
+    override suspend fun beforeTest(testCase: TestCase) {
+        companyRepository.save(Company.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
     }
 
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {
@@ -53,7 +53,7 @@ class SignInUseCaseTest(
 }
 
 private fun signUp(useCase: SignUpUseCase) =
-    useCase.signUp(SignUpCommand(EMAIL, DOMAIN, PASSWORD, NAME, COMPANY_ID))
+    useCase.signUp(SignUpCommand(EMAIL, PASSWORD, NAME, COMPANY_ID))
 
 private fun signIn(useCase: SignInUseCase): UserSignInResponse =
     useCase.signIn(SignInCommand(EMAIL, PASSWORD))

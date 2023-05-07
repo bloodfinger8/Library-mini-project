@@ -38,12 +38,12 @@ class SignUpUseCase (
     ): User =
         userRepository.save(
             User.create(
-                Email(command.email, command.domain), passwordEncoder.encode(command.password), command.name,
+                Email(command.email), passwordEncoder.encode(command.password), command.name,
                 company = company
             )
         )
 
     private fun emailDuplicateCheck(command: SignUpCommand) {
-        if(userRepository.existsByEmail(Email(command.email,command.domain))) signUpFail(command.email);
+        if(userRepository.existsByEmail(Email(command.email))) signUpFail(command.email)
     }
 }

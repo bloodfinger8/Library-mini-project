@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.company
 
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
+import com.group.libraryapp.exception.invalidEmailFail
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
@@ -55,7 +56,7 @@ class Company(
 
     private fun domainCheck(email: Email) {
         if (email.domain != this.domain) {
-            throw IllegalArgumentException("Invalid domain")
+            invalidEmailFail(email.domain)
         }
     }
 }

@@ -61,4 +61,4 @@ create table employee (
     primary key (id)
 );
 
-INSERT INTO company (id, name, domain, number_of_employee, status) VALUES (10, '구글', 'google.com', 0, 'OPEN');
+INSERT INTO company (id, name, domain, number_of_employee, status) VALUES (10, '구글', 'gmail.com', 0, 'OPEN');

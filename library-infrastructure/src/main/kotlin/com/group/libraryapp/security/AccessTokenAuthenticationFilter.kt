@@ -42,8 +42,7 @@ class AccessTokenAuthenticationFilter(
                     AuthorityUtils.createAuthorityList(UserRole.ROLE_USER)
                 )
         }
-
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response)
     }
 
     private fun splitAccessToken(request: HttpServletRequest): String? =
