@@ -7,7 +7,6 @@ data class UserResponse(
     val users: List<UserInfo>,
     val hasNext: Boolean,
 ) {
-
     companion object {
         fun of(user: Page<User>) : UserResponse {
             return UserResponse(

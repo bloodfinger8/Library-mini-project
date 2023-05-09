@@ -16,6 +16,7 @@ class JWTTokenProvider (val jwtProperties: JWTProperties) {
             .claim("email", token.email.name())
             .claim("name", token.name)
             .claim("userType", token.userType)
+            .claim("companyId", token.companyId)
             .setExpiration(expiredAt(JWTAccessToken.TTL))
             .signWith(getSigningKey(),SignatureAlgorithm.HS256)
             .compact()

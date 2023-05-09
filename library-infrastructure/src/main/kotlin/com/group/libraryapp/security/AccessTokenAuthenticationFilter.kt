@@ -36,7 +36,8 @@ class AccessTokenAuthenticationFilter(
                         jwtAcToken.get("id",Long::class.javaObjectType),
                         jwtAcToken.get("email",String::class.javaObjectType),
                         jwtAcToken.get("name",String::class.javaObjectType),
-                        UserType.valueOf(jwtAcToken.get("userType",String::class.javaObjectType))
+                        UserType.valueOf(jwtAcToken.get("userType",String::class.javaObjectType)),
+                        jwtAcToken.get("companyId",Long::class.javaObjectType)
                     ),
                     token,
                     AuthorityUtils.createAuthorityList(UserRole.ROLE_USER)

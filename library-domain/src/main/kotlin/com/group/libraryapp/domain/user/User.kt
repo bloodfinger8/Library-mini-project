@@ -4,29 +4,29 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.exception.fail
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity(name = "users")
 class User (
-    var email: Email,
-    var password: String,
+    val email: Email,
+    val password: String,
     var name: String,
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL] , orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+
     @OneToOne
     @JoinColumn(name = "company_id")
-    var company: Company? = null,
+    val company: Company? = null,
+
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 ) {
-    @CreationTimestamp
-    lateinit var createdAt: ZonedDateTime
-    @UpdateTimestamp
-    lateinit var updatedAt: ZonedDateTime
+    var updatedAt: LocalDateTime = createdAt
 
     companion object {
         fun create(
@@ -35,9 +35,10 @@ class User (
             name: String = "양재우",
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
             company: Company = Company.create(),
+            createdAt: LocalDateTime = LocalDateTime.now(),
             id: Long? = null,
         ): User {
-            val user = User(email, password, name, userLoanHistories, company, id)
+            val user = User(email, password, name, userLoanHistories, company, createdAt, id)
             company.join(user)
             return user
         }

@@ -27,6 +27,6 @@ class InventoryBookController (
              @RequestParam(value = "page", defaultValue = "0") page: Int,
              @RequestParam(value = "pageSize", defaultValue = "40") pageSize: Int
     ): ResponseEntity<BaseResponse> {
-        return ResponseEntity.ok(SuccessRes(inventoryBookUseCase.inventory(authenticationDTO.id, page, pageSize)))
+        return ResponseEntity.ok(SuccessRes(inventoryBookUseCase.inventory(authenticationDTO.id, authenticationDTO.companyId, page, pageSize)))
     }
 }

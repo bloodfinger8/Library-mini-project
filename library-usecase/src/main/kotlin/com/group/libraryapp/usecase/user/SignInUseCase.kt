@@ -36,5 +36,5 @@ class SignInUseCase(
     }
 
     private fun accessToken(user: User) =
-        tokenProvider.signAcToken(JWTAccessToken.of(user.id!!, user.email, user.name))
+        tokenProvider.signAcToken(JWTAccessToken.of(user.id!!, user.email, user.name, companyId = user.company!!.id!!))
 }

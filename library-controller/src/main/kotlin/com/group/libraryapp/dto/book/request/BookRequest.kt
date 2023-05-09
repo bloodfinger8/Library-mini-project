@@ -11,6 +11,7 @@ data class BookRequest(
     var stock: Int = 1,
     @field:NotNull
     val type: BookType,
+    var location: String? = null,
 )
 
 enum class BookType {

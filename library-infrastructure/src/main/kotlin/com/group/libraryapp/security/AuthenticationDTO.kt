@@ -6,14 +6,16 @@ class AuthenticationDTO(
     val id: Long,
     val email: String,
     val name: String,
-    val userType: UserType
+    val userType: UserType,
+    val companyId: Long
 ) {
     companion object {
         fun of(id: Long,
                email: String,
                name: String,
-               userType: UserType = UserType.USER): AuthenticationDTO {
-            return AuthenticationDTO(id,email,name,userType)
+               userType: UserType = UserType.USER,
+               companyId: Long): AuthenticationDTO {
+            return AuthenticationDTO(id, email, name, userType, companyId)
         }
     }
 }

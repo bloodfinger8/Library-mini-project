@@ -10,6 +10,8 @@ create table book (
     type        varchar(255),
     publisher   varchar(255),
     stock       int,
+    location    varchar(255),
+    company_id  bigint,
     version     bigint,
     created_at  datetime null,
     updated_at  datetime null,
@@ -62,3 +64,4 @@ create table employee (
 );
 
 INSERT INTO company (id, name, domain, number_of_employee, status) VALUES (10, '구글', 'gmail.com', 0, 'OPEN');
+INSERT INTO company (id, name, domain, number_of_employee, status) VALUES (11, '네이버', 'naver.com', 0, 'OPEN');

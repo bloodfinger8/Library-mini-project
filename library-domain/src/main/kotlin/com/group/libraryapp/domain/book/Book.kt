@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.domain.book.type.BookType
+import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.exception.fail
 import com.group.libraryapp.exception.loanFail
 import org.hibernate.annotations.CreationTimestamp
@@ -18,6 +19,12 @@ class Book (
     val publisher: String? = null,
 
     var stock: Int,
+
+    val location: String? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    val company: Company? = null,
 
     @Version
     var version: Long,
@@ -42,10 +49,12 @@ class Book (
                    type: BookType = BookType.COMPUTER,
                    publisher: String? = null,
                    stock: Int = 1,
+                   location: String? = null,
+                   company: Company? = null,
                    version: Long = 1,
                    id: Long? = null
         ): Book {
-            return Book(name, type, publisher, stock, version, id)
+            return Book(name, type, publisher, stock, location, company, version, id)
         }
     }
 

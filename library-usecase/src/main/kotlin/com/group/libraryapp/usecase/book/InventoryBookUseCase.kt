@@ -15,8 +15,8 @@ class InventoryBookUseCase (
     val userRepository: UserRepository,
 ){
     @Transactional(readOnly = true)
-    fun inventory(id: Long, page: Int, pageSize: Int ): BookInventoryResponse {
-        val books = bookRepository.findAll(PageRequest.of(page, pageSize))
+    fun inventory(id: Long, companyId: Long, page: Int, pageSize: Int): BookInventoryResponse {
+        val books = bookRepository.findAllByCompanyId(companyId, PageRequest.of(page, pageSize))
         val user = userRepository.findByIdOrNull(id)?: fail()
         return BookInventoryResponse.of(user,books)
     }

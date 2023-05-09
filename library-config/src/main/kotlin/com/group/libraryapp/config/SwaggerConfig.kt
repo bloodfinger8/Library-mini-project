@@ -1,9 +1,7 @@
 package com.group.libraryapp.config
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.info.Info
-import io.swagger.v3.oas.annotations.security.SecurityScheme
 import org.springdoc.core.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -25,6 +23,14 @@ class SwaggerConfig {
             .builder()
             .group("도서")
             .pathsToMatch("/book/**")
+            .build()
+
+    @Bean
+    fun companyApiDoc(): GroupedOpenApi =
+        GroupedOpenApi
+            .builder()
+            .group("회사")
+            .pathsToMatch("/company/**")
             .build()
 
     @Bean

@@ -29,11 +29,12 @@ data class BookInfo(
     var type: BookType,
     var publisher: String?,
     var stock: Int,
+    val location: String?,
     var loaned: Boolean,
 ){
     companion object {
         fun of(book: Book, contain: Boolean): BookInfo {
-            return BookInfo(book.id!!,book.name,book.type,book.publisher,book.stock,contain)
+            return BookInfo(book.id!!,book.name,book.type,book.publisher,book.stock,book.location,contain)
         }
     }
 }
