@@ -1,5 +1,6 @@
 package com.group.libraryapp.service.book
 
+import com.group.libraryapp.*
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.type.BookType
@@ -41,11 +42,11 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책 저장`() {
-        val bookRequest = RegisterBookCommand("클린 아키텍처", "출판사", 1, "COMPUTER")
+        val bookRequest = RegisterBookCommand(BOOK_NAME, BOOK_PUBLISHER, BOOK_STOCK, BOOK_TYPE, BOOK_LOCATION, COMPANY_ID)
 
         val book = registerBookUseCase.register(bookRequest)
 
-        Assertions.assertThat(book.name).isEqualTo("클린 아키텍처")
+        Assertions.assertThat(book.name).isEqualTo(BOOK_NAME)
     }
 
     @Test
@@ -63,7 +64,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책의 재고(0개) 부족시 예외발생 체크`() {
-        val book = bookRepository.save(Book.create("클린 아키텍처", BookType.COMPUTER, null, 0, 1))
+        val book = bookRepository.save(Book.create(BOOK_NAME, BookType.COMPUTER, null, 0))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         assertThrows<NotExistStockException> {

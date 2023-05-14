@@ -1,7 +1,10 @@
 package com.group.libraryapp.service.user
 
+import com.group.libraryapp.*
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.company.Company
+import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
@@ -24,27 +27,23 @@ class UserServiceTest @Autowired constructor(
     private val searchUserUseCase: SearchUserUseCase,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
-    private val bookRepository: BookRepository
+    private val bookRepository: BookRepository,
+    val companyRepository: CompanyRepository
 ) {
-    companion object {
-        const val EMAIL = "didwodn82@gmail.com"
-        const val PASSWORD = "123456"
-        const val NAME = "재우"
-    }
-
     @Test
     @DisplayName("유저 검색")
     fun getUser() {
+        val company = companyRepository.save(Company.create())
         val users = listOf(
-            User(Email(EMAIL), PASSWORD, "재우"),
-            User(Email("didwodn8822@gmail.com"), PASSWORD, "재우2")
+            User(Email(EMAIL), PASSWORD, NAME, company = company),
+            User(Email("didwodn8822@gmail.com"), PASSWORD, "재우2", company = company)
         )
         userRepository.saveAll(users)
 
-        val searchUsers = searchUserUseCase.searchUsers(0, 40)
+        val searchUsers = searchUserUseCase.searchUsers(company.id!!, SEARCH_PAGE, SEARCH_PAGE_SIZE)
 
         Assertions.assertThat(searchUsers.users).hasSize(2)
-        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder("재우", "재우2")
+        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder(NAME, "재우2")
     }
 
     @Test

@@ -52,6 +52,11 @@ class APIGlobalExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))
     }
 
+    @ExceptionHandler(value = [NotExistLoanBookException::class])
+    fun notExistLoanBookHandlerException(e: NotExistLoanBookException): ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))
+    }
+
     @ExceptionHandler(value = [NotExistCompanyException::class])
     fun notExistCompanyHandlerException(e: NotExistCompanyException): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(e.code, e.message))

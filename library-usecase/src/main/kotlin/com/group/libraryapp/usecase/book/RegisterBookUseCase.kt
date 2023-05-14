@@ -26,7 +26,7 @@ class RegisterBookUseCase(
     @Transactional
     fun register(req: RegisterBookCommand): RegisterBookResponse {
         val company = companyRepository.findByIdOrNull(req.companyId)
-        val book = bookRepository.save(Book.create(req.name, BookType.COMPUTER, req.publisher, req.stock, req.location, company))
+        val book = bookRepository.save(Book.create(req.name, BookType.COMPUTER, req.publisher, req.stock, req.location, company!!))
         return RegisterBookResponse(book.id!!, book.name, book.type.name, book.publisher, book.stock)
     }
 
