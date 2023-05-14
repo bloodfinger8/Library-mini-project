@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ReturnBookUseCase (
+class ReturnBookUseCase(
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
     val userLoanHistoryRepository: UserLoanHistoryRepository
-){
+) {
     @Transactional
     fun returnBook(command: ReturnBookCommand) {
         val user = userRepository.findByName(command.name) ?: fail()

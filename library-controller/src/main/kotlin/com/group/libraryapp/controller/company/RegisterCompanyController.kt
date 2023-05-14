@@ -17,15 +17,16 @@ import javax.validation.Valid
 
 @Tag(name = "회사 관련 API")
 @RestController
-class RegisterCompanyController (
+class RegisterCompanyController(
     val useCase: RegisterCompanyUseCase,
-){
+) {
     @Operation(summary = "회사 등록")
     @ApiResponses(
         ApiResponse(responseCode = "40000", description = ""),
     )
     @PostMapping("/company")
-    fun registerCompany(@Valid @RequestBody request: RegisterCompanyRequest,
+    fun registerCompany(
+        @Valid @RequestBody request: RegisterCompanyRequest,
     ): ResponseEntity<BaseResponse> {
         useCase.register(RegisterCompanyCommand(request.name, request.domain))
         return ResponseEntity.ok(SuccessRes<Any>())

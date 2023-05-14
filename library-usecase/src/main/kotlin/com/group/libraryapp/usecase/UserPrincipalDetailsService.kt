@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserPrincipalDetailsService(
-        val userRepository: UserRepository,
-): UserDetailsService {
+    val userRepository: UserRepository,
+) : UserDetailsService {
 
     override fun loadUserByUsername(username: String?): UserDetails {
         val user = userRepository.findByEmail(Email(username!!)) ?: throw UsernameNotFoundException("creator not found exception")

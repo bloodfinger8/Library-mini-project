@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class RegisterCompanyUseCase (
+class RegisterCompanyUseCase(
     val companyRepository: CompanyRepository,
-){
+) {
     @Transactional
     fun register(command: RegisterCompanyCommand) {
         companyRepository.save(Company.create(command.name, command.domain))

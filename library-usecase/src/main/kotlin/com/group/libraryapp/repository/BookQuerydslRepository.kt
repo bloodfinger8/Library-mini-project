@@ -7,18 +7,18 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class BookQuerydslRepository (
+class BookQuerydslRepository(
     private val queryFactory: JPAQueryFactory
-){
-    fun getStat(): List<BookStatResponse>{
-        return queryFactory.
-                select(
-                    Projections.constructor(
-                        BookStatResponse::class.java,
-                        book.type,
-                        book.id.count()
-                    )
+) {
+    fun getStat(): List<BookStatResponse> {
+        return queryFactory
+            .select(
+                Projections.constructor(
+                    BookStatResponse::class.java,
+                    book.type,
+                    book.id.count()
                 )
+            )
             .from(book)
             .groupBy(book.type)
             .fetch()

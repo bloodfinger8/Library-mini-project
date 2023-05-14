@@ -28,7 +28,7 @@ class BookConcurrencyTest @Autowired constructor(
         val user = userRepository.save(User(RegisterBookUseCaseTest.EMAIL, RegisterBookUseCaseTest.PASSWORD, RegisterBookUseCaseTest.NAME))
         val executorService = Executors.newFixedThreadPool(3)
 
-        val future  = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
+        val future = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
         val future2 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
         val future3 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
 
@@ -37,7 +37,7 @@ class BookConcurrencyTest @Autowired constructor(
             future.get()
             future2.get()
             future3.get()
-        } catch (e: ExecutionException){
+        } catch (e: ExecutionException) {
             result = e.cause as Exception
         }
 

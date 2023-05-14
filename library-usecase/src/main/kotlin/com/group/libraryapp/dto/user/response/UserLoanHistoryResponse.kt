@@ -8,27 +8,27 @@ import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 data class UserLoanHistoryResponse(
     val email: Email,
     val books: List<BookLoanHistoryResponse>
-){
+) {
     companion object {
         fun of(user: User): UserLoanHistoryResponse {
-            return UserLoanHistoryResponse(user.email,
-                user.userLoanHistories.map (BookLoanHistoryResponse::of)
+            return UserLoanHistoryResponse(
+                user.email,
+                user.userLoanHistories.map(BookLoanHistoryResponse::of)
             )
         }
     }
-
 }
 
 data class BookLoanHistoryResponse(
     val name: String,
     val isReturn: Boolean
-){
+) {
     companion object {
         fun of(userLoanHistory: UserLoanHistory): BookLoanHistoryResponse {
-            return BookLoanHistoryResponse(userLoanHistory.book.name,
-                userLoanHistory.status == UserLoanStatus.RETURNED)
+            return BookLoanHistoryResponse(
+                userLoanHistory.book.name,
+                userLoanHistory.status == UserLoanStatus.RETURNED
+            )
         }
     }
 }
-
-

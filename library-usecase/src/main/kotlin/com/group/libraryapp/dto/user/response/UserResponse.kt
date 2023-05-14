@@ -8,13 +8,15 @@ data class UserResponse(
     val hasNext: Boolean,
 ) {
     companion object {
-        fun of(user: Page<User>) : UserResponse {
+        fun of(user: Page<User>): UserResponse {
             return UserResponse(
-                users = user.content.map { userInfo -> UserInfo(
-                    id = userInfo.id!!,
-                    email = userInfo.email.name(),
-                    name = userInfo.name
-                ) }.toList(),
+                users = user.content.map { userInfo ->
+                    UserInfo(
+                        id = userInfo.id!!,
+                        email = userInfo.email.name(),
+                        name = userInfo.name
+                    )
+                }.toList(),
                 hasNext = user.hasNext()
             )
         }

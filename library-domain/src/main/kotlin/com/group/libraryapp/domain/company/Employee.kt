@@ -10,7 +10,7 @@ import javax.persistence.*
 class Employee(
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    val user: User ,
+    val user: User,
     @ManyToOne
     val company: Company,
     @Enumerated(EnumType.STRING)
@@ -21,6 +21,7 @@ class Employee(
 ) {
     @CreationTimestamp
     lateinit var createdAt: ZonedDateTime
+
     @UpdateTimestamp
     lateinit var updatedAt: ZonedDateTime
 
@@ -34,5 +35,4 @@ class Employee(
             return Employee(user, company, status, id)
         }
     }
-
 }

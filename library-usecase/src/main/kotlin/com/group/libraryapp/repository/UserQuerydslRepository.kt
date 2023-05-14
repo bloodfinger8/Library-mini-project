@@ -7,10 +7,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class UserQuerydslRepository (
+class UserQuerydslRepository(
     private val queryFactory: JPAQueryFactory
-){
-    fun getHistories(): List<User>{
+) {
+    fun getHistories(): List<User> {
         return queryFactory.select(user).distinct()
             .from(user)
             .leftJoin(userLoanHistory).on(userLoanHistory.user.id.eq(user.id))

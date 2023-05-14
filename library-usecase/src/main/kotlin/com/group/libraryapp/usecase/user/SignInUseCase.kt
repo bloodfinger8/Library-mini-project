@@ -5,9 +5,9 @@ import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignInCommand
 import com.group.libraryapp.dto.user.response.UserSignInResponse
+import com.group.libraryapp.exception.loginFail
 import com.group.libraryapp.security.JWTAccessToken
 import com.group.libraryapp.security.JWTTokenProvider
-import com.group.libraryapp.exception.loginFail
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SignInUseCase(
-        val authenticationManager: AuthenticationManager,
-        val tokenProvider: JWTTokenProvider,
-        val userRepository: UserRepository,
+    val authenticationManager: AuthenticationManager,
+    val tokenProvider: JWTTokenProvider,
+    val userRepository: UserRepository,
 ) {
     @Transactional
     fun signIn(command: SignInCommand): UserSignInResponse {

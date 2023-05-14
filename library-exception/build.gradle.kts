@@ -1,9 +1,9 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-	kotlin("jvm")
-	kotlin("plugin.jpa")
-	kotlin("kapt")
+    kotlin("jvm")
+    kotlin("plugin.jpa")
+    kotlin("kapt")
 }
 
 val jar: Jar by tasks
@@ -13,5 +13,5 @@ jar.enabled = true
 jar.archiveClassifier.convention("")
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }

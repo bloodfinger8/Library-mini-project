@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page
 data class BookInventoryResponse(
     val books: List<BookInfo>,
     val hasNext: Boolean
-){
+) {
     companion object {
         fun of(user: User, books: Page<Book>): BookInventoryResponse {
             val loanedBookIds = user.userLoanHistories
@@ -18,7 +18,7 @@ data class BookInventoryResponse(
             return BookInventoryResponse(
                 books.content.map { book -> BookInfo.of(book, loanedBookIds.contains(book.id)) },
                 books.hasNext()
-            );
+            )
         }
     }
 }
@@ -31,10 +31,10 @@ data class BookInfo(
     var stock: Int,
     val location: String?,
     var loaned: Boolean,
-){
+) {
     companion object {
         fun of(book: Book, contain: Boolean): BookInfo {
-            return BookInfo(book.id!!,book.name,book.type,book.publisher,book.stock,book.location,contain)
+            return BookInfo(book.id!!, book.name, book.type, book.publisher, book.stock, book.location, contain)
         }
     }
 }

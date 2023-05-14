@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ListCompanyUseCase (
+class ListCompanyUseCase(
     val companyRepository: CompanyRepository,
-){
-     @Transactional(readOnly = true)
-     fun list(page: Int, pageSize: Int) : ListCompanyResponse {
-         return ListCompanyResponse.of(companyRepository.findAll(PageRequest.of(page, pageSize)))
-     }
+) {
+    @Transactional(readOnly = true)
+    fun list(page: Int, pageSize: Int): ListCompanyResponse {
+        return ListCompanyResponse.of(companyRepository.findAll(PageRequest.of(page, pageSize)))
+    }
 }

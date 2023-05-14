@@ -7,4 +7,3 @@ class UserRole {
         const val ROLE_GUEST = "ROLE_GUEST"
     }
 }
-

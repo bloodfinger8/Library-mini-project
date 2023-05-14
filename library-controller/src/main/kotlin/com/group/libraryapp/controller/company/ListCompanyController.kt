@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "회사 관련 API")
 @RestController
-class ListCompanyController (
+class ListCompanyController(
     val useCase: ListCompanyUseCase,
 ) {
     @Operation(summary = "회사 목록")
@@ -22,8 +22,10 @@ class ListCompanyController (
         ApiResponse(responseCode = "40000", description = ""),
     )
     @GetMapping("/company")
-    fun listCompany(@RequestParam(value = "page", defaultValue = "0") page: Int,
-                    @RequestParam(value = "pageSize", defaultValue = "40") pageSize: Int): ResponseEntity<BaseResponse> {
+    fun listCompany(
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "pageSize", defaultValue = "40") pageSize: Int
+    ): ResponseEntity<BaseResponse> {
         return ResponseEntity.ok(SuccessRes(useCase.list(page, pageSize)))
     }
 }

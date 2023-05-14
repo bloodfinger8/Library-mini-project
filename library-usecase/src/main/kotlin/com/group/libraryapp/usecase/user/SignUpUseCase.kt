@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class SignUpUseCase (
+class SignUpUseCase(
     val userRepository: UserRepository,
     val passwordEncoder: PasswordEncoder,
     val companyRepository: CompanyRepository,
-){
+) {
     @Transactional
     fun signUp(command: SignUpCommand): SignUpResponse {
         emailDuplicateCheck(command)
@@ -27,10 +27,8 @@ class SignUpUseCase (
         return SignUpResponse.of(user)
     }
 
-
     private fun findCompany(command: SignUpCommand) =
         companyRepository.findByIdOrNull(command.companyId) ?: companyNotFoundFail(command.companyId)
-
 
     private fun saveUser(
         command: SignUpCommand,
@@ -44,6 +42,6 @@ class SignUpUseCase (
         )
 
     private fun emailDuplicateCheck(command: SignUpCommand) {
-        if(userRepository.existsByEmail(Email(command.email))) signUpFail(command.email)
+        if (userRepository.existsByEmail(Email(command.email))) signUpFail(command.email)
     }
 }

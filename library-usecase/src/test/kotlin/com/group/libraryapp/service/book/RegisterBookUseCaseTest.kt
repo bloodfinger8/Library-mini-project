@@ -1,6 +1,11 @@
 package com.group.libraryapp.service.book
 
-import com.group.libraryapp.*
+import com.group.libraryapp.BOOK_LOCATION
+import com.group.libraryapp.BOOK_NAME
+import com.group.libraryapp.BOOK_PUBLISHER
+import com.group.libraryapp.BOOK_STOCK
+import com.group.libraryapp.BOOK_TYPE
+import com.group.libraryapp.COMPANY_ID
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.type.BookType
@@ -42,7 +47,8 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책 저장`() {
-        val bookRequest = RegisterBookCommand(BOOK_NAME, BOOK_PUBLISHER, BOOK_STOCK, BOOK_TYPE, BOOK_LOCATION, COMPANY_ID)
+        val bookRequest =
+            RegisterBookCommand(BOOK_NAME, BOOK_PUBLISHER, BOOK_STOCK, BOOK_TYPE, BOOK_LOCATION, COMPANY_ID)
 
         val book = registerBookUseCase.register(bookRequest)
 
@@ -104,6 +110,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         assertCount(result, BookType.COMPUTER, 1)
         assertCount(result, BookType.SCIENCE, 2)
     }
+
     private fun assertCount(result: List<BookStatResponse>, type: BookType, count: Long) {
         Assertions.assertThat(result.first { it.type == type }.count).isEqualTo(count)
     }

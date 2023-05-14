@@ -5,15 +5,23 @@ import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.exception.fail
 import java.time.LocalDateTime
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Entity
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 
 @Entity(name = "users")
-class User (
+class User(
     val email: Email,
     val password: String,
     var name: String,
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL] , orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
 
     @OneToOne
@@ -49,14 +57,15 @@ class User (
     }
 
     fun loanBook(book: Book) {
-        if(book.canLoanBook()) {
+        if (book.canLoanBook()) {
             book.changeStock(-1)
             this.userLoanHistories.add(UserLoanHistory.create(this, book))
         }
     }
 
     fun returnBook(book: Book) {
-        val userLoanHistory = this.userLoanHistories.firstOrNull { userLoanHistory -> userLoanHistory.book == book } ?: fail()
+        val userLoanHistory =
+            this.userLoanHistories.firstOrNull { userLoanHistory -> userLoanHistory.book == book } ?: fail()
         userLoanHistory.doReturn(book)
     }
 }

@@ -17,9 +17,9 @@ import javax.validation.Valid
 
 @Tag(name = "회원 관련 API")
 @RestController
-class SignInController (
+class SignInController(
     val signInUseCase: SignInUseCase,
-){
+) {
     @Operation(summary = "사용자 로그인")
     @ApiResponses(
         ApiResponse(responseCode = "40200", description = "id/pw not matched"),
@@ -27,7 +27,6 @@ class SignInController (
     )
     @PostMapping("/user/sign-in")
     fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInResponse>> {
-        return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(SignInCommand(request.email,request.password))))
+        return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(SignInCommand(request.email, request.password))))
     }
-
 }

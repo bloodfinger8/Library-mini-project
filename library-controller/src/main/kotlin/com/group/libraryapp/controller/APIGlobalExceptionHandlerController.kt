@@ -2,7 +2,14 @@ package com.group.libraryapp.controller
 
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.FailureRes
-import com.group.libraryapp.exception.*
+import com.group.libraryapp.exception.BAD_REQUEST
+import com.group.libraryapp.exception.EmailAlreadyExistsException
+import com.group.libraryapp.exception.InvalidEmailDomainException
+import com.group.libraryapp.exception.NOT_FOUND
+import com.group.libraryapp.exception.NotExistCompanyException
+import com.group.libraryapp.exception.NotExistLoanBookException
+import com.group.libraryapp.exception.NotExistStockException
+import com.group.libraryapp.exception.SERVER_ERROR
 import com.group.libraryapp.exception.badCredentialMessage
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -13,7 +20,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
-
 
 @RestControllerAdvice(basePackageClasses = [APIGlobalExceptionHandlerController::class])
 class APIGlobalExceptionHandlerController {
@@ -29,7 +35,8 @@ class APIGlobalExceptionHandlerController {
 
     @ExceptionHandler(value = [MethodArgumentTypeMismatchException::class])
     fun handleMethodArgumentTypeMismatchException(e: MethodArgumentTypeMismatchException): ResponseEntity<BaseResponse> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(FailureRes(BAD_REQUEST, "${e.name} is wrong value. ${e.value}"))
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(FailureRes(BAD_REQUEST, "${e.name} is wrong value. ${e.value}"))
     }
 
     @ExceptionHandler(value = [HttpMessageNotReadableException::class, IllegalArgumentException::class])
@@ -69,6 +76,6 @@ class APIGlobalExceptionHandlerController {
 
     @ExceptionHandler(value = [Exception::class])
     fun handleException(e: Exception): ResponseEntity<Any> {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FailureRes(SERVER_ERROR,e.message!!))
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(FailureRes(SERVER_ERROR, e.message!!))
     }
 }

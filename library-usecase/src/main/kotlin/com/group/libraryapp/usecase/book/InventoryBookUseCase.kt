@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class InventoryBookUseCase (
+class InventoryBookUseCase(
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
-){
+) {
     @Transactional(readOnly = true)
     fun inventory(id: Long, companyId: Long, page: Int, pageSize: Int): BookInventoryResponse {
         val books = bookRepository.findAllByCompanyId(companyId, PageRequest.of(page, pageSize))
-        val user = userRepository.findByIdOrNull(id)?: fail()
-        return BookInventoryResponse.of(user,books)
+        val user = userRepository.findByIdOrNull(id) ?: fail()
+        return BookInventoryResponse.of(user, books)
     }
 }

@@ -22,19 +22,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerAdapter() {
+class SecurityConfig(jwtTokenProvider: JWTTokenProvider) : WebSecurityConfigurerAdapter() {
     private val accessTokenAuthenticationFilter = AccessTokenAuthenticationFilter(jwtTokenProvider)
 
     override fun configure(http: HttpSecurity) {
         http.httpBasic().disable()
-                .csrf().disable()
-                .cors().configurationSource(corsConfigurationSource()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(logFilter(), UsernamePasswordAuthenticationFilter::class.java)
-                .addFilterBefore(ExceptionHandlerFilter(), UsernamePasswordAuthenticationFilter::class.java)
-                .addFilterAt(accessTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
-                .headers().frameOptions().sameOrigin()
+            .csrf().disable()
+            .cors().configurationSource(corsConfigurationSource()).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilterBefore(logFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(ExceptionHandlerFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAt(accessTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .headers().frameOptions().sameOrigin()
     }
 
     @Bean
@@ -43,7 +43,8 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource =
         UrlBasedCorsConfigurationSource().apply {
-            registerCorsConfiguration("/**",
+            registerCorsConfiguration(
+                "/**",
                 CorsConfiguration().apply {
                     allowedOrigins = listOf("*")
                     allowedHeaders = listOf("*")
@@ -58,7 +59,7 @@ class SecurityConfig(jwtTokenProvider: JWTTokenProvider): WebSecurityConfigurerA
         super.authenticationManagerBean()
 
     fun logFilter(): CustomLoggingFilter =
-         CustomLoggingFilter(hashSetOf("/ping"), hashSetOf("/sign-up")).apply {
+        CustomLoggingFilter(hashSetOf("/ping"), hashSetOf("/sign-up")).apply {
             setIncludeQueryString(true)
             setIncludePayload(true)
             setMaxPayloadLength(10240)

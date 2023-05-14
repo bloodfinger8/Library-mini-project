@@ -1,27 +1,26 @@
 package com.group.libraryapp.exception
 
-
 class NotExistStockException(
     override val message: String,
     val code: Int = 40401
-): RuntimeException()
+) : RuntimeException()
 
 class NotExistLoanBookException(
     override val message: String,
     val code: Int = 40402
-): RuntimeException()
+) : RuntimeException()
 
 class EmailAlreadyExistsException(
     override val message: String,
     val code: Int = 40403
-): RuntimeException()
+) : RuntimeException()
 
 class NotExistCompanyException(
     override val message: String,
     val code: Int = 40404
-): RuntimeException()
+) : RuntimeException()
 
 class InvalidEmailDomainException(
     override val message: String,
     val code: Int = 40405
-): RuntimeException()
+) : RuntimeException()

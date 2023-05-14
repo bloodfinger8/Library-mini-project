@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "도서 관련 API")
 @RestController
-class LoanBookController (val useCase: LoanBookUseCase){
+class LoanBookController(val useCase: LoanBookUseCase) {
     @Operation(summary = "도서 대출", security = [SecurityRequirement(name = "Bearer Token")])
     @ApiResponses(
         ApiResponse(responseCode = "40000", description = "request value error"),
@@ -29,8 +29,9 @@ class LoanBookController (val useCase: LoanBookUseCase){
     )
     @Secured(UserRole.ROLE_USER)
     @PostMapping("/book/loan/{bookId}")
-    fun loanBook(@PathVariable(name = "bookId") bookId: Long,
-                 @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO
+    fun loanBook(
+        @PathVariable(name = "bookId") bookId: Long,
+        @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
         useCase.loan(LoanBookCommand(bookId, authenticationDTO.name))
         return ResponseEntity.ok(SuccessRes<Any>())

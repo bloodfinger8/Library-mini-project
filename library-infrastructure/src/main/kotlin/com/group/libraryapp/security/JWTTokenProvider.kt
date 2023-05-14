@@ -1,16 +1,18 @@
 package com.group.libraryapp.security
 
-import io.jsonwebtoken.*
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.util.*
+import java.util.Date
 import javax.crypto.spec.SecretKeySpec
 import javax.xml.bind.DatatypeConverter
 
 @Component
-class JWTTokenProvider (val jwtProperties: JWTProperties) {
+class JWTTokenProvider(val jwtProperties: JWTProperties) {
     fun signAcToken(token: JWTAccessToken): String =
-         Jwts.builder()
+        Jwts.builder()
             .setSubject("library-app")
             .claim("id", token.id)
             .claim("email", token.email.name())
@@ -18,7 +20,7 @@ class JWTTokenProvider (val jwtProperties: JWTProperties) {
             .claim("userType", token.userType)
             .claim("companyId", token.companyId)
             .setExpiration(expiredAt(JWTAccessToken.TTL))
-            .signWith(getSigningKey(),SignatureAlgorithm.HS256)
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
             .compact()
 
     fun accessTokenFromSigned(token: String?): Claims =
@@ -26,7 +28,6 @@ class JWTTokenProvider (val jwtProperties: JWTProperties) {
             .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token).body
-
 
     private fun getSigningKey(): Key =
         SecretKeySpec(DatatypeConverter.parseBase64Binary(jwtProperties.secret), SignatureAlgorithm.HS256.jcaName)

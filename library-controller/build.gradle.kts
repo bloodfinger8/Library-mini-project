@@ -1,7 +1,7 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-	kotlin("jvm")
+    kotlin("jvm")
 }
 
 val jar: Jar by tasks
@@ -11,16 +11,16 @@ jar.enabled = true
 jar.archiveClassifier.convention("")
 
 dependencies {
-	implementation(project(":library-usecase"))
+    implementation(project(":library-usecase"))
 
-	implementation(project(":library-config"))
-	implementation(project(":library-exception"))
-	implementation(project(":library-infrastructure"))
+    implementation(project(":library-config"))
+    implementation(project(":library-exception"))
+    implementation(project(":library-infrastructure"))
 
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
-	//swagger
-	implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.15")
 }

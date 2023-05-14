@@ -5,9 +5,10 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-
-class CustomLoggingFilter(private val ignorePaths: Set<String> = emptySet(),
-                          private val sensitivePaths: Set<String> = emptySet()) : AbstractRequestLoggingFilter() {
+class CustomLoggingFilter(
+    private val ignorePaths: Set<String> = emptySet(),
+    private val sensitivePaths: Set<String> = emptySet()
+) : AbstractRequestLoggingFilter() {
     init {
         setAfterMessagePrefix("")
         setAfterMessageSuffix("")
@@ -30,9 +31,9 @@ class CustomLoggingFilter(private val ignorePaths: Set<String> = emptySet(),
     }
 
     override fun doFilterInternal(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            filterChain: FilterChain
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
     ) {
         request.setAttribute(RESPONSE_OBJ, response)
         super.doFilterInternal(request, response, filterChain)
@@ -61,7 +62,7 @@ class CustomLoggingFilter(private val ignorePaths: Set<String> = emptySet(),
     companion object {
         private const val RESPONSE_OBJ = "LOGGING -> APPLICATION_RESPONSE"
         private const val REQUESTED_AT = "LOGGING -> REQUESTED_AT"
-        private const val SLOW_TAG     = "LOGGING -> SLOW_API"
-        private const val SENSITIVE    = "LOGGING -> APPLICATION_SENSITIVE"
+        private const val SLOW_TAG = "LOGGING -> SLOW_API"
+        private const val SENSITIVE = "LOGGING -> APPLICATION_SENSITIVE"
     }
 }

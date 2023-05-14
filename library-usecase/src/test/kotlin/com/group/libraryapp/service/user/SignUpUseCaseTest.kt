@@ -1,17 +1,20 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.*
+import com.group.libraryapp.COMPANY_DOMAIN
+import com.group.libraryapp.COMPANY_ID
+import com.group.libraryapp.COMPANY_NAME
+import com.group.libraryapp.EMAIL
+import com.group.libraryapp.INVALID_EMAIL
+import com.group.libraryapp.NAME
+import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
-import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.user.command.SignInCommand
 import com.group.libraryapp.dto.user.command.SignUpCommand
 import com.group.libraryapp.dto.user.response.SignUpResponse
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.exception.InvalidEmailDomainException
 import com.group.libraryapp.usecase.user.SignUpUseCase
-import com.group.libraryapp.usecase.user.UserService
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCase
@@ -19,17 +22,16 @@ import io.kotest.core.test.TestResult
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.authentication.BadCredentialsException
 
 @SpringBootTest
 class UserUseCaseTest @Autowired constructor(
     private val signUpUseCase: SignUpUseCase,
     private val userRepository: UserRepository,
     private val companyRepository: CompanyRepository,
-): DescribeSpec({
+) : DescribeSpec({
     describe("사용자의 회원가입시") {
         val (request, response) = signUp(signUpUseCase)
-        context("유저 생성 완료"){
+        context("유저 생성 완료") {
             it("요청한 값과 생성된 값을 비교한다.") {
                 response.email shouldBe EMAIL
                 response.name shouldBe NAME
@@ -68,4 +70,3 @@ private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, SignUpResponse> 
     val response = useCase.signUp(command)
     return Pair(command, response)
 }
-

@@ -1,6 +1,5 @@
 package com.group.libraryapp.security
 
-import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.UserType
 import com.group.libraryapp.util.UserRole
 import org.springframework.http.HttpHeaders
@@ -8,7 +7,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
-import java.util.*
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -28,16 +26,16 @@ class AccessTokenAuthenticationFilter(
     ) {
         val token = splitAccessToken(request)
 
-        if(token != null) {
+        if (token != null) {
             val jwtAcToken = jwtTokenProvider.accessTokenFromSigned(token)
             SecurityContextHolder.getContext().authentication =
                 UsernamePasswordAuthenticationToken(
                     AuthenticationDTO(
-                        jwtAcToken.get("id",Long::class.javaObjectType),
-                        jwtAcToken.get("email",String::class.javaObjectType),
-                        jwtAcToken.get("name",String::class.javaObjectType),
-                        UserType.valueOf(jwtAcToken.get("userType",String::class.javaObjectType)),
-                        jwtAcToken.get("companyId",Long::class.javaObjectType)
+                        jwtAcToken.get("id", Long::class.javaObjectType),
+                        jwtAcToken.get("email", String::class.javaObjectType),
+                        jwtAcToken.get("name", String::class.javaObjectType),
+                        UserType.valueOf(jwtAcToken.get("userType", String::class.javaObjectType)),
+                        jwtAcToken.get("companyId", Long::class.javaObjectType)
                     ),
                     token,
                     AuthorityUtils.createAuthorityList(UserRole.ROLE_USER)

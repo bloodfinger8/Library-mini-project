@@ -6,7 +6,7 @@ import org.springdoc.core.GroupedOpenApi
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
-@OpenAPIDefinition(info = Info(title = "library-app", version = "1.0", ))
+@OpenAPIDefinition(info = Info(title = "library-app", version = "1.0",))
 @Configuration
 class SwaggerConfig {
     @Bean

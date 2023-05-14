@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*
 @Tag(name = "회원 관련 API")
 @RestController
 class UserController(
-    val userService: UserService,
-){
+    val userService: UserService
+) {
     @Operation(summary = "로그인회원 정보 수정")
     @PutMapping("/user")
     fun updateUserName(@RequestBody request: UserUpdateRequest) {
@@ -23,12 +23,11 @@ class UserController(
     @DeleteMapping("/user")
     fun deleteUser(@RequestParam name: String) {
         userService.deleteUser(name)
-
     }
 
     @Operation(summary = "사용자 도서 렌탈 히스토리 조회")
     @GetMapping("/user/loan")
-    fun getLoanHistories() : List<UserLoanHistoryResponse> {
+    fun getLoanHistories(): List<UserLoanHistoryResponse> {
         return userService.searchUserLoanHistories()
     }
 }

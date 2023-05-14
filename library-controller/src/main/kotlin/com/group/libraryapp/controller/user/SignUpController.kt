@@ -16,9 +16,9 @@ import javax.validation.Valid
 
 @Tag(name = "회원 관련 API")
 @RestController
-class SignUpController (
+class SignUpController(
     val useCase: SignUpUseCase,
-){
+) {
     @Operation(summary = "사용자 회원가입")
     @ApiResponses(
         ApiResponse(responseCode = "40403", description = "already email exists"),

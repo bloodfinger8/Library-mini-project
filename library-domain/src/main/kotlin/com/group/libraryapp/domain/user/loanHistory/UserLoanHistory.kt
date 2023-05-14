@@ -10,7 +10,7 @@ import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
-class UserLoanHistory (
+class UserLoanHistory(
     @ManyToOne
     val user: User,
 
@@ -31,17 +31,18 @@ class UserLoanHistory (
     lateinit var updatedAt: ZonedDateTime
 
     companion object {
-        fun create(user: User,
-                   book: Book= Book.create(),
-                   status: UserLoanStatus = UserLoanStatus.LOANED,
-                   id: Long? = null) : UserLoanHistory{
+        fun create(
+            user: User,
+            book: Book = Book.create(),
+            status: UserLoanStatus = UserLoanStatus.LOANED,
+            id: Long? = null
+        ): UserLoanHistory {
             return UserLoanHistory(user, book, status, id)
         }
     }
 
-
-    fun doReturn (book: Book) {
-        if(canReturn()) {
+    fun doReturn(book: Book) {
+        if (canReturn()) {
             book.changeStock(1)
             this.status = UserLoanStatus.RETURNED
         }

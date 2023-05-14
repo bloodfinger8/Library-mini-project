@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class SearchUserUseCase (val userRepository: UserRepository){
-    @Transactional(readOnly= true)
-    fun searchUsers(companyId: Long, page: Int , pageSize: Int): UserResponse {
+class SearchUserUseCase(val userRepository: UserRepository) {
+    @Transactional(readOnly = true)
+    fun searchUsers(companyId: Long, page: Int, pageSize: Int): UserResponse {
         val users = userRepository.findAllByCompanyId(companyId, PageRequest.of(page, pageSize))
         return UserResponse.of(users)
     }

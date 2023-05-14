@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration
 import javax.persistence.EntityManager
 
 @Configuration
-class QueryDSLConfig (
+class QueryDSLConfig(
     private val entityManager: EntityManager,
-){
+) {
     @Bean
     fun queryDSL(): JPAQueryFactory {
         return JPAQueryFactory(entityManager)

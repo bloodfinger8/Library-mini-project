@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class LoanBookUseCase (
+class LoanBookUseCase(
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
-){
+) {
     @Transactional
     fun loan(loanBookCommand: LoanBookCommand) {
         val book = bookRepository.findByIdOrNull(loanBookCommand.bookId) ?: fail()

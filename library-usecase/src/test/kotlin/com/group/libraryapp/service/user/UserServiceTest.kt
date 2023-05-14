@@ -1,6 +1,10 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.*
+import com.group.libraryapp.EMAIL
+import com.group.libraryapp.NAME
+import com.group.libraryapp.PASSWORD
+import com.group.libraryapp.SEARCH_PAGE
+import com.group.libraryapp.SEARCH_PAGE_SIZE
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.company.Company

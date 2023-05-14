@@ -1,6 +1,11 @@
 package com.group.libraryapp.service.user
 
-import com.group.libraryapp.*
+import com.group.libraryapp.COMPANY_DOMAIN
+import com.group.libraryapp.COMPANY_ID
+import com.group.libraryapp.COMPANY_NAME
+import com.group.libraryapp.EMAIL
+import com.group.libraryapp.NAME
+import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
@@ -23,7 +28,7 @@ class SignInUseCaseTest(
     private val signInUseCase: SignInUseCase,
     private val userRepository: UserRepository,
     private val companyRepository: CompanyRepository,
-): DescribeSpec({
+) : DescribeSpec({
     describe("사용자 로그인 시도") {
         signUp(signUpUseCase)
         val result = signIn(signInUseCase)
@@ -33,16 +38,16 @@ class SignInUseCaseTest(
             }
         }
 
-        context("이메일 또는 패스워드가 틀렸을 경우"){
+        context("이메일 또는 패스워드가 틀렸을 경우") {
             signUp(signUpUseCase)
             it("BadCredentialsException 예외가 발생한다.") {
                 shouldThrow<BadCredentialsException> {
-                    signInUseCase.signIn(SignInCommand("didwodn82@naver.com","123456"))
+                    signInUseCase.signIn(SignInCommand("didwodn82@naver.com", "123456"))
                 }
             }
         }
     }
-}){
+}) {
     override suspend fun beforeTest(testCase: TestCase) {
         companyRepository.save(Company.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
     }
