@@ -11,7 +11,7 @@ import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.response.SignUpResponse
+import com.group.libraryapp.dto.user.response.SignUpDto
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.exception.InvalidEmailDomainException
 import com.group.libraryapp.usecase.user.SignUpUseCase
@@ -65,7 +65,7 @@ class UserUseCaseTest @Autowired constructor(
     }
 }
 
-private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, SignUpResponse> {
+private fun signUp(useCase: SignUpUseCase): Pair<SignUpCommand, SignUpDto> {
     val command = SignUpCommand(EMAIL, PASSWORD, NAME, COMPANY_ID)
     val response = useCase.signUp(command)
     return Pair(command, response)

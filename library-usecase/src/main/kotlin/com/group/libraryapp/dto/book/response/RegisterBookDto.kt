@@ -1,6 +1,6 @@
 package com.group.libraryapp.dto.book.response
 
-data class RegisterBookResponse(
+data class RegisterBookDto(
     val bookId: Long,
     val name: String,
     val type: String,

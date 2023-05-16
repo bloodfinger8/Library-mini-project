@@ -8,8 +8,8 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.command.RegisterBookCommand
-import com.group.libraryapp.dto.book.response.BookStatResponse
-import com.group.libraryapp.dto.book.response.RegisterBookResponse
+import com.group.libraryapp.dto.book.response.BookStatDto
+import com.group.libraryapp.dto.book.response.RegisterBookDto
 import com.group.libraryapp.repository.BookQuerydslRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -24,10 +24,19 @@ class RegisterBookUseCase(
     val companyRepository: CompanyRepository
 ) {
     @Transactional
-    fun register(req: RegisterBookCommand): RegisterBookResponse {
+    fun register(req: RegisterBookCommand): RegisterBookDto {
         val company = companyRepository.findByIdOrNull(req.companyId)
-        val book = bookRepository.save(Book.create(req.name, BookType.COMPUTER, req.publisher, req.stock, req.location, company!!))
-        return RegisterBookResponse(book.id!!, book.name, book.type.name, book.publisher, book.stock)
+        val book = bookRepository.save(
+            Book.create(
+                req.name,
+                BookType.COMPUTER,
+                req.publisher,
+                req.stock,
+                req.location,
+                company!!
+            )
+        )
+        return RegisterBookDto(book.id!!, book.name, book.type.name, book.publisher, book.stock)
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +45,7 @@ class RegisterBookUseCase(
     }
 
     @Transactional(readOnly = true)
-    fun getStat(): List<BookStatResponse> {
+    fun getStat(): List<BookStatDto> {
         return bookQuerydslRepository.getStat()
     }
 }

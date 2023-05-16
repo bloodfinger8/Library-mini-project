@@ -1,7 +1,7 @@
 package com.group.libraryapp.repository
 
 import com.group.libraryapp.domain.book.QBook.book
-import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.dto.book.response.BookStatDto
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository
 class BookQuerydslRepository(
     private val queryFactory: JPAQueryFactory
 ) {
-    fun getStat(): List<BookStatResponse> {
+    fun getStat(): List<BookStatDto> {
         return queryFactory
             .select(
                 Projections.constructor(
-                    BookStatResponse::class.java,
+                    BookStatDto::class.java,
                     book.type,
                     book.id.count()
                 )

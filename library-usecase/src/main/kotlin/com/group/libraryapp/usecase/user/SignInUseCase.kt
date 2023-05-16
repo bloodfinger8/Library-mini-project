@@ -4,7 +4,7 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignInCommand
-import com.group.libraryapp.dto.user.response.UserSignInResponse
+import com.group.libraryapp.dto.user.response.UserSignInDto
 import com.group.libraryapp.exception.loginFail
 import com.group.libraryapp.security.JWTAccessToken
 import com.group.libraryapp.security.JWTTokenProvider
@@ -21,10 +21,10 @@ class SignInUseCase(
     val userRepository: UserRepository,
 ) {
     @Transactional
-    fun signIn(command: SignInCommand): UserSignInResponse {
+    fun signIn(command: SignInCommand): UserSignInDto {
         val user = findUser(command)
         emailPasswordAuthenticate(command)
-        return UserSignInResponse.of(user, accessToken(user))
+        return UserSignInDto.of(user, accessToken(user))
     }
 
     private fun findUser(command: SignInCommand) =

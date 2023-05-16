@@ -2,7 +2,7 @@ package com.group.libraryapp.usecase.user
 
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.UpdateUserCommand
-import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
+import com.group.libraryapp.dto.user.response.UserLoanHistoryDto
 import com.group.libraryapp.exception.fail
 import com.group.libraryapp.repository.UserQuerydslRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -27,7 +27,7 @@ class UserService constructor(
     }
 
     @Transactional(readOnly = true)
-    fun searchUserLoanHistories(): List<UserLoanHistoryResponse> {
-        return userQuerydslRepository.getHistories().map(UserLoanHistoryResponse::of)
+    fun searchUserLoanHistories(): List<UserLoanHistoryDto> {
+        return userQuerydslRepository.getHistories().map { UserLoanHistoryDto.from(it) }
     }
 }

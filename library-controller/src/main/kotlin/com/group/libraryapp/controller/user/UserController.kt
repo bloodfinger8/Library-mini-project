@@ -2,7 +2,7 @@ package com.group.libraryapp.controller.user
 
 import com.group.libraryapp.dto.user.command.UpdateUserCommand
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
-import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
+import com.group.libraryapp.dto.user.response.UserLoanHistoryDto
 import com.group.libraryapp.usecase.user.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -27,7 +27,7 @@ class UserController(
 
     @Operation(summary = "사용자 도서 렌탈 히스토리 조회")
     @GetMapping("/user/loan")
-    fun getLoanHistories(): List<UserLoanHistoryResponse> {
+    fun getLoanHistories(): List<UserLoanHistoryDto> {
         return userService.searchUserLoanHistories()
     }
 }

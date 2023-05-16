@@ -11,7 +11,7 @@ import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.dto.user.command.SignInCommand
 import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.response.UserSignInResponse
+import com.group.libraryapp.dto.user.response.UserSignInDto
 import com.group.libraryapp.usecase.user.SignInUseCase
 import com.group.libraryapp.usecase.user.SignUpUseCase
 import io.kotest.assertions.throwables.shouldThrow
@@ -60,5 +60,5 @@ class SignInUseCaseTest(
 private fun signUp(useCase: SignUpUseCase) =
     useCase.signUp(SignUpCommand(EMAIL, PASSWORD, NAME, COMPANY_ID))
 
-private fun signIn(useCase: SignInUseCase): UserSignInResponse =
+private fun signIn(useCase: SignInUseCase): UserSignInDto =
     useCase.signIn(SignInCommand(EMAIL, PASSWORD))

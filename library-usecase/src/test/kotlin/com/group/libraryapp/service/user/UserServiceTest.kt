@@ -46,8 +46,8 @@ class UserServiceTest @Autowired constructor(
 
         val searchUsers = searchUserUseCase.searchUsers(company.id!!, SEARCH_PAGE, SEARCH_PAGE_SIZE)
 
-        Assertions.assertThat(searchUsers.users).hasSize(2)
-        Assertions.assertThat(searchUsers.users).extracting("name").containsExactlyInAnyOrder(NAME, "재우2")
+        Assertions.assertThat(searchUsers.elements).hasSize(2)
+        Assertions.assertThat(searchUsers.elements).extracting("name").containsExactlyInAnyOrder(NAME, "재우2")
     }
 
     @Test

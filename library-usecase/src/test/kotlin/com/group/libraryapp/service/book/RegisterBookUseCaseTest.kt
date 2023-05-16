@@ -18,7 +18,7 @@ import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.dto.book.command.LoanBookCommand
 import com.group.libraryapp.dto.book.command.RegisterBookCommand
 import com.group.libraryapp.dto.book.command.ReturnBookCommand
-import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.dto.book.response.BookStatDto
 import com.group.libraryapp.exception.NotExistStockException
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
@@ -111,7 +111,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         assertCount(result, BookType.SCIENCE, 2)
     }
 
-    private fun assertCount(result: List<BookStatResponse>, type: BookType, count: Long) {
+    private fun assertCount(result: List<BookStatDto>, type: BookType, count: Long) {
         Assertions.assertThat(result.first { it.type == type }.count).isEqualTo(count)
     }
 

@@ -3,7 +3,7 @@ package com.group.libraryapp.controller.user
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.dto.user.command.SignInCommand
 import com.group.libraryapp.dto.user.request.UserSignInRequest
-import com.group.libraryapp.dto.user.response.UserSignInResponse
+import com.group.libraryapp.dto.user.response.UserSignInDto
 import com.group.libraryapp.usecase.user.SignInUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -26,7 +26,7 @@ class SignInController(
         ApiResponse(responseCode = "50000", description = "server error"),
     )
     @PostMapping("/user/sign-in")
-    fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInResponse>> {
+    fun signInUser(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInDto>> {
         return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(SignInCommand(request.email, request.password))))
     }
 }

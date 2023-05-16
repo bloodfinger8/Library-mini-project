@@ -13,8 +13,9 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
+import com.group.libraryapp.dto.SliceDto
 import com.group.libraryapp.dto.book.command.LoanBookCommand
-import com.group.libraryapp.dto.book.response.BookInventoryResponse
+import com.group.libraryapp.dto.book.response.BookDto
 import com.group.libraryapp.usecase.book.InventoryBookUseCase
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import org.assertj.core.api.Assertions
@@ -45,14 +46,14 @@ internal class InventoryBookUseCaseTest @Autowired constructor(
 
         val results = inventoryBookUseCase.inventory(user.id!!, company.id!!, SEARCH_PAGE, SEARCH_PAGE_SIZE)
 
-        Assertions.assertThat(results.books).hasSize(4)
-        Assertions.assertThat(results.books).extracting("name")
+        Assertions.assertThat(results.elements).hasSize(4)
+        Assertions.assertThat(results.elements).extracting("name")
             .containsExactlyInAnyOrder("book-1", "book-2", "book-3", "book-4")
         Assertions.assertThat(getLoanedBook(results, book3).loaned).isEqualTo(true)
     }
 
-    private fun getLoanedBook(results: BookInventoryResponse, book3: Book) =
-        results.books.first { book -> book.id == book3.id }
+    private fun getLoanedBook(results: SliceDto<BookDto>, book3: Book) =
+        results.elements.first { it.id == book3.id }
 
     @AfterEach
     fun clean() {

@@ -2,7 +2,7 @@ package com.group.libraryapp.controller.book
 
 import com.group.libraryapp.dto.book.command.RegisterBookCommand
 import com.group.libraryapp.dto.book.request.BookRequest
-import com.group.libraryapp.dto.book.response.BookStatResponse
+import com.group.libraryapp.dto.book.response.BookStatDto
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO
@@ -35,10 +35,8 @@ class RegisterBookController(
     @Secured(UserRole.ROLE_USER)
     @PostMapping("/book")
     fun saveBook(
-        @Valid @RequestBody
-        request: BookRequest,
-        @Parameter(hidden = true) @AuthenticationPrincipal
-        authenticationDTO: AuthenticationDTO
+        @Valid @RequestBody request: BookRequest,
+        @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
         registerBookUseCase.register(
             RegisterBookCommand(
@@ -59,7 +57,7 @@ class RegisterBookController(
     }
 
     @GetMapping("/book/stat")
-    fun bookStat(): List<BookStatResponse> {
+    fun bookStat(): List<BookStatDto> {
         return registerBookUseCase.getStat()
     }
 }
