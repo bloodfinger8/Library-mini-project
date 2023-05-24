@@ -1,4 +1,4 @@
-package com.group.libraryapp.dto.user.command
+package com.group.libraryapp.usecase.user.dto.command
 
 data class SignUpCommand(
     val email: String,

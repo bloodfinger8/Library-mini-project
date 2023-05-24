@@ -39,19 +39,6 @@ class Company(
     @UpdateTimestamp
     lateinit var updatedAt: ZonedDateTime
 
-    companion object {
-        fun create(
-            name: String = "example",
-            domain: String = "example.com",
-            numberOfEmployee: Int = 0,
-            status: CompanyStatus = CompanyStatus.OPEN,
-            employees: MutableList<Employee> = mutableListOf(),
-            id: Long? = null
-        ): Company {
-            return Company(name, domain, numberOfEmployee, status, employees, id)
-        }
-    }
-
     private fun increaseNumberOfEmployee() {
         this.numberOfEmployee += 1
     }

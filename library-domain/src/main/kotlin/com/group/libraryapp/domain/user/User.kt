@@ -36,22 +36,6 @@ class User(
 ) {
     var updatedAt: LocalDateTime = createdAt
 
-    companion object {
-        fun create(
-            email: Email = Email("example", "example.com"),
-            password: String = "12345",
-            name: String = "양재우",
-            userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
-            company: Company = Company.create(),
-            createdAt: LocalDateTime = LocalDateTime.now(),
-            id: Long? = null,
-        ): User {
-            val user = User(email, password, name, userLoanHistories, company, createdAt, id)
-            company.join(user)
-            return user
-        }
-    }
-
     fun updateName(name: String) {
         this.name = name
     }
@@ -64,8 +48,17 @@ class User(
     }
 
     fun returnBook(book: Book) {
-        val userLoanHistory =
-            this.userLoanHistories.firstOrNull { userLoanHistory -> userLoanHistory.book == book } ?: fail()
+        val userLoanHistory = this.userLoanHistories.firstOrNull { it.book == book } ?: fail()
         userLoanHistory.doReturn(book)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as User
+        if (id != other.id) return false
+        return true
+    }
+
+    override fun hashCode(): Int = id?.hashCode() ?: 0
 }

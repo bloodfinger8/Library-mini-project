@@ -1,8 +1,8 @@
 package com.group.libraryapp.controller.book
 
-import com.group.libraryapp.dto.book.command.RegisterBookCommand
+import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
 import com.group.libraryapp.dto.book.request.BookRequest
-import com.group.libraryapp.dto.book.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO

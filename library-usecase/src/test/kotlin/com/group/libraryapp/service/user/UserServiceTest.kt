@@ -5,17 +5,17 @@ import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.SEARCH_PAGE
 import com.group.libraryapp.SEARCH_PAGE_SIZE
-import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
-import com.group.libraryapp.domain.company.Company
+import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.company.CompanyRepository
+import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.user.command.UpdateUserCommand
+import com.group.libraryapp.usecase.user.dto.command.UpdateUserCommand
 import com.group.libraryapp.usecase.user.SearchUserUseCase
 import com.group.libraryapp.usecase.user.UserService
 import org.assertj.core.api.Assertions
@@ -37,7 +37,7 @@ class UserServiceTest @Autowired constructor(
     @Test
     @DisplayName("유저 검색")
     fun getUser() {
-        val company = companyRepository.save(Company.create())
+        val company = companyRepository.save(CompanyFactory.create())
         val users = listOf(
             User(Email(EMAIL), PASSWORD, NAME, company = company),
             User(Email("didwodn8822@gmail.com"), PASSWORD, "재우2", company = company)
@@ -64,9 +64,9 @@ class UserServiceTest @Autowired constructor(
     @Test
     fun `유저 대출 히스토리 조회`() {
         val user = userRepository.save(User(Email(EMAIL), PASSWORD, NAME))
-        val book1 = Book.create("book-1")
-        val book2 = Book.create("book-2")
-        val book3 = Book.create("book-3")
+        val book1 = BookFactory.create("book-1")
+        val book2 = BookFactory.create("book-2")
+        val book3 = BookFactory.create("book-3")
 
         bookRepository.saveAll(listOf(book1, book2, book3))
         userLoanHistoryRepository.saveAll(

@@ -1,8 +1,8 @@
 package com.group.libraryapp.controller.user
 
-import com.group.libraryapp.dto.user.command.UpdateUserCommand
+import com.group.libraryapp.usecase.user.dto.command.UpdateUserCommand
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
-import com.group.libraryapp.dto.user.response.UserLoanHistoryDto
+import com.group.libraryapp.usecase.user.dto.response.UserLoanHistoryDto
 import com.group.libraryapp.usecase.user.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

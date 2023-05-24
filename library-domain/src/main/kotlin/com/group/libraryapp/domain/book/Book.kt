@@ -45,21 +45,15 @@ class Book(
         }
     }
 
-    companion object {
-        fun create(
-            name: String = "book name",
-            type: BookType = BookType.COMPUTER,
-            publisher: String? = null,
-            stock: Int = 1,
-            location: String? = null,
-            company: Company? = null,
-            version: Long = 1,
-            id: Long? = null
-        ): Book {
-            return Book(name, type, publisher, stock, location, company, version, id)
-        }
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Book
+        if (id != other.id) return false
+        return true
     }
 
+    override fun hashCode(): Int = id?.hashCode() ?: 0
     fun canLoanBook(): Boolean =
         when {
             this.stock > 0 -> true

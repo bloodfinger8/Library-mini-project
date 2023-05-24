@@ -6,12 +6,12 @@ import com.group.libraryapp.COMPANY_NAME
 import com.group.libraryapp.EMAIL
 import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
-import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
+import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.user.command.SignInCommand
-import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.response.UserSignInDto
+import com.group.libraryapp.usecase.user.dto.command.SignInCommand
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
+import com.group.libraryapp.usecase.user.dto.response.UserSignInDto
 import com.group.libraryapp.usecase.user.SignInUseCase
 import com.group.libraryapp.usecase.user.SignUpUseCase
 import io.kotest.assertions.throwables.shouldThrow
@@ -49,7 +49,7 @@ class SignInUseCaseTest(
     }
 }) {
     override suspend fun beforeTest(testCase: TestCase) {
-        companyRepository.save(Company.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
+        companyRepository.save(CompanyFactory.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
     }
 
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {

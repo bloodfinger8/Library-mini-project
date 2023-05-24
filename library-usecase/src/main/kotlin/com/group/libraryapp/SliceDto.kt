@@ -1,4 +1,4 @@
-package com.group.libraryapp.dto
+package com.group.libraryapp
 
 data class SliceDto<T>(
     val hasNext: Boolean = false,

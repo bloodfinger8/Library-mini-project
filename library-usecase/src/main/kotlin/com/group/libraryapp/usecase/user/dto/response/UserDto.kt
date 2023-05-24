@@ -1,4 +1,4 @@
-package com.group.libraryapp.dto.user.response
+package com.group.libraryapp.usecase.user.dto.response
 
 import com.group.libraryapp.domain.user.User
 

@@ -1,9 +1,9 @@
 package com.group.libraryapp.controller.user
 
 import com.group.libraryapp.dto.response.SuccessRes
-import com.group.libraryapp.dto.user.command.SignInCommand
+import com.group.libraryapp.usecase.user.dto.command.SignInCommand
 import com.group.libraryapp.dto.user.request.UserSignInRequest
-import com.group.libraryapp.dto.user.response.UserSignInDto
+import com.group.libraryapp.usecase.user.dto.response.UserSignInDto
 import com.group.libraryapp.usecase.user.SignInUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse

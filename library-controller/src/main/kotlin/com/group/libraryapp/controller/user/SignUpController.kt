@@ -1,7 +1,7 @@
 package com.group.libraryapp.controller.user
 
 import com.group.libraryapp.dto.response.SuccessRes
-import com.group.libraryapp.dto.user.command.SignUpCommand
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.usecase.user.SignUpUseCase
 import io.swagger.v3.oas.annotations.Operation

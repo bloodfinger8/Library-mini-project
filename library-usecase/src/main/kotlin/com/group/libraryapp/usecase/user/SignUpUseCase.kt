@@ -5,8 +5,9 @@ import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.response.SignUpDto
+import com.group.libraryapp.domain.user.factory.UserFactory
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
+import com.group.libraryapp.usecase.user.dto.response.SignUpDto
 import com.group.libraryapp.exception.companyNotFoundFail
 import com.group.libraryapp.exception.signUpFail
 import org.springframework.data.repository.findByIdOrNull
@@ -35,7 +36,7 @@ class SignUpUseCase(
         company: Company
     ): User =
         userRepository.save(
-            User.create(
+            UserFactory.create(
                 Email(command.email), passwordEncoder.encode(command.password), command.name,
                 company = company
             )

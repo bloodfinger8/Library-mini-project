@@ -1,6 +1,6 @@
 package com.group.libraryapp.controller.book
 
-import com.group.libraryapp.dto.book.command.LoanBookCommand
+import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO

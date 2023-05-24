@@ -1,6 +1,7 @@
 package com.group.libraryapp.domain.user.loanHistory
 
 import com.group.libraryapp.domain.book.Book
+import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.exception.fail
@@ -27,13 +28,14 @@ class UserLoanHistory(
 ) {
     @CreationTimestamp
     lateinit var createdAt: ZonedDateTime
+
     @UpdateTimestamp
     lateinit var updatedAt: ZonedDateTime
 
     companion object {
         fun create(
             user: User,
-            book: Book = Book.create(),
+            book: Book = BookFactory.create(),
             status: UserLoanStatus = UserLoanStatus.LOANED,
             id: Long? = null
         ): UserLoanHistory {
@@ -48,7 +50,7 @@ class UserLoanHistory(
         }
     }
 
-    fun canReturn(): Boolean =
+    private fun canReturn(): Boolean =
         when (this.status) {
             UserLoanStatus.LOANED -> true
             else -> fail()

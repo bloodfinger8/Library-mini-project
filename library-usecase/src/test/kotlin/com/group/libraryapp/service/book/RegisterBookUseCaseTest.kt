@@ -6,8 +6,8 @@ import com.group.libraryapp.BOOK_PUBLISHER
 import com.group.libraryapp.BOOK_STOCK
 import com.group.libraryapp.BOOK_TYPE
 import com.group.libraryapp.COMPANY_ID
-import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
@@ -15,10 +15,10 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.book.command.LoanBookCommand
-import com.group.libraryapp.dto.book.command.RegisterBookCommand
-import com.group.libraryapp.dto.book.command.ReturnBookCommand
-import com.group.libraryapp.dto.book.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
+import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
+import com.group.libraryapp.usecase.book.dto.command.ReturnBookCommand
+import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import com.group.libraryapp.exception.NotExistStockException
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
@@ -57,7 +57,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책 대여`() {
-        val book = bookRepository.save(Book.create("클린 아키텍처"))
+        val book = bookRepository.save(BookFactory.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name))
@@ -70,7 +70,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `책의 재고(0개) 부족시 예외발생 체크`() {
-        val book = bookRepository.save(Book.create(BOOK_NAME, BookType.COMPUTER, null, 0))
+        val book = bookRepository.save(BookFactory.create(BOOK_NAME, BookType.COMPUTER, null, 0))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         assertThrows<NotExistStockException> {
@@ -80,7 +80,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
 
     @Test
     fun `사용자의 책 대출 이후 반납처리`() {
-        val book = bookRepository.save(Book.create("클린 아키텍처"))
+        val book = bookRepository.save(BookFactory.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
         user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
@@ -98,9 +98,9 @@ class RegisterBookUseCaseTest @Autowired constructor(
     fun `카테고리별 도서 통계`() {
         bookRepository.saveAll(
             listOf(
-                Book.create("클린 아키텍처1", BookType.COMPUTER),
-                Book.create("클린 아키텍처2", BookType.SCIENCE),
-                Book.create("클린 아키텍처3", BookType.SCIENCE)
+                BookFactory.create("클린 아키텍처1", BookType.COMPUTER),
+                BookFactory.create("클린 아키텍처2", BookType.SCIENCE),
+                BookFactory.create("클린 아키텍처3", BookType.SCIENCE)
             )
         )
 

@@ -1,9 +1,9 @@
 package com.group.libraryapp.usecase.user
 
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.user.command.UpdateUserCommand
-import com.group.libraryapp.dto.user.response.UserLoanHistoryDto
-import com.group.libraryapp.exception.fail
+import com.group.libraryapp.usecase.user.dto.command.UpdateUserCommand
+import com.group.libraryapp.usecase.user.dto.response.UserLoanHistoryDto
+import com.group.libraryapp.exception.userNotFoundFail
 import com.group.libraryapp.repository.UserQuerydslRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -16,13 +16,13 @@ class UserService constructor(
 ) {
     @Transactional
     fun updateUserName(command: UpdateUserCommand) {
-        val user = userRepository.findByIdOrNull(command.id) ?: fail()
+        val user = userRepository.findByIdOrNull(command.id) ?: userNotFoundFail(command.id)
         user.updateName(command.name)
     }
 
     @Transactional
     fun deleteUser(name: String) {
-        val user = userRepository.findByName(name) ?: fail()
+        val user = userRepository.findByName(name) ?: userNotFoundFail(name)
         userRepository.delete(user)
     }
 

@@ -1,4 +1,4 @@
-package com.group.libraryapp.dto.book.command
+package com.group.libraryapp.usecase.book.dto.command
 
 class RegisterBookCommand(
     val name: String,

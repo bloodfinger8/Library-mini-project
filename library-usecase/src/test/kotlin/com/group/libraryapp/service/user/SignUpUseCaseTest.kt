@@ -7,11 +7,11 @@ import com.group.libraryapp.EMAIL
 import com.group.libraryapp.INVALID_EMAIL
 import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
-import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
+import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.user.command.SignUpCommand
-import com.group.libraryapp.dto.user.response.SignUpDto
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
+import com.group.libraryapp.usecase.user.dto.response.SignUpDto
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.exception.InvalidEmailDomainException
 import com.group.libraryapp.usecase.user.SignUpUseCase
@@ -57,7 +57,7 @@ class UserUseCaseTest @Autowired constructor(
     }
 }) {
     override suspend fun beforeTest(testCase: TestCase) {
-        companyRepository.save(Company.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
+        companyRepository.save(CompanyFactory.create(COMPANY_NAME, COMPANY_DOMAIN, id = COMPANY_ID))
     }
 
     override suspend fun afterEach(testCase: TestCase, result: TestResult) {

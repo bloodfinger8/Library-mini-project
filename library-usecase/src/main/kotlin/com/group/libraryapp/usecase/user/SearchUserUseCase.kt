@@ -1,8 +1,8 @@
 package com.group.libraryapp.usecase.user
 
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.dto.SliceDto
-import com.group.libraryapp.dto.user.response.UserDto
+import com.group.libraryapp.SliceDto
+import com.group.libraryapp.usecase.user.dto.response.UserDto
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

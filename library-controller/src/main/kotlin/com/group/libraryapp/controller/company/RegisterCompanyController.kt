@@ -1,6 +1,6 @@
 package com.group.libraryapp.controller.company
 
-import com.group.libraryapp.dto.book.command.RegisterCompanyCommand
+import com.group.libraryapp.usecase.book.dto.command.RegisterCompanyCommand
 import com.group.libraryapp.dto.book.request.RegisterCompanyRequest
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes

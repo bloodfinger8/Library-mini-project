@@ -1,4 +1,4 @@
-package com.group.libraryapp.dto.book.response
+package com.group.libraryapp.usecase.book.dto.response
 
 data class RegisterBookDto(
     val bookId: Long,

@@ -1,7 +1,7 @@
 package com.group.libraryapp.repository
 
 import com.group.libraryapp.domain.book.QBook.book
-import com.group.libraryapp.dto.book.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository

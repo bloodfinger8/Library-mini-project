@@ -1,15 +1,15 @@
 package com.group.libraryapp.usecase.book
 
-import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
+import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.dto.book.command.RegisterBookCommand
-import com.group.libraryapp.dto.book.response.BookStatDto
-import com.group.libraryapp.dto.book.response.RegisterBookDto
+import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
+import com.group.libraryapp.usecase.book.dto.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.response.RegisterBookDto
 import com.group.libraryapp.repository.BookQuerydslRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -27,7 +27,7 @@ class RegisterBookUseCase(
     fun register(req: RegisterBookCommand): RegisterBookDto {
         val company = companyRepository.findByIdOrNull(req.companyId)
         val book = bookRepository.save(
-            Book.create(
+            BookFactory.create(
                 req.name,
                 BookType.COMPUTER,
                 req.publisher,
