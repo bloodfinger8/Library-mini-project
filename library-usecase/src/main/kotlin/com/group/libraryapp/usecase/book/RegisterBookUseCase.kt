@@ -3,6 +3,7 @@ package com.group.libraryapp.usecase.book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.book.type.BookType
+import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
@@ -26,18 +27,19 @@ class RegisterBookUseCase(
     @Transactional
     fun register(req: RegisterBookCommand): RegisterBookDto {
         val company = companyRepository.findByIdOrNull(req.companyId)
-        val book = bookRepository.save(
-            BookFactory.create(
-                req.name,
-                BookType.COMPUTER,
-                req.publisher,
-                req.stock,
-                req.location,
-                company!!
-            )
-        )
-        return RegisterBookDto(book.id!!, book.name, book.type.name, book.publisher, book.stock)
+        val book = bookRepository.save(bookFactory(req, company))
+        return RegisterBookDto.of(book)
     }
+
+    private fun bookFactory(req: RegisterBookCommand, company: Company?) =
+        BookFactory.create(
+            req.name,
+            BookType.COMPUTER,
+            req.publisher,
+            req.stock,
+            req.location,
+            company!!
+        )
 
     @Transactional(readOnly = true)
     fun countLoanedBook(): Int {

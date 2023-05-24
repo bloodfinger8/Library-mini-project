@@ -1,4 +1,4 @@
-package com.group.libraryapp.usecase.book
+package com.group.libraryapp.usecase.book.assembler
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.User

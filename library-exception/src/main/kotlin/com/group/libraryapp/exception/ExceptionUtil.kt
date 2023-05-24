@@ -7,6 +7,8 @@ fun fail(): Nothing = throw IllegalArgumentException("request value error")
 fun userNotFoundFail(id: Long): Nothing = throw IllegalArgumentException("not existed userId :$id")
 fun userNotFoundFail(value: String): Nothing = throw IllegalArgumentException("not existed value :$value")
 
+fun bookNotFoundFail(id: Long): Nothing = throw IllegalArgumentException("not existed bookId :$id")
+
 fun loanFail(id: Long?): Nothing = throw NotExistStockException("not exist stock bookId :$id")
 fun returnFail(id: Long?): Nothing = throw NotExistLoanBookException("not existed loan bookId :$id")
 

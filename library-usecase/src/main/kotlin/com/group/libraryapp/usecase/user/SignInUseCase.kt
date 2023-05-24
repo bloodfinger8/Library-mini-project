@@ -22,14 +22,11 @@ class SignInUseCase(
 ) {
     @Transactional
     fun signIn(command: SignInCommand): UserSignInDto {
-        val user = findUser(command)
+        val user = userRepository.findByEmail(Email(command.email)) ?: loginFail()
         emailPasswordAuthenticate(command)
         return UserSignInDto.of(user, accessToken(user))
     }
-
-    private fun findUser(command: SignInCommand) =
-        userRepository.findByEmail(Email(command.email)) ?: loginFail()
-
+    
     private fun emailPasswordAuthenticate(command: SignInCommand) {
         SecurityContextHolder.getContext().authentication =
             authenticationManager.authenticate(UsernamePasswordAuthenticationToken(command.email, command.password))

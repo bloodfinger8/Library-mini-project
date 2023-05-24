@@ -5,6 +5,7 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.SliceDto
 import com.group.libraryapp.usecase.book.dto.response.BookDto
 import com.group.libraryapp.exception.userNotFoundFail
+import com.group.libraryapp.usecase.book.assembler.BookDtoAssembler
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
