@@ -15,10 +15,11 @@ class UserFactory {
             name: String = "양재우",
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
             company: Company = CompanyFactory.create(),
+            introduction: String? = null,
             createdAt: LocalDateTime = LocalDateTime.now(),
             id: Long? = null,
         ): User {
-            val user = User(email, password, name, userLoanHistories, company, createdAt, id)
+            val user = User(email, password, name, userLoanHistories, company, introduction, createdAt, id)
             company.join(user)
             return user
         }

@@ -28,6 +28,8 @@ class User(
     @JoinColumn(name = "company_id")
     val company: Company? = null,
 
+    val introduction: String? = null,
+
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Id
