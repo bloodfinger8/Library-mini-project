@@ -19,7 +19,5 @@ data class RegisterBookDto(
                 stock = book.stock,
             )
         }
-
     }
-
 }

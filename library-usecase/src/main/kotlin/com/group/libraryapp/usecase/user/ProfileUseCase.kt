@@ -17,4 +17,7 @@ class ProfileUseCase(
         val user = userRepository.findByIdOrNull(userId) ?: userNotFoundFail(userId)
         return UserDetailDto.of(user)
     }
+
+    fun update() {
+    }
 }

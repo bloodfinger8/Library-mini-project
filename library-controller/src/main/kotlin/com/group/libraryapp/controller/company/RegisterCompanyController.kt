@@ -1,9 +1,9 @@
 package com.group.libraryapp.controller.company
 
-import com.group.libraryapp.usecase.book.dto.command.RegisterCompanyCommand
 import com.group.libraryapp.dto.book.request.RegisterCompanyRequest
 import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
+import com.group.libraryapp.usecase.book.dto.command.RegisterCompanyCommand
 import com.group.libraryapp.usecase.group.RegisterCompanyUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse

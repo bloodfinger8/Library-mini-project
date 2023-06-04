@@ -1,7 +1,7 @@
 package com.group.libraryapp.usecase.group
 
-import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.SliceDto
+import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.usecase.book.dto.response.CompanyDto
 import com.group.libraryapp.usecase.group.assembler.CompanyAssembler
 import org.springframework.data.domain.PageRequest

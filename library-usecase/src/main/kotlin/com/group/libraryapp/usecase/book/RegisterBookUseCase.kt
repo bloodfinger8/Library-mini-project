@@ -8,10 +8,10 @@ import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
+import com.group.libraryapp.repository.BookQuerydslRepository
 import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
 import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import com.group.libraryapp.usecase.book.dto.response.RegisterBookDto
-import com.group.libraryapp.repository.BookQuerydslRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

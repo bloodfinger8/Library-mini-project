@@ -5,6 +5,7 @@ import com.group.libraryapp.NAME
 import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.SEARCH_PAGE
 import com.group.libraryapp.SEARCH_PAGE_SIZE
+import com.group.libraryapp.SliceDto
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.factory.BookFactory
@@ -14,11 +15,10 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
-import com.group.libraryapp.SliceDto
-import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
-import com.group.libraryapp.usecase.book.dto.response.BookDto
 import com.group.libraryapp.usecase.book.ListBookUseCase
 import com.group.libraryapp.usecase.book.LoanBookUseCase
+import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
+import com.group.libraryapp.usecase.book.dto.response.BookDto
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test

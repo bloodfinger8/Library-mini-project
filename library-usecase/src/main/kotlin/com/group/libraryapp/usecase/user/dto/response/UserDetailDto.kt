@@ -27,6 +27,5 @@ data class UserDetailDto(
                 updatedAt = user.updatedAt
             )
         }
-
     }
 }

@@ -10,11 +10,11 @@ import com.group.libraryapp.PASSWORD
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.UserRepository
-import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
-import com.group.libraryapp.usecase.user.dto.response.SignUpDto
 import com.group.libraryapp.exception.EmailAlreadyExistsException
 import com.group.libraryapp.exception.InvalidEmailDomainException
 import com.group.libraryapp.usecase.user.SignUpUseCase
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
+import com.group.libraryapp.usecase.user.dto.response.SignUpDto
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.core.test.TestCase

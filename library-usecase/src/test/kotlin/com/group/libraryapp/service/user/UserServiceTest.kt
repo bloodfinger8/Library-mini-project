@@ -15,9 +15,9 @@ import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.usecase.user.dto.command.UpdateUserCommand
 import com.group.libraryapp.usecase.user.SearchUserUseCase
 import com.group.libraryapp.usecase.user.UserService
+import com.group.libraryapp.usecase.user.dto.command.UpdateUserCommand
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
