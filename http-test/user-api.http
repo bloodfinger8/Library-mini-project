@@ -3,10 +3,10 @@ POST {{host}}/user/sign-up
 Content-Type: application/json
 
 {
-  "email" : "didasjdk@gmail.com",
-  "password" : "123123",
-  "name" : "양재우",
-  "companyId" : 10
+  "email": "didasjdk@gmail.com",
+  "password": "123123",
+  "name": "양재우",
+  "companyId": 10
 }
 
 ### 유저 로그인
@@ -14,8 +14,8 @@ POST {{host}}/user/sign-in
 Content-Type: application/json
 
 {
-  "email" : "didasjdk@gmail.com",
-  "password" : "123123"
+  "email": "didasjdk@gmail.com",
+  "password": "123123"
 }
 
 ### 유저 리스트
@@ -27,8 +27,8 @@ PUT {{host}}/user
 Content-Type: application/json
 
 {
-  "name" : "양재우",
-  "age" : "29"
+  "name": "양재우",
+  "age": "29"
 }
 
 ### 유저 삭제
@@ -38,3 +38,9 @@ Content-Type: application/json
 ### 대출 유저 리스트
 GET {{host}}/user/loan
 Content-Type: application/json
+
+### 유저 프로필 조회
+GET {{host}}/user/profile/{userId}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+

@@ -28,7 +28,7 @@ class User(
     @JoinColumn(name = "company_id")
     val company: Company? = null,
 
-    val introduction: String? = null,
+    var introduction: String? = null,
 
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
@@ -38,8 +38,10 @@ class User(
 ) {
     var updatedAt: LocalDateTime = createdAt
 
-    fun updateName(name: String) {
+    fun update(name: String, introduction: String) {
         this.name = name
+        this.introduction = introduction
+        this.updatedAt = LocalDateTime.now()
     }
 
     fun loanBook(book: Book) {
