@@ -6,6 +6,7 @@ import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.exception.fail
 import com.group.libraryapp.exception.returnFail
+import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.usecase.book.dto.command.ReturnBookCommand
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -13,17 +14,21 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ReturnBookUseCase(
-    val bookRepository: BookRepository,
-    val userRepository: UserRepository,
-    val userLoanHistoryRepository: UserLoanHistoryRepository
+    private val bookRepository: BookRepository,
+    private val userRepository: UserRepository,
+    private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val notifier: Notifier
 ) {
     @Transactional
     fun returnBook(command: ReturnBookCommand) {
         val user = userRepository.findByName(command.name) ?: fail()
-        val isExistLoanBook = userLoanHistoryRepository.existsByBookIdAndStatus(command.bookId, UserLoanStatus.LOANED)
-        when {
-            isExistLoanBook -> user.returnBook(bookRepository.findByIdOrNull(command.bookId) ?: fail())
-            else -> returnFail(command.bookId)
-        }
+        if (!isLoanBook(command)) returnFail(command.bookId)
+
+        val book = bookRepository.findByIdOrNull(command.bookId) ?: fail()
+        user.returnBook(book)
+        notifier.returned(user.name, book.name)
     }
+
+    private fun isLoanBook(command: ReturnBookCommand) =
+        userLoanHistoryRepository.existsByBookIdAndStatus(command.bookId, UserLoanStatus.LOANED)
 }

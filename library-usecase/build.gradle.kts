@@ -16,6 +16,7 @@ dependencies {
     implementation(project(":library-domain"))
     implementation(project(":library-exception"))
     implementation(project(":library-infrastructure"))
+    implementation(project(":library-gateway"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
