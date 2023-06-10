@@ -9,6 +9,8 @@ import com.group.libraryapp.COMPANY_ID
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.book.type.BookType
+import com.group.libraryapp.domain.company.CompanyRepository
+import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
@@ -16,6 +18,8 @@ import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.exception.NotExistStockException
+import com.group.libraryapp.gateway.telegram.Notifier
+import com.group.libraryapp.repository.BookQuerydslRepository
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
 import com.group.libraryapp.usecase.book.ReturnBookUseCase
@@ -25,19 +29,21 @@ import com.group.libraryapp.usecase.book.dto.command.ReturnBookCommand
 import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class RegisterBookUseCaseTest @Autowired constructor(
-    private val registerBookUseCase: RegisterBookUseCase,
-    private val loanBookUseCase: LoanBookUseCase,
-    private val returnBookUseCase: ReturnBookUseCase,
     private val bookRepository: BookRepository,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepository
+    private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val companyRepository: CompanyRepository,
+    private val bookQuerydslRepository: BookQuerydslRepository
+
 ) {
     companion object {
         val EMAIL = Email("didwodn82@naver.com")
@@ -50,7 +56,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         val bookRequest =
             RegisterBookCommand(BOOK_NAME, BOOK_PUBLISHER, BOOK_STOCK, BOOK_TYPE, BOOK_LOCATION, COMPANY_ID)
 
-        val book = registerBookUseCase.register(bookRequest)
+        val book = registerBookUseCase().register(bookRequest)
 
         Assertions.assertThat(book.name).isEqualTo(BOOK_NAME)
     }
@@ -60,7 +66,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         val book = bookRepository.save(BookFactory.create("클린 아키텍처"))
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
-        loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name))
+        loanBookUseCase().loan(LoanBookCommand(book.id!!, user.name))
 
         val loanHistory = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanHistory.first().book.name).isEqualTo("클린 아키텍처")
@@ -74,7 +80,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         val user = userRepository.save(User(EMAIL, PASSWORD, NAME))
 
         assertThrows<NotExistStockException> {
-            loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name))
+            loanBookUseCase().loan(LoanBookCommand(book.id!!, user.name))
         }
     }
 
@@ -85,7 +91,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
         user.loanBook(book)
         userLoanHistoryRepository.save(UserLoanHistory.create(user, book))
 
-        returnBookUseCase.returnBook(ReturnBookCommand(book.id!!, user.name))
+        returnBookUseCase().returnBook(ReturnBookCommand(book.id!!, user.name))
 
         val loanBook = userLoanHistoryRepository.findAll()
         Assertions.assertThat(loanBook).hasSize(1)
@@ -104,7 +110,7 @@ class RegisterBookUseCaseTest @Autowired constructor(
             )
         )
 
-        val result = registerBookUseCase.getStat()
+        val result = registerBookUseCase().getStat()
 
         Assertions.assertThat(result).hasSize(2)
         assertCount(result, BookType.COMPUTER, 1)
@@ -115,10 +121,36 @@ class RegisterBookUseCaseTest @Autowired constructor(
         Assertions.assertThat(result.first { it.type == type }.count).isEqualTo(count)
     }
 
+    private fun registerBookUseCase() = RegisterBookUseCase(
+        bookRepository,
+        bookQuerydslRepository,
+        userLoanHistoryRepository,
+        companyRepository,
+        mock(Notifier::class.java)
+    )
+
+    private fun returnBookUseCase() = ReturnBookUseCase(
+        bookRepository,
+        userRepository,
+        userLoanHistoryRepository,
+        mock(Notifier::class.java)
+    )
+
+    private fun loanBookUseCase() = LoanBookUseCase(
+        bookRepository,
+        userRepository,
+        mock(Notifier::class.java)
+    )
+
     @AfterEach
     fun clean() {
         userRepository.deleteAll()
         bookRepository.deleteAll()
         userLoanHistoryRepository.deleteAll()
+    }
+
+    @BeforeEach
+    fun com() {
+        companyRepository.save(CompanyFactory.create("company-1"))
     }
 }
