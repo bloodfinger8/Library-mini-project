@@ -27,7 +27,7 @@ class SignInUseCaseTest(
     private val signUpUseCase: SignUpUseCase,
     private val signInUseCase: SignInUseCase,
     private val userRepository: UserRepository,
-    private val companyRepository: CompanyRepository,
+    private val companyRepository: CompanyRepository
 ) : DescribeSpec({
     describe("사용자 로그인 시도") {
         signUp(signUpUseCase)

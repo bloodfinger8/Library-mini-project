@@ -4,11 +4,13 @@ import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
+import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.OptimisticLockingFailureException
@@ -17,9 +19,8 @@ import java.util.concurrent.Executors
 
 @SpringBootTest
 class BookConcurrencyTest @Autowired constructor(
-    val loanBookUseCase: LoanBookUseCase,
     val bookRepository: BookRepository,
-    val userRepository: UserRepository,
+    val userRepository: UserRepository
 ) {
 
     @Test
@@ -34,9 +35,9 @@ class BookConcurrencyTest @Autowired constructor(
         )
         val executorService = Executors.newFixedThreadPool(3)
 
-        val future = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
-        val future2 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
-        val future3 = executorService.submit { loanBookUseCase.loan(LoanBookCommand(book.id!!, user.name)) }
+        val future = executorService.submit { loanBookUseCase().loan(LoanBookCommand(book.id!!, user.name)) }
+        val future2 = executorService.submit { loanBookUseCase().loan(LoanBookCommand(book.id!!, user.name)) }
+        val future3 = executorService.submit { loanBookUseCase().loan(LoanBookCommand(book.id!!, user.name)) }
 
         var result = Exception()
         try {
@@ -49,6 +50,12 @@ class BookConcurrencyTest @Autowired constructor(
 
         Assertions.assertTrue(result is OptimisticLockingFailureException)
     }
+
+    fun loanBookUseCase() = LoanBookUseCase(
+        bookRepository,
+        userRepository,
+        Mockito.mock(Notifier::class.java)
+    )
 
     @AfterEach
     fun clean() {

@@ -15,6 +15,7 @@ import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
+import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.usecase.book.ListBookUseCase
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
@@ -22,13 +23,13 @@ import com.group.libraryapp.usecase.book.dto.response.BookDto
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class ListBookUseCaseTest @Autowired constructor(
     val inventoryBookUseCase: ListBookUseCase,
-    val loanBookUseCase: LoanBookUseCase,
     val bookRepository: BookRepository,
     val userRepository: UserRepository,
     val userLoanHistoryRepository: UserLoanHistoryRepository,
@@ -43,7 +44,7 @@ internal class ListBookUseCaseTest @Autowired constructor(
         val book3 = BookFactory.create("book-3", company = company)
         val book4 = BookFactory.create("book-4", company = company)
         bookRepository.saveAll(listOf(book1, book2, book3, book4))
-        loanBookUseCase.loan(LoanBookCommand(book3.id!!, user.name))
+        loanBookUseCase().loan(LoanBookCommand(book3.id!!, user.name))
 
         val results = inventoryBookUseCase.inventory(user.id!!, company.id!!, SEARCH_PAGE, SEARCH_PAGE_SIZE)
 
@@ -55,6 +56,12 @@ internal class ListBookUseCaseTest @Autowired constructor(
 
     private fun getLoanedBook(results: SliceDto<BookDto>, book3: Book) =
         results.elements.first { it.id == book3.id }
+
+    private fun loanBookUseCase() = LoanBookUseCase(
+        bookRepository,
+        userRepository,
+        Mockito.mock(Notifier::class.java)
+    )
 
     @AfterEach
     fun clean() {
