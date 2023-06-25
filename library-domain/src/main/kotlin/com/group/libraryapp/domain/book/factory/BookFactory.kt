@@ -1,8 +1,8 @@
 package com.group.libraryapp.domain.book.factory
 
 import com.group.libraryapp.domain.book.Book
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.company.Company
+import com.group.libraryapp.type.book.BookType
 
 class BookFactory {
     companion object {

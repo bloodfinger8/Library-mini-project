@@ -14,6 +14,7 @@ jar.archiveClassifier.convention("")
 dependencies {
     implementation(project(":library-config"))
     implementation(project(":library-domain"))
+    implementation(project(":library-type"))
     implementation(project(":library-exception"))
     implementation(project(":library-infrastructure"))
     implementation(project(":library-gateway"))

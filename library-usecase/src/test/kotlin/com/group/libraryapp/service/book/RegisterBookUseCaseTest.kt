@@ -8,7 +8,6 @@ import com.group.libraryapp.BOOK_TYPE
 import com.group.libraryapp.COMPANY_ID
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.book.factory.BookFactory
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.Email
@@ -20,6 +19,7 @@ import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.exception.NotExistStockException
 import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.repository.BookQuerydslRepository
+import com.group.libraryapp.type.book.BookType
 import com.group.libraryapp.usecase.book.LoanBookUseCase
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
 import com.group.libraryapp.usecase.book.ReturnBookUseCase
@@ -32,7 +32,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 

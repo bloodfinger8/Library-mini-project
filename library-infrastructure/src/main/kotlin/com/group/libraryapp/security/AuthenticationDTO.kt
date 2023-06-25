@@ -1,6 +1,6 @@
 package com.group.libraryapp.security
 
-import com.group.libraryapp.domain.user.UserType
+import com.group.libraryapp.type.user.UserType
 
 class AuthenticationDTO(
     val id: Long,

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class SignInUseCase(
     val authenticationManager: AuthenticationManager,
     val tokenProvider: JWTTokenProvider,
-    val userRepository: UserRepository,
+    val userRepository: UserRepository
 ) {
     @Transactional
     fun signIn(command: SignInCommand): UserSignInDto {
@@ -33,5 +33,12 @@ class SignInUseCase(
     }
 
     private fun accessToken(user: User) =
-        tokenProvider.signAcToken(JWTAccessToken.of(user.id!!, user.email, user.name, companyId = user.company!!.id!!))
+        tokenProvider.signAcToken(
+            JWTAccessToken.of(
+                user.id!!,
+                user.email.name(),
+                user.name,
+                companyId = user.company!!.id!!
+            )
+        )
 }

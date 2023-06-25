@@ -1,8 +1,8 @@
 package com.group.libraryapp.domain.company.factory
 
 import com.group.libraryapp.domain.company.Company
-import com.group.libraryapp.domain.company.CompanyStatus
 import com.group.libraryapp.domain.company.Employee
+import com.group.libraryapp.type.company.CompanyStatus
 import java.time.LocalDateTime
 
 class CompanyFactory {

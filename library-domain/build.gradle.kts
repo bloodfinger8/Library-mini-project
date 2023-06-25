@@ -15,6 +15,7 @@ jar.archiveClassifier.convention("")
 dependencies {
     implementation(project(":library-config"))
     implementation(project(":library-exception"))
+    implementation(project(":library-type"))
 
     runtimeOnly("com.h2database:h2")
     // swagger

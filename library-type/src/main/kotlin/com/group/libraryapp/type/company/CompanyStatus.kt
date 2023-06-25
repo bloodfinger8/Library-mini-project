@@ -1,4 +1,4 @@
-package com.group.libraryapp.domain.company
+package com.group.libraryapp.type.company
 
 enum class CompanyStatus {
     CLOSE,

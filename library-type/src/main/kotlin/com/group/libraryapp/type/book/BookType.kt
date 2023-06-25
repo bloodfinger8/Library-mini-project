@@ -1,4 +1,4 @@
-package com.group.libraryapp.domain.book.type
+package com.group.libraryapp.type.book
 
 enum class BookType {
     COMPUTER,

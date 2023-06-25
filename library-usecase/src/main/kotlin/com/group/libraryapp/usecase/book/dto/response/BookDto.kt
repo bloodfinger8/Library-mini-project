@@ -1,9 +1,9 @@
 package com.group.libraryapp.usecase.book.dto.response
 
 import com.group.libraryapp.domain.book.Book
-import com.group.libraryapp.domain.book.type.BookType
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
+import com.group.libraryapp.type.book.BookType
 
 data class BookDto(
     var id: Long,
@@ -12,7 +12,7 @@ data class BookDto(
     var publisher: String?,
     var stock: Int,
     val location: String?,
-    var loaned: Boolean,
+    var loaned: Boolean
 ) {
     companion object {
         fun of(user: User, book: Book): BookDto {
@@ -26,7 +26,7 @@ data class BookDto(
                 publisher = book.publisher,
                 stock = book.stock,
                 location = book.location,
-                loaned = loanedBookIds.contains(book.id),
+                loaned = loanedBookIds.contains(book.id)
             )
         }
     }

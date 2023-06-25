@@ -1,10 +1,20 @@
 package com.group.libraryapp.domain.company
 
 import com.group.libraryapp.domain.user.User
+import com.group.libraryapp.type.company.EmployeeStatus
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.ZonedDateTime
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.FetchType
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
 
 @Entity
 class Employee(

@@ -1,6 +1,6 @@
 package com.group.libraryapp.security
 
-import com.group.libraryapp.domain.user.UserType
+import com.group.libraryapp.type.user.UserType
 import com.group.libraryapp.util.UserRole
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

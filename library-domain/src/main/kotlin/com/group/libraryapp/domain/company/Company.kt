@@ -3,6 +3,8 @@ package com.group.libraryapp.domain.company
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.exception.invalidEmailFail
+import com.group.libraryapp.type.company.CompanyStatus
+import com.group.libraryapp.type.company.EmployeeStatus
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity

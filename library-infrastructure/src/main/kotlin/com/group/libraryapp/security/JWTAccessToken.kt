@@ -1,11 +1,10 @@
 package com.group.libraryapp.security
 
-import com.group.libraryapp.domain.user.Email
-import com.group.libraryapp.domain.user.UserType
+import com.group.libraryapp.type.user.UserType
 
 class JWTAccessToken(
     val id: Long,
-    val email: Email,
+    val email: String,
     val name: String,
     val userType: UserType,
     val companyId: Long
@@ -14,7 +13,7 @@ class JWTAccessToken(
         const val TTL: Int = 1000 * 60 * 60
         fun of(
             id: Long,
-            email: Email,
+            email: String,
             name: String,
             userType: UserType = UserType.USER,
             companyId: Long

@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 import java.security.Key
-import java.util.Date
+import java.util.*
 import javax.crypto.spec.SecretKeySpec
 import javax.xml.bind.DatatypeConverter
 
@@ -15,7 +15,7 @@ class JWTTokenProvider(val jwtProperties: JWTProperties) {
         Jwts.builder()
             .setSubject("library-app")
             .claim("id", token.id)
-            .claim("email", token.email.name())
+            .claim("email", token.email)
             .claim("name", token.name)
             .claim("userType", token.userType)
             .claim("companyId", token.companyId)
