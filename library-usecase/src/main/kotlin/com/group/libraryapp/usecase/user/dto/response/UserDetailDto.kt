@@ -26,7 +26,7 @@ data class UserDetailDto(
                 nickname = user.name,
                 introduction = user.introduction,
                 createdAt = user.createdAt,
-                updatedAt = user.updatedAt
+                updatedAt = user.getUpdatedAt()
             )
         }
     }

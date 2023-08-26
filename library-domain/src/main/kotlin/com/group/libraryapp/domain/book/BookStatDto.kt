@@ -1,4 +1,4 @@
-package com.group.libraryapp.usecase.book.dto.response
+package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.type.book.BookType
 

@@ -1,14 +1,20 @@
 package com.group.libraryapp.domain.user.loanHistory
 
+import com.group.libraryapp.domain.TimeInfoEntity
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
 import com.group.libraryapp.exception.fail
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.UpdateTimestamp
-import java.time.ZonedDateTime
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.OneToOne
 
 @Entity
 class UserLoanHistory(
@@ -25,12 +31,17 @@ class UserLoanHistory(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
-) {
-    @CreationTimestamp
-    lateinit var createdAt: ZonedDateTime
+) : TimeInfoEntity() {
 
-    @UpdateTimestamp
-    lateinit var updatedAt: ZonedDateTime
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as UserLoanHistory
+        if (id != other.id) return false
+        return true
+    }
+
+    override fun hashCode(): Int = id?.hashCode() ?: 0
 
     companion object {
         fun create(

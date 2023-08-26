@@ -5,7 +5,6 @@ import com.group.libraryapp.domain.company.factory.CompanyFactory
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
-import java.time.LocalDateTime
 
 class UserFactory {
     companion object {
@@ -16,10 +15,9 @@ class UserFactory {
             userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
             company: Company = CompanyFactory.create(),
             introduction: String? = null,
-            createdAt: LocalDateTime = LocalDateTime.now(),
-            id: Long? = null,
+            id: Long? = null
         ): User {
-            val user = User(email, password, name, userLoanHistories, company, introduction, createdAt, id)
+            val user = User(email, password, name, userLoanHistories, company, introduction, id)
             company.join(user)
             return user
         }

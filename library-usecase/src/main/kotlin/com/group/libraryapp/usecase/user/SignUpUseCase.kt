@@ -10,7 +10,6 @@ import com.group.libraryapp.exception.companyNotFoundFail
 import com.group.libraryapp.exception.signUpFail
 import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
 import com.group.libraryapp.usecase.user.dto.response.SignUpDto
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class SignUpUseCase(
     val userRepository: UserRepository,
     val passwordEncoder: PasswordEncoder,
-    val companyRepository: CompanyRepository,
+    val companyRepository: CompanyRepository
 ) {
     @Transactional
     fun signUp(command: SignUpCommand): SignUpDto {
@@ -29,7 +28,7 @@ class SignUpUseCase(
     }
 
     private fun findCompany(command: SignUpCommand) =
-        companyRepository.findByIdOrNull(command.companyId) ?: companyNotFoundFail(command.companyId)
+        companyRepository.findById(command.companyId) ?: companyNotFoundFail(command.companyId)
 
     private fun saveUser(
         command: SignUpCommand,
@@ -37,7 +36,9 @@ class SignUpUseCase(
     ): User =
         userRepository.save(
             UserFactory.create(
-                Email(command.email), passwordEncoder.encode(command.password), command.name,
+                Email(command.email),
+                passwordEncoder.encode(command.password),
+                command.name,
                 company = company
             )
         )

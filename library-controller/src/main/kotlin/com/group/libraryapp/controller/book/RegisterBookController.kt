@@ -6,7 +6,7 @@ import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
 import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
-import com.group.libraryapp.usecase.book.dto.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.response.BookStatRes
 import com.group.libraryapp.util.UserRole
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -35,8 +35,10 @@ class RegisterBookController(
     @Secured(UserRole.ROLE_USER)
     @PostMapping("/book")
     fun saveBook(
-        @Valid @RequestBody request: BookRequest,
-        @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO
+        @Valid @RequestBody
+        request: BookRequest,
+        @Parameter(hidden = true) @AuthenticationPrincipal
+        authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
         registerBookUseCase.register(
             RegisterBookCommand(
@@ -57,7 +59,7 @@ class RegisterBookController(
     }
 
     @GetMapping("/book/stat")
-    fun bookStat(): List<BookStatDto> {
+    fun bookStat(): List<BookStatRes> {
         return registerBookUseCase.getStat()
     }
 }

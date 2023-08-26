@@ -6,7 +6,6 @@ import com.group.libraryapp.exception.bookNotFoundFail
 import com.group.libraryapp.exception.userNotFoundFail
 import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.usecase.book.dto.command.LoanBookCommand
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +17,7 @@ class LoanBookUseCase(
 ) {
     @Transactional
     fun loan(cmd: LoanBookCommand) {
-        val book = bookRepository.findByIdOrNull(cmd.bookId) ?: bookNotFoundFail(cmd.bookId)
+        val book = bookRepository.findById(cmd.bookId) ?: bookNotFoundFail(cmd.bookId)
         val user = userRepository.findByName(cmd.name) ?: userNotFoundFail(cmd.name)
         user.loanBook(book)
         notifier.loaned(user.name, book.name)

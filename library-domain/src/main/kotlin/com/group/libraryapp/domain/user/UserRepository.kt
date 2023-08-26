@@ -1,15 +1,15 @@
 package com.group.libraryapp.domain.user
 
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
-import org.springframework.data.jpa.repository.JpaRepository
+import com.group.libraryapp.domain.util.Slice
 
-interface UserRepository : JpaRepository<User, Long> {
+interface UserRepository {
+    fun save(user: User): User
+    fun saveAll(users: List<User>)
+    fun delete(user: User)
+    fun deleteAll()
+    fun findById(id: Long): User?
     fun findByName(name: String): User?
-
     fun findByEmail(email: Email): User?
-
     fun existsByEmail(email: Email): Boolean
-
-    fun findAllByCompanyId(companyId: Long, pageable: Pageable): Slice<User>
+    fun findAllByCompanyId(companyId: Long, page: Int, pageSize: Int): Slice<User>
 }

@@ -1,10 +1,10 @@
 package com.group.libraryapp.domain.user
 
+import com.group.libraryapp.domain.TimeInfoEntity
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
 import com.group.libraryapp.exception.fail
-import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -30,18 +30,14 @@ class User(
 
     var introduction: String? = null,
 
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-) {
-    var updatedAt: LocalDateTime = createdAt
+) : TimeInfoEntity() {
 
     fun update(name: String, introduction: String) {
         this.name = name
         this.introduction = introduction
-        this.updatedAt = LocalDateTime.now()
     }
 
     fun loanBook(book: Book) {

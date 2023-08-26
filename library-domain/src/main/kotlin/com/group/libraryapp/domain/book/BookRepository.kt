@@ -1,11 +1,11 @@
 package com.group.libraryapp.domain.book
 
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
-import org.springframework.data.jpa.repository.JpaRepository
+import com.group.libraryapp.domain.util.Slice
 
-interface BookRepository : JpaRepository<Book, Long> {
+interface BookRepository {
+    fun save(book: Book): Book
+    fun saveAll(books: List<Book>)
+    fun findById(id: Long): Book?
     fun findByName(name: String): Book?
-
-    fun findAllByCompanyId(companyId: Long, pageable: Pageable): Slice<Book>
+    fun findAllByCompanyId(companyId: Long, page: Int, pageSize: Int): Slice<Book>
 }

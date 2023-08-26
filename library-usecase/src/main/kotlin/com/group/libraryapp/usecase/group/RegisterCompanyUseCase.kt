@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterCompanyUseCase(
-    val companyRepository: CompanyRepository,
+    private val companyRepository: CompanyRepository
 ) {
     @Transactional
     fun register(command: RegisterCompanyCommand) {

@@ -9,7 +9,7 @@ data class CompanyDetailDto(
     val domain: String,
     val numberOfEmployee: Int,
     val status: String,
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime
 ) {
     companion object {
         fun of(company: Company): CompanyDetailDto {

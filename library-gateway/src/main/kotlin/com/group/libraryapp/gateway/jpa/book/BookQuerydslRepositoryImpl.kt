@@ -1,16 +1,18 @@
-package com.group.libraryapp.repository
+package com.group.libraryapp.gateway.jpa.book
 
+import com.group.libraryapp.domain.book.BookQuerydslRepository
+import com.group.libraryapp.domain.book.BookStatDto
 import com.group.libraryapp.domain.book.QBook.book
-import com.group.libraryapp.usecase.book.dto.response.BookStatDto
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class BookQuerydslRepository(
+class BookQuerydslRepositoryImpl(
     private val queryFactory: JPAQueryFactory
-) {
-    fun getStat(): List<BookStatDto> {
+) : BookQuerydslRepository {
+
+    override fun getStat(): List<BookStatDto> {
         return queryFactory
             .select(
                 Projections.constructor(

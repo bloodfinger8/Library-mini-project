@@ -1,11 +1,11 @@
 package com.group.libraryapp.domain.company
 
+import com.group.libraryapp.domain.TimeInfoEntity
 import com.group.libraryapp.domain.user.Email
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.exception.invalidEmailFail
 import com.group.libraryapp.type.company.CompanyStatus
 import com.group.libraryapp.type.company.EmployeeStatus
-import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -29,13 +29,20 @@ class Company(
     @OneToMany(mappedBy = "company", cascade = [CascadeType.ALL], orphanRemoval = true)
     var employees: MutableList<Employee> = mutableListOf(),
 
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-) {
-    var updatedAt: LocalDateTime = createdAt
+) : TimeInfoEntity() {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as Company
+        if (id != other.id) return false
+        return true
+    }
+
+    override fun hashCode(): Int = id?.hashCode() ?: 0
 
     private fun increaseNumberOfEmployee() {
         this.numberOfEmployee += 1

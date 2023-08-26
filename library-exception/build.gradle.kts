@@ -2,8 +2,6 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("jvm")
-    kotlin("plugin.jpa")
-    kotlin("kapt")
 }
 
 val jar: Jar by tasks

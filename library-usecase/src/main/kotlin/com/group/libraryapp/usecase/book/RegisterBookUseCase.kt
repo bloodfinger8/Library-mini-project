@@ -6,27 +6,26 @@ import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.company.CompanyRepository
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistoryRepository
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
+import com.group.libraryapp.gateway.jpa.book.BookQuerydslRepositoryImpl
 import com.group.libraryapp.gateway.telegram.Notifier
-import com.group.libraryapp.repository.BookQuerydslRepository
 import com.group.libraryapp.type.book.BookType
 import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
-import com.group.libraryapp.usecase.book.dto.response.BookStatDto
+import com.group.libraryapp.usecase.book.dto.response.BookStatRes
 import com.group.libraryapp.usecase.book.dto.response.RegisterBookDto
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterBookUseCase(
     private val bookRepository: BookRepository,
-    private val bookQuerydslRepository: BookQuerydslRepository,
+    private val bookQuerydslRepository: BookQuerydslRepositoryImpl,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
     private val companyRepository: CompanyRepository,
     private val notifier: Notifier
 ) {
     @Transactional
     fun register(req: RegisterBookCommand): RegisterBookDto {
-        val company = companyRepository.findByIdOrNull(req.companyId)
+        val company = companyRepository.findById(req.companyId)
         val book = bookRepository.save(bookFactory(req, company))
         notifier.registered(book.name)
         return RegisterBookDto.of(book)
@@ -48,7 +47,8 @@ class RegisterBookUseCase(
     }
 
     @Transactional(readOnly = true)
-    fun getStat(): List<BookStatDto> {
-        return bookQuerydslRepository.getStat()
+    fun getStat(): List<BookStatRes> {
+        val stat = bookQuerydslRepository.getStat()
+        return stat.map { BookStatRes(it.type, it.count) }
     }
 }

@@ -8,7 +8,6 @@ import com.group.libraryapp.exception.fail
 import com.group.libraryapp.exception.returnFail
 import com.group.libraryapp.gateway.telegram.Notifier
 import com.group.libraryapp.usecase.book.dto.command.ReturnBookCommand
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,7 +23,7 @@ class ReturnBookUseCase(
         val user = userRepository.findByName(command.name) ?: fail()
         if (!isLoanBook(command)) returnFail(command.bookId)
 
-        val book = bookRepository.findByIdOrNull(command.bookId) ?: fail()
+        val book = bookRepository.findById(command.bookId) ?: fail()
         user.returnBook(book)
         notifier.returned(user.name, book.name)
     }
