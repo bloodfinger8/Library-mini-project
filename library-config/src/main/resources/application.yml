@@ -25,5 +25,10 @@ spring:
       settings:
         web-allow-others: true
 
+elasticsearch:
+  end-point: "localhost:9200"
+  index:
+    book: idx_book
+
 jwt:
   secret: LWQgdGhpc2lzbXlsaWJyYXJ5cHJvamVjdHNlY3JldGtleTEyMzQ1Ngo=
