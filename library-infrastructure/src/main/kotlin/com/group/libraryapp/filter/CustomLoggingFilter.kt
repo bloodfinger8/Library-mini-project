@@ -1,9 +1,9 @@
 package com.group.libraryapp.filter
 
+import jakarta.servlet.FilterChain
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.filter.AbstractRequestLoggingFilter
-import javax.servlet.FilterChain
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 class CustomLoggingFilter(
     private val ignorePaths: Set<String> = emptySet(),

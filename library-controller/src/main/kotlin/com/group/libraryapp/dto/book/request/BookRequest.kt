@@ -1,7 +1,7 @@
 package com.group.libraryapp.dto.book.request
 
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 data class BookRequest(
     @field:NotBlank
@@ -11,7 +11,7 @@ data class BookRequest(
     var stock: Int = 1,
     @field:NotNull
     val type: BookType,
-    var location: String? = null,
+    var location: String? = null
 )
 
 enum class BookType {
