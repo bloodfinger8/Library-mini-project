@@ -1,8 +1,8 @@
 package com.group.libraryapp.domain.user
 
+import jakarta.persistence.Column
+import jakarta.persistence.Embeddable
 import java.util.regex.Pattern
-import javax.persistence.Column
-import javax.persistence.Embeddable
 
 @Embeddable
 class Email(
@@ -14,7 +14,7 @@ class Email(
     constructor(username: String) : this(username.split('@')[0], username.split('@')[1])
 
     init {
-        if (!isValidEmail()) throw Exception("이메일 형식이 올바르지 않습니다.")
+        if (!isValidEmail()) throw IllegalArgumentException("이메일 형식이 올바르지 않습니다.")
     }
 
     fun name(): String {

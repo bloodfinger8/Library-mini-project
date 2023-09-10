@@ -1,9 +1,9 @@
 package com.group.libraryapp.domain // ktlint-disable filename
 
+import jakarta.persistence.Column
+import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.PreUpdate
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.MappedSuperclass
-import javax.persistence.PreUpdate
 
 @MappedSuperclass
 abstract class TimeInfoEntity(

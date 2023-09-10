@@ -3,6 +3,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 plugins {
     kotlin("jvm")
     kotlin("kapt")
+    kotlin("plugin.jpa")
 }
 
 val jar: Jar by tasks
@@ -16,14 +17,8 @@ dependencies {
     implementation(project(":library-exception"))
     implementation(project(":library-type"))
 
-    implementation("com.querydsl:querydsl-jpa:5.0.0")
-    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
-
-    implementation("javax.persistence:javax.persistence-api")
-}
-
-allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.MappedSuperclass")
-    annotation("javax.persistence.Embeddable")
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    implementation("jakarta.persistence:jakarta.persistence-api")
 }

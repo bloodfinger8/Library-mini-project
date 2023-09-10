@@ -1,7 +1,7 @@
 package com.group.libraryapp.dto.user.request
 
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Size
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Size
 
 data class UserCreateRequest(
     @field:NotBlank
