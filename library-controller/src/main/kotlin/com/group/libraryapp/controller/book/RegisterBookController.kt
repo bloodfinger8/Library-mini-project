@@ -5,7 +5,6 @@ import com.group.libraryapp.dto.response.BaseResponse
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.security.AuthenticationDTO
 import com.group.libraryapp.usecase.book.RegisterBookUseCase
-import com.group.libraryapp.usecase.book.dto.command.RegisterBookCommand
 import com.group.libraryapp.usecase.book.dto.response.BookStatRes
 import com.group.libraryapp.util.UserRole
 import io.swagger.v3.oas.annotations.Operation
@@ -36,20 +35,11 @@ class RegisterBookController(
     @PostMapping("/book")
     fun saveBook(
         @Valid @RequestBody
-        request: BookRequest,
+        req: BookRequest,
         @Parameter(hidden = true) @AuthenticationPrincipal
         authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
-        registerBookUseCase.register(
-            RegisterBookCommand(
-                request.name,
-                request.publisher,
-                request.stock,
-                request.type.name,
-                request.location,
-                authenticationDTO.companyId
-            )
-        )
+        registerBookUseCase.register(req.toCmd(authenticationDTO))
         return ResponseEntity.ok(SuccessRes<Any>())
     }
 

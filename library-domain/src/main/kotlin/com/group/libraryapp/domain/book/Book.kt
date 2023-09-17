@@ -59,4 +59,6 @@ class Book(
     fun changeStock(count: Int) {
         this.stock += count
     }
+
+    fun getMyType(): String = this.type.name
 }

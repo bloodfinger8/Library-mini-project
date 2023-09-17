@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":library-usecase"))
 
     implementation(project(":library-config"))
+    implementation(project(":library-type"))
     implementation(project(":library-exception"))
     implementation(project(":library-infrastructure"))
 

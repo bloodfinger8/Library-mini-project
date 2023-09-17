@@ -18,7 +18,7 @@ data class BookDoc(
                 id = book.id.toString(),
                 name = book.name,
                 stock = book.stock.toString(),
-                type = book.type.name,
+                type = book.getMyType(),
                 publisher = book.publisher,
                 location = book.location,
                 companyId = book.company?.id.toString(),

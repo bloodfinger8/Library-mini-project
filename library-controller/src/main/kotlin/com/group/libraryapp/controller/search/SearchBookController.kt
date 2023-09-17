@@ -14,7 +14,7 @@ class SearchBookController(
 
     @Operation(summary = "도서 검색")
     @GetMapping("/search/book")
-    fun test() {
+    fun search() {
         searchBookUseCase.get()
     }
 }

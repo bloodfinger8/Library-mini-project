@@ -18,7 +18,7 @@ class SearchEngineConfig(
     @Value("\${elasticsearch.index.book}") val bookIndex: String
 ) {
     @Bean
-    fun elasticSearchClient(@Value("\${elasticsearch.endPoint}") endPoint: String): ElasticsearchClient? {
+    fun elasticSearchClient(@Value("\${elasticsearch.end-point}") endPoint: String): ElasticsearchClient? {
         return ElasticsearchClient(
             RestClientTransport(
                 RestClient.builder(
