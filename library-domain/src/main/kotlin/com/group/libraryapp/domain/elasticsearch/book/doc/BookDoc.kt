@@ -1,4 +1,4 @@
-package com.group.libraryapp.gateway.elasticsearch.regist.book
+package com.group.libraryapp.domain.elasticsearch.book.doc
 
 import com.group.libraryapp.domain.book.Book
 

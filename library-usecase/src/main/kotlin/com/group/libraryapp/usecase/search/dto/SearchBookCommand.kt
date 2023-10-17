@@ -1,6 +1,6 @@
-package com.group.libraryapp.domain.elasticsearch.book
+package com.group.libraryapp.usecase.search.dto
 
-data class GetBookSpec(
+data class SearchBookCommand(
     val title: String,
     val companyId: Long,
     val page: Int,

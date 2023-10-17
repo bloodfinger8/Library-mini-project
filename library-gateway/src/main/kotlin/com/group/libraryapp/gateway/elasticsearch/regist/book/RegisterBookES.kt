@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.core.DeleteRequest
 import co.elastic.clients.elasticsearch.core.IndexRequest
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.elasticsearch.book.BookSearchEngine
+import com.group.libraryapp.domain.elasticsearch.book.doc.BookDoc
 import org.slf4j.LoggerFactory
 
 class RegisterBookES(

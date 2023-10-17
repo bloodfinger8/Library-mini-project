@@ -5,6 +5,7 @@ import com.group.libraryapp.domain.elasticsearch.book.GetBookSpec
 
 fun GetBookSpec.build(): BoolQuery.Builder {
     return BookQueryBuilder()
-        .addQuery(query)
+        .addQuery(title)
+        .addCompanyIdFilter(companyId.toString())
         .build()
 }
