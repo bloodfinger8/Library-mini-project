@@ -1,0 +1,144 @@
+GET http://localhost:8080/user
+Content-Type: application/json
+bearer token: {{token}}
+
+<> 2023-10-20T165752.400.html
+
+###
+
+GET http://localhost:8080/user
+Content-Type: application/json
+
+<> 2023-10-20T165730.500.json
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+bearer token: {{token}}
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "stock" : 1,
+  "type" : "COMPUTER",
+  "location" : "6F"
+}
+
+<> 2023-10-20T165652.400.html
+
+###
+
+POST http://{{host}}/book
+Content-Type: application/json
+bearer token: {{token}}
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "stock" : 1,
+  "type" : "COMPUTER",
+  "location" : "6F"
+}
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+bearer token: {{token}}
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "stock" : 1,
+  "type" : "COMPUTER",
+  "location" : "6F"
+}
+
+<> 2023-10-20T165639.400.html
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+bearer token: {{token}}
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "stock" : 1,
+  "type" : "COMPUTER"
+}
+
+<> 2023-10-20T165340.400.html
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "stock" : 1,
+  "type" : "COMPUTER"
+}
+
+<> 2023-10-20T165127.500.json
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "quantity" : 1,
+  "type" : "COMPUTER"
+}
+
+<> 2023-10-20T165027.500.json
+
+###
+
+POST http://localhost:8080/book
+Content-Type: application/json
+
+{
+  "name" : "단위테스트1",
+  "publisher" : "재우 출판사",
+  "quantity" : 1,
+  "type" : "COMPUTER"
+}
+
+<> 2023-10-20T165015.500.json
+
+###
+
+POST http://localhost:8080/user/sign-in
+Content-Type: application/json
+
+{
+  "email": "didasjdk@gmail.com",
+  "password": "123123"
+}
+
+<> 2023-10-20T164916.200.json
+
+###
+
+POST http://localhost:8080/user/sign-up
+Content-Type: application/json
+
+{
+  "email": "didasjdk@gmail.com",
+  "password": "123123",
+  "name": "양재우",
+  "companyId": 10
+}
+
+<> 2023-10-20T164843.200.json
+
+###
+

@@ -30,10 +30,10 @@ class SearchEngineConfig(
     }
 
     @Bean
-    fun userSearchEngine(elasticsearchClient: ElasticsearchClient): BookSearchEngine =
+    fun bookSearchEngine(elasticsearchClient: ElasticsearchClient): BookSearchEngine =
         RegisterBookES(elasticsearchClient, bookIndex)
 
     @Bean
-    fun userSearcher(elasticsearchClient: ElasticsearchClient): BookSearcher =
+    fun bookSearcher(elasticsearchClient: ElasticsearchClient): BookSearcher =
         SearchBookES(elasticsearchClient, bookIndex)
 }

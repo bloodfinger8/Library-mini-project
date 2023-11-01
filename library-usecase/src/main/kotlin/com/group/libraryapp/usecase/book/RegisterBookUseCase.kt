@@ -28,15 +28,12 @@ class RegisterBookUseCase(
 ) {
     @Transactional
     fun register(req: RegisterBookCommand): RegisterBookDto {
-        val company = companyRepository.findById(req.companyId)
-        val book = bookRepository.save(bookFactory(req, company))
+        val company = companyRepository.findById(req.companyId) ?: throw IllegalArgumentException("not exist company")
+        val book = bookRepository.save(req.createBook(company))
         searchEngine.save(book)
         eventPublisher.publishEvent(BookRegisteredNotifier(book))
         return RegisterBookDto.of(book)
     }
-
-    private fun bookFactory(req: RegisterBookCommand, company: Company?) =
-        BookFactory.create(req.name, BookType.COMPUTER, req.publisher, req.stock, req.location, company!!)
 
     @Transactional(readOnly = true)
     fun countLoanedBook(): Int {
