@@ -1,5 +1,6 @@
 package com.group.libraryapp.dto.user.request
 
+import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
@@ -10,4 +11,7 @@ data class UserCreateRequest(
     val password: String,
     val name: String,
     val companyId: Long
-)
+) {
+    fun cmd(): SignUpCommand =
+        SignUpCommand(email, password, name, companyId)
+}

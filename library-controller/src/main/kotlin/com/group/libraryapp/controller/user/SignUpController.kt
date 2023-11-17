@@ -3,7 +3,6 @@ package com.group.libraryapp.controller.user
 import com.group.libraryapp.dto.response.SuccessRes
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.usecase.user.SignUpUseCase
-import com.group.libraryapp.usecase.user.dto.command.SignUpCommand
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -31,7 +30,7 @@ class SignUpController(
         @Valid @RequestBody
         request: UserCreateRequest
     ): ResponseEntity<SuccessRes<Any>> {
-        useCase.signUp(SignUpCommand.of(request.email, request.password, request.name, request.companyId))
+        useCase.signUp(request.cmd())
         return ResponseEntity.ok(SuccessRes())
     }
 }

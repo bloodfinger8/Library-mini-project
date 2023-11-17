@@ -39,8 +39,8 @@ class RegisterBookController(
         @Parameter(hidden = true) @AuthenticationPrincipal
         authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
-        registerBookUseCase.register(req.toCmd(authenticationDTO))
-        return ResponseEntity.ok(SuccessRes<Any>())
+        val res = registerBookUseCase.register(req.toCmd(authenticationDTO))
+        return ResponseEntity.ok(SuccessRes(res))
     }
 
     @GetMapping("/book/loan")
