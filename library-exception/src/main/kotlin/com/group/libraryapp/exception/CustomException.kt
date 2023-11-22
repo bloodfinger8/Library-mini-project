@@ -24,3 +24,8 @@ class InvalidEmailDomainException(
     override val message: String,
     val code: Int = 40405
 ) : RuntimeException()
+
+class AlreadyLoanBookException(
+    override val message: String,
+    val code: Int = 40406
+) : RuntimeException()

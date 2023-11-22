@@ -25,13 +25,14 @@ class LoanBookController(val useCase: LoanBookUseCase) {
     @Operation(summary = "도서 대출", security = [SecurityRequirement(name = "Bearer Token")])
     @ApiResponses(
         ApiResponse(responseCode = "40000", description = "request value error"),
-        ApiResponse(responseCode = "40401", description = "not exist stock book"),
+        ApiResponse(responseCode = "40401", description = "not exist stock book")
     )
     @Secured(UserRole.ROLE_USER)
     @PostMapping("/book/loan/{bookId}")
     fun loanBook(
         @PathVariable(name = "bookId") bookId: Long,
-        @Parameter(hidden = true) @AuthenticationPrincipal authenticationDTO: AuthenticationDTO
+        @Parameter(hidden = true) @AuthenticationPrincipal
+        authenticationDTO: AuthenticationDTO
     ): ResponseEntity<BaseResponse> {
         useCase.loan(LoanBookCommand(bookId, authenticationDTO.name))
         return ResponseEntity.ok(SuccessRes<Any>())

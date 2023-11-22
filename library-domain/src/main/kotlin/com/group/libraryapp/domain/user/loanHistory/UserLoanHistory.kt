@@ -5,16 +5,8 @@ import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.factory.BookFactory
 import com.group.libraryapp.domain.user.User
 import com.group.libraryapp.domain.user.loanHistory.type.UserLoanStatus
-import com.group.libraryapp.exception.fail
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToOne
+import com.group.libraryapp.exception.bookAlreadyLoanFail
+import jakarta.persistence.*
 
 @Entity
 class UserLoanHistory(
@@ -56,7 +48,7 @@ class UserLoanHistory(
 
     fun doReturn(book: Book) {
         if (canReturn()) {
-            book.changeStock(1)
+            book.addStock()
             this.status = UserLoanStatus.RETURNED
         }
     }
@@ -64,6 +56,6 @@ class UserLoanHistory(
     private fun canReturn(): Boolean =
         when (this.status) {
             UserLoanStatus.LOANED -> true
-            else -> fail()
+            else -> bookAlreadyLoanFail(this.id)
         }
 }

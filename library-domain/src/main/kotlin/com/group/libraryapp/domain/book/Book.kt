@@ -2,18 +2,9 @@ package com.group.libraryapp.domain.book
 
 import com.group.libraryapp.domain.TimeInfoEntity
 import com.group.libraryapp.domain.company.Company
-import com.group.libraryapp.exception.loanFail
+import com.group.libraryapp.exception.bookLoanFail
 import com.group.libraryapp.type.book.BookType
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Version
+import jakarta.persistence.*
 
 @Entity
 class Book(
@@ -53,11 +44,15 @@ class Book(
     fun canLoanBook(): Boolean =
         when {
             this.stock > 0 -> true
-            else -> loanFail(this.id)
+            else -> bookLoanFail(this.id)
         }
 
-    fun changeStock(count: Int) {
-        this.stock += count
+    fun addStock() {
+        this.stock = this.stock + 1
+    }
+
+    fun removeStock() {
+        this.stock = this.stock - 1
     }
 
     fun getMyType(): String = this.type.name

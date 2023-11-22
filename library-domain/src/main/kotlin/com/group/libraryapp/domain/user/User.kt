@@ -4,16 +4,8 @@ import com.group.libraryapp.domain.TimeInfoEntity
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.company.Company
 import com.group.libraryapp.domain.user.loanHistory.UserLoanHistory
-import com.group.libraryapp.exception.fail
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
+import com.group.libraryapp.exception.bookReturnFail
+import jakarta.persistence.*
 
 @Entity(name = "users")
 class User(
@@ -42,13 +34,13 @@ class User(
 
     fun loanBook(book: Book) {
         if (book.canLoanBook()) {
-            book.changeStock(-1)
-            this.userLoanHistories.add(UserLoanHistory.create(this, book))
+            book.removeStock()
+            writeHistory(book)
         }
     }
 
     fun returnBook(book: Book) {
-        val userLoanHistory = this.userLoanHistories.firstOrNull { it.book == book } ?: fail()
+        val userLoanHistory = this.userLoanHistories.firstOrNull { it.book == book } ?: bookReturnFail(book.id)
         userLoanHistory.doReturn(book)
     }
 
@@ -61,4 +53,8 @@ class User(
     }
 
     override fun hashCode(): Int = id?.hashCode() ?: 0
+
+    private fun writeHistory(book: Book) {
+        this.userLoanHistories.add(UserLoanHistory.create(this, book))
+    }
 }

@@ -12,13 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 class SearchBookUseCase(
     private val bookSearcher: BookSearcher
 ) {
-
     @Transactional(readOnly = true)
     fun get(cmd: SearchBookCommand): SliceDto<BookDto> {
-        val bookResult = bookSearcher.search(GetBookSpec(cmd.title, cmd.companyId, cmd.page, cmd.pageSize))
-        return SliceDto(
-            bookResult.hasNext,
-            bookResult.elements.map { BookDto.of(it) }
-        )
+        val res = bookSearcher.search(GetBookSpec(cmd.title, cmd.companyId, cmd.page, cmd.pageSize))
+        return SliceDto(res.hasNext, res.elements.map { BookDto.of(it) })
     }
 }
