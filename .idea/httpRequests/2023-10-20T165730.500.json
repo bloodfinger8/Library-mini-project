@@ -1,4 +1,0 @@
-{
-  "code": 50000,
-  "message": "Parameter specified as non-null is null: method com.group.libraryapp.controller.user.SearchUserController.getUsers, parameter authenticationDTO"
-}
