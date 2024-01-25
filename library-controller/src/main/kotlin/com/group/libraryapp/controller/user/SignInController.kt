@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "회원 관련 API")
 @RestController
 class SignInController(
-    val signInUseCase: SignInUseCase
+    private val signInUseCase: SignInUseCase
 ) {
     @Operation(summary = "사용자 로그인")
     @ApiResponses(
@@ -26,10 +26,8 @@ class SignInController(
         ApiResponse(responseCode = "50000", description = "server error")
     )
     @PostMapping("/user/sign-in")
-    fun signInUser(
-        @Valid @RequestBody
-        request: UserSignInRequest
-    ): ResponseEntity<SuccessRes<UserSignInDto>> {
-        return ResponseEntity.ok(SuccessRes(signInUseCase.signIn(SignInCommand(request.email, request.password))))
+    fun signIn(@Valid @RequestBody request: UserSignInRequest): ResponseEntity<SuccessRes<UserSignInDto>> {
+        val res = signInUseCase.signIn(SignInCommand(request.email, request.password))
+        return ResponseEntity.ok(SuccessRes(res))
     }
 }

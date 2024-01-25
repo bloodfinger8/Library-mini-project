@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SignInUseCase(
-    val authenticationManager: AuthenticationManager,
-    val tokenProvider: JWTTokenProvider,
-    val userRepository: UserRepository
+    private val authenticationManager: AuthenticationManager,
+    private val tokenProvider: JWTTokenProvider,
+    private val userRepository: UserRepository
 ) {
     @Transactional
     fun signIn(command: SignInCommand): UserSignInDto {
